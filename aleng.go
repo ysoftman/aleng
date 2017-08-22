@@ -70,7 +70,7 @@ func main() {
 			for j := 1; j < len(inner); j++ {
 				fmt.Println(getNextColorString(j-1, inner[j]))
 			}
-			time.Sleep(5 * time.Second)
+			time.Sleep(10 * time.Second)
 		}
 	}
 }
