@@ -2,13 +2,15 @@
 // author :  ysoftman
 // desc : 터미널창에서 영어 문장을 계속 보여줌~ㅋ
 // dependency
-// go get github.com/fatih/color
+// go get -u github.com/fatih/color
+// go get -u github.com/jroimartin/gocui
 
 package main
 
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"os/exec"
 	"runtime"
@@ -36,10 +38,6 @@ func layout(g *gocui.Gui) error {
 	}
 
 	return nil
-}
-
-func quit(g *gocui.Gui, v *gocui.View) error {
-	return gocui.ErrQuit
 }
 
 func getNextColorString(i int, str string) string {
@@ -85,48 +83,66 @@ func clearScreen() {
 }
 
 func setViewTextAndCursor(v *gocui.View, s string, x, y int) {
-	v.SetCursor(x, y)
-	fmt.Fprint(v, s)
+	// v.SetCursor(x, y)
+	fmt.Fprintln(v, s)
+}
+
+var done = make(chan struct{})
+
+func quit(g *gocui.Gui, v *gocui.View) error {
+	close(done)
+	return gocui.ErrQuit
 }
 
 func main() {
 
-	// g, err := gocui.NewGui(gocui.OutputNormal)
-	// if err != nil {
-	// 	log.Panicln(err)
-	// }
-	// defer g.Close()
-	// g.SetManagerFunc(layout)
-	// if err := g.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, quit); err != nil {
-	// 	log.Panicln(err)
-	// }
-
-	// layout(g)
-	// bannerView, _ := g.View("english_banner")
+	g, err := gocui.NewGui(gocui.OutputNormal)
+	if err != nil {
+		log.Panicln(err)
+	}
+	defer g.Close()
+	g.SetManagerFunc(layout)
+	if err := g.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, quit); err != nil {
+		log.Panicln(err)
+	}
 
 	var wg sync.WaitGroup
 	wg.Add(1)
 	go func() {
+		defer wg.Done()
+
 		eng, _ := ioutil.ReadFile("eng.dic")
 		dic := strings.Split(string(eng), "--")
-
-		defer wg.Done()
+		index := 0
 		for {
-			for i := 1; i < len(dic); i++ {
-				clearScreen()
-				// bannerView.Clear()
-				inner := strings.Split(string(dic[i]), "\n")
-				for j := 1; j < len(inner); j++ {
-					fmt.Println(getNextColorString(j-1, inner[j]))
-					// setViewTextAndCursor(bannerView, getNextColorString(j-1, inner[j]), 0, j)
+			select {
+			case <-done:
+				return
+
+			case <-time.After(3 * time.Second):
+				// clearScreen()
+				g.Update(func(g *gocui.Gui) error {
+					bannerView, _ := g.View("english_banner")
+					bannerView.Clear()
+
+					inner := strings.Split(string(dic[index]), "\n")
+					for j := 1; j < len(inner); j++ {
+						// fmt.Println(getNextColorString(j-1, inner[j]))
+						setViewTextAndCursor(bannerView, getNextColorString(j-1, inner[j]), 0, 0)
+					}
+					return nil
+				})
+				index++
+				if index >= len(dic) {
+					index = 0
 				}
-				time.Sleep(3 * time.Second)
 			}
 		}
 	}()
-	wg.Wait()
 
-	// if err := g.MainLoop(); err != nil && err != gocui.ErrQuit {
-	// 	log.Panicln(err)
-	// }
+	if err := g.MainLoop(); err != nil && err != gocui.ErrQuit {
+		log.Panicln(err)
+	}
+
+	wg.Wait()
 }
