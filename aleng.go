@@ -24,7 +24,7 @@ import (
 )
 
 const SEARCH_WORD_TEXT = "dic.daum.net search (enter)"
-const QUIT_WORD_TEXT = "quit (ctre + c)"
+const QUIT_WORD_TEXT = "quit (ctr + c)"
 
 var done = make(chan struct{})
 
@@ -34,17 +34,32 @@ func layout(g *gocui.Gui) error {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
-		fmt.Fprintln(v, getNextColorString(0, "english banner"))
+		v.Title = "English Banner"
+		// fmt.Fprintln(v, getNextColorString(0, "english banner"))
 	}
-	if v, err := g.SetView("search", 0, maxY/2+1, maxX-1, maxY-1); err != nil {
+	if v, err := g.SetView("search", 0, maxY/2+1, maxX-1, maxY/2+3); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
 		v.Editable = true
-		fmt.Fprintln(v, getNextColorString(2, QUIT_WORD_TEXT))
-		fmt.Fprintln(v, getNextColorString(1, SEARCH_WORD_TEXT))
-		v.SetCursor(0, 3)
+		v.Highlight = true
+		v.Frame = true
+		v.Title = SEARCH_WORD_TEXT + ", " + QUIT_WORD_TEXT
+		// fmt.Fprintln(v, getNextColorString(2, QUIT_WORD_TEXT))
+		// fmt.Fprintln(v, getNextColorString(1, SEARCH_WORD_TEXT))
+		v.SetCursor(0, 0)
 		g.SetCurrentView("search")
+	}
+
+	if v, err := g.SetView("searchResult", 0, maxY/2+5, maxX-1, maxY-1); err != nil {
+		if err != gocui.ErrUnknownView {
+			return err
+		}
+		v.Editable = true
+		v.Title = "Search Result"
+		// fmt.Fprintln(v, getNextColorString(2, QUIT_WORD_TEXT))
+		// fmt.Fprintln(v, getNextColorString(1, SEARCH_WORD_TEXT))
+		v.SetCursor(0, 0)
 	}
 
 	return nil
@@ -126,8 +141,8 @@ func searchWord(word string) (string, string) {
 func searchAction(g *gocui.Gui, v *gocui.View) error {
 
 	g.Update(func(g *gocui.Gui) error {
-		searchView, _ := g.View("search")
 
+		// if pure console....
 		// scanner := bufio.NewScanner(os.Stdin)
 		// var buf []byte
 		// // set scanner buffer
@@ -137,17 +152,18 @@ func searchAction(g *gocui.Gui, v *gocui.View) error {
 		// scanner.Scan()
 		// word := string(buf)
 
+		searchView, _ := g.View("search")
 		word := strings.TrimSpace(searchView.Buffer())
 		meanings, _ := searchWord(word)
 		// fmt.Println(meanings)
 		// fmt.Println(sentence)
-
 		searchView.Clear()
-		setViewTextAndCursor(searchView, getNextColorString(0, QUIT_WORD_TEXT), 0, 0)
-		setViewTextAndCursor(searchView, getNextColorString(0, SEARCH_WORD_TEXT), 0, 1)
-		setViewTextAndCursor(searchView, getNextColorString(0, "---"), 0, 2)
-		setViewTextAndCursor(searchView, getNextColorString(0, word), 0, 3)
-		setViewTextAndCursor(searchView, getNextColorString(0, meanings), 0, 4)
+		searchView.SetCursor(0, 0)
+
+		searchResultView, _ := g.View("searchResult")
+		searchResultView.Clear()
+		setViewTextAndCursor(searchResultView, getNextColorString(0, word), 0, 1)
+		setViewTextAndCursor(searchResultView, getNextColorString(0, meanings), 0, 2)
 		return nil
 	})
 	return nil
