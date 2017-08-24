@@ -18,9 +18,15 @@ import (
 	"sync"
 	"time"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/fatih/color"
 	"github.com/jroimartin/gocui"
 )
+
+const SEARCH_WORD_TEXT = "dic.daum.net search (enter)"
+const QUIT_WORD_TEXT = "quit (ctre + c)"
+
+var done = make(chan struct{})
 
 func layout(g *gocui.Gui) error {
 	maxX, maxY := g.Size()
@@ -30,11 +36,15 @@ func layout(g *gocui.Gui) error {
 		}
 		fmt.Fprintln(v, getNextColorString(0, "english banner"))
 	}
-	if v, err := g.SetView("input", 0, maxY/2+1, maxX-1, maxY-1); err != nil {
+	if v, err := g.SetView("search", 0, maxY/2+1, maxX-1, maxY-1); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
-		fmt.Fprintln(v, getNextColorString(1, "search : "))
+		v.Editable = true
+		fmt.Fprintln(v, getNextColorString(2, QUIT_WORD_TEXT))
+		fmt.Fprintln(v, getNextColorString(1, SEARCH_WORD_TEXT))
+		v.SetCursor(0, 3)
+		g.SetCurrentView("search")
 	}
 
 	return nil
@@ -83,11 +93,65 @@ func clearScreen() {
 }
 
 func setViewTextAndCursor(v *gocui.View, s string, x, y int) {
-	// v.SetCursor(x, y)
+	v.SetCursor(x, y)
 	fmt.Fprintln(v, s)
 }
 
-var done = make(chan struct{})
+func searchWord(word string) (string, string) {
+	// using http.Get() in NewDocument
+	query := "http://dic.daum.net/search.do?q=" + word
+	doc, err := goquery.NewDocument(query)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	meanings := ""
+	sentence := ""
+	// copy selector string using chrome dev tool
+	// #mArticle > div.search_cont > div.card_word.\23 word.\23 eng > div.search_box.\23 box > div > ul > li:nth-child(1) > span.txt_search
+	selector := "#mArticle div.search_cont div.card_word .search_box div ul.list_search span.txt_search"
+
+	cnt := 0
+	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
+		// meanings += s.Find("txt_search").Text()
+		if cnt < 3 {
+			meanings += s.Text() + "\n"
+		}
+		cnt++
+	})
+
+	return meanings, sentence
+}
+
+func searchAction(g *gocui.Gui, v *gocui.View) error {
+
+	g.Update(func(g *gocui.Gui) error {
+		searchView, _ := g.View("search")
+
+		// scanner := bufio.NewScanner(os.Stdin)
+		// var buf []byte
+		// // set scanner buffer
+		// scanner.Buffer(buf, 100)
+		// // by words
+		// scanner.Split(bufio.ScanWords)
+		// scanner.Scan()
+		// word := string(buf)
+
+		word := strings.TrimSpace(searchView.Buffer())
+		meanings, _ := searchWord(word)
+		// fmt.Println(meanings)
+		// fmt.Println(sentence)
+
+		searchView.Clear()
+		setViewTextAndCursor(searchView, getNextColorString(0, QUIT_WORD_TEXT), 0, 0)
+		setViewTextAndCursor(searchView, getNextColorString(0, SEARCH_WORD_TEXT), 0, 1)
+		setViewTextAndCursor(searchView, getNextColorString(0, "---"), 0, 2)
+		setViewTextAndCursor(searchView, getNextColorString(0, word), 0, 3)
+		setViewTextAndCursor(searchView, getNextColorString(0, meanings), 0, 4)
+		return nil
+	})
+	return nil
+}
 
 func quit(g *gocui.Gui, v *gocui.View) error {
 	close(done)
@@ -95,6 +159,8 @@ func quit(g *gocui.Gui, v *gocui.View) error {
 }
 
 func main() {
+	// fmt.Println(searchWord("love"))
+	// os.Exit(0)
 
 	g, err := gocui.NewGui(gocui.OutputNormal)
 	if err != nil {
@@ -103,6 +169,9 @@ func main() {
 	defer g.Close()
 	g.SetManagerFunc(layout)
 	if err := g.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, quit); err != nil {
+		log.Panicln(err)
+	}
+	if err := g.SetKeybinding("", gocui.KeyEnter, gocui.ModNone, searchAction); err != nil {
 		log.Panicln(err)
 	}
 
