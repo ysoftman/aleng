@@ -141,22 +141,9 @@ func searchWord(word string) (string, string) {
 func searchAction(g *gocui.Gui, v *gocui.View) error {
 
 	g.Update(func(g *gocui.Gui) error {
-
-		// if pure console....
-		// scanner := bufio.NewScanner(os.Stdin)
-		// var buf []byte
-		// // set scanner buffer
-		// scanner.Buffer(buf, 100)
-		// // by words
-		// scanner.Split(bufio.ScanWords)
-		// scanner.Scan()
-		// word := string(buf)
-
 		searchView, _ := g.View("search")
 		word := strings.TrimSpace(searchView.Buffer())
 		meanings, _ := searchWord(word)
-		// fmt.Println(meanings)
-		// fmt.Println(sentence)
 		searchView.Clear()
 		searchView.SetCursor(0, 0)
 
@@ -174,10 +161,7 @@ func quit(g *gocui.Gui, v *gocui.View) error {
 	return gocui.ErrQuit
 }
 
-func main() {
-	// fmt.Println(searchWord("love"))
-	// os.Exit(0)
-
+func startBoxUI() {
 	g, err := gocui.NewGui(gocui.OutputNormal)
 	if err != nil {
 		log.Panicln(err)
@@ -209,7 +193,6 @@ func main() {
 				g.Update(func(g *gocui.Gui) error {
 					bannerView, _ := g.View("english_banner")
 					bannerView.Clear()
-
 					inner := strings.Split(string(dic[index]), "\n")
 					for j := 1; j < len(inner); j++ {
 						// fmt.Println(getNextColorString(j-1, inner[j]))
@@ -230,4 +213,58 @@ func main() {
 	}
 
 	wg.Wait()
+}
+
+func startBanner() {
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+
+		eng, _ := ioutil.ReadFile("eng.dic")
+		dic := strings.Split(string(eng), "--")
+		index := 1
+		clearScreen()
+		inner := strings.Split(string(dic[index]), "\n")
+		for j := 1; j < len(inner); j++ {
+			fmt.Println(getNextColorString(j-1, inner[j]))
+		}
+
+		for {
+			select {
+			case <-done:
+				return
+
+			case <-time.After(3 * time.Second):
+				clearScreen()
+				inner := strings.Split(string(dic[index]), "\n")
+				for j := 1; j < len(inner); j++ {
+					fmt.Println(getNextColorString(j-1, inner[j]))
+				}
+				index++
+				if index >= len(dic) {
+					index = 0
+				}
+			}
+		}
+	}()
+
+	wg.Wait()
+}
+
+func startSearchWord() {
+	for {
+		var word string
+		fmt.Scanf("%s", &word)
+		meanings, _ := searchWord(word)
+		fmt.Println(getNextColorString(0, meanings))
+	}
+}
+
+func main() {
+	// fmt.Println(searchWord("love"))
+	// os.Exit(0)
+	// startBoxUI()
+	startBanner()
+	// startSearchWord()
 }
