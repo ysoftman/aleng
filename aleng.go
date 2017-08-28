@@ -14,6 +14,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -124,14 +125,12 @@ func searchWord(word string) (string, string) {
 	sentence := ""
 	// copy selector string using chrome dev tool
 	// #mArticle > div.search_cont > div.card_word.\23 word.\23 eng > div.search_box.\23 box > div > ul > li:nth-child(1) > span.txt_search
-	selector := "#mArticle div.search_cont div.card_word .search_box div ul.list_search span.txt_search"
+	selector := "#mArticle div.search_cont div.card_word.\\23 word.\\23 eng .search_box.\\23 box div ul.list_search span.txt_search"
 
-	cnt := 0
+	cnt := 1
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
 		// meanings += s.Find("txt_search").Text()
-		if cnt < 3 {
-			meanings += s.Text() + "\n"
-		}
+		meanings += strconv.Itoa(cnt) + ". " + s.Text() + "\n"
 		cnt++
 	})
 
@@ -236,7 +235,7 @@ func startBanner() {
 				return
 
 			case <-time.After(3 * time.Second):
-				clearScreen()
+				// clearScreen()
 				inner := strings.Split(string(dic[index]), "\n")
 				for j := 1; j < len(inner); j++ {
 					fmt.Println(getNextColorString(j-1, inner[j]))
@@ -265,6 +264,6 @@ func main() {
 	// fmt.Println(searchWord("love"))
 	// os.Exit(0)
 	// startBoxUI()
-	startBanner()
-	// startSearchWord()
+	// startBanner()
+	startSearchWord()
 }
