@@ -61,7 +61,8 @@ func StartSearchEngWord() {
 func main() {
 	// fmt.Println(SearchEngWord("love"))
 	// os.Exit(0)
+	// StartBanner()
+	StartSearchEngWord()
 	// StartGocui()
-	StartBanner()
-	// StartSearchEngWord()
+	// StartTermBoxGo()
 }
