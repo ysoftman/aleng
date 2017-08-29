@@ -62,7 +62,7 @@ func main() {
 	// fmt.Println(SearchEngWord("love"))
 	// os.Exit(0)
 	// StartBanner()
-	StartSearchEngWord()
-	// StartGocui()
+	// StartSearchEngWord()
+	StartGocui()
 	// StartTermBoxGo()
 }

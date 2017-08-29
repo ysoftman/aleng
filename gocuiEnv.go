@@ -1,6 +1,5 @@
 // gocui 패키지를 이용한 환경 구성
 // gocui 내부적으로 termbox-go 사용
-// 한글(utf8) 출력에 문제가 있음
 package main
 
 import (
@@ -11,7 +10,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/jroimartin/gocui"
+	// "github.com/jroimartin/gocui" // 한글(utf8) 출력에 문제가 있음
+	"github.com/ysoftman/gocui"
 )
 
 func layout(g *gocui.Gui) error {
