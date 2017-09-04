@@ -51,24 +51,21 @@ func layout(g *gocui.Gui) error {
 	return nil
 }
 
-func setViewTextAndCursor(v *gocui.View, s string, x, y int) {
-	v.SetCursor(x, y)
-	fmt.Fprintln(v, s)
-}
-
 func searchAction(g *gocui.Gui, v *gocui.View) error {
 
 	g.Update(func(g *gocui.Gui) error {
 		searchView, _ := g.View("search")
 		word := strings.TrimSpace(searchView.Buffer())
-		meanings, _ := SearchEngWord(word)
+		meanings, pronounce := SearchEngWord(word)
 		searchView.Clear()
 		searchView.SetCursor(0, 0)
 
 		searchResultView, _ := g.View("searchResult")
 		searchResultView.Clear()
-		setViewTextAndCursor(searchResultView, GetNextColorString(0, word), 0, 1)
-		setViewTextAndCursor(searchResultView, GetNextColorString(0, meanings), 0, 2)
+		fmt.Fprint(searchResultView, GetNextColorString(0, word))
+		pronounce = "  " + pronounce
+		fmt.Fprint(searchResultView, GetNextColorString(1, pronounce))
+		fmt.Fprint(searchResultView, GetNextColorString(4, meanings))
 		return nil
 	})
 	return nil
@@ -114,7 +111,7 @@ func StartGocui() {
 					inner := strings.Split(string(dic[index]), "\n")
 					for j := 1; j < len(inner); j++ {
 						// fmt.Println(GetNextColorString(j-1, inner[j]))
-						setViewTextAndCursor(bannerView, GetNextColorString(j-1, inner[j]), 0, 0)
+						fmt.Fprintln(bannerView, GetNextColorString(j-1, inner[j]))
 					}
 					return nil
 				})

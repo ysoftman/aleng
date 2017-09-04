@@ -67,10 +67,16 @@ func SearchEngWord(word string) (string, string) {
 	}
 
 	meanings := ""
-	sentence := ""
+	pronounce := ""
+
+	selector := "#mArticle div.search_cont div.card_word.\\23 word.\\23 eng div.search_box.\\23 box div  div.wrap_listen span:nth-child(1) .txt_pronounce"
+	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
+		pronounce += s.Text() + "\n"
+	})
+
 	// copy selector string using chrome dev tool
 	// #mArticle > div.search_cont > div.card_word.\23 word.\23 eng > div.search_box.\23 box > div > ul > li:nth-child(1) > span.txt_search
-	selector := "#mArticle div.search_cont div.card_word.\\23 word.\\23 eng .search_box.\\23 box div ul.list_search span.txt_search"
+	selector = "#mArticle div.search_cont div.card_word.\\23 word.\\23 eng .search_box.\\23 box div ul.list_search span.txt_search"
 
 	cnt := 1
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
@@ -79,5 +85,5 @@ func SearchEngWord(word string) (string, string) {
 		cnt++
 	})
 
-	return meanings, sentence
+	return meanings, pronounce
 }

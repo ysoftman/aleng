@@ -53,7 +53,8 @@ func StartSearchEngWord() {
 	for {
 		var word string
 		fmt.Scanf("%s", &word)
-		meanings, _ := SearchEngWord(word)
+		meanings, pronounce := SearchEngWord(word)
+		fmt.Println(GetNextColorString(0, pronounce))
 		fmt.Println(GetNextColorString(0, meanings))
 	}
 }
