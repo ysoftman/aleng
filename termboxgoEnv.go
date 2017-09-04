@@ -48,7 +48,7 @@ func StartTermBoxGo() {
 			case <-done:
 				return
 
-			case <-time.After(3 * time.Second):
+			case <-time.After(BANNER_REFRESH_SEC * time.Second):
 				termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
 				printString(0, 5, SEARCH_WORD_TEXT+", "+QUIT_WORD_TEXT, termbox.ColorWhite)
 				inner := strings.Split(string(dic[index]), "\n")

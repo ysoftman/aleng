@@ -103,7 +103,7 @@ func StartGocui() {
 			case <-done:
 				return
 
-			case <-time.After(3 * time.Second):
+			case <-time.After(BANNER_REFRESH_SEC * time.Second):
 				// ClearScreen()
 				g.Update(func(g *gocui.Gui) error {
 					bannerView, _ := g.View("english_banner")

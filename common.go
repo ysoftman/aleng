@@ -14,6 +14,7 @@ import (
 
 const SEARCH_WORD_TEXT = "dic.daum.net search (enter)"
 const QUIT_WORD_TEXT = "quit (ctrl + c)"
+const BANNER_REFRESH_SEC = 5
 
 var done = make(chan struct{})
 

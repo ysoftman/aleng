@@ -32,7 +32,7 @@ func StartBanner() {
 			case <-done:
 				return
 
-			case <-time.After(3 * time.Second):
+			case <-time.After(BANNER_REFRESH_SEC * time.Second):
 				ClearScreen()
 				inner := strings.Split(string(dic[index]), "\n")
 				for j := 1; j < len(inner); j++ {
