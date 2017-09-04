@@ -71,8 +71,9 @@ func SearchEngWord(word string) (string, string) {
 
 	selector := "#mArticle div.search_cont div.card_word.\\23 word.\\23 eng div.search_box.\\23 box div  div.wrap_listen span:nth-child(1) .txt_pronounce"
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
-		pronounce += s.Text() + "\n"
+		pronounce += s.Text() + "  "
 	})
+	pronounce += "\n"
 
 	// copy selector string using chrome dev tool
 	// #mArticle > div.search_cont > div.card_word.\23 word.\23 eng > div.search_box.\23 box > div > ul > li:nth-child(1) > span.txt_search
