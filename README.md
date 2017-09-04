@@ -13,3 +13,7 @@ go get -u "github.com/ysoftman/gocui"
 go build
 ./aleng
 ```
+
+screenshot
+
+![](screenshot.jpg)
