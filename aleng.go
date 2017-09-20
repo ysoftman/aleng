@@ -6,8 +6,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
-	"strings"
 	"sync"
 	"time"
 )
@@ -17,16 +15,7 @@ func StartBanner() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-
-		eng, _ := ioutil.ReadFile("eng.dic")
-		dic := strings.Split(string(eng), "--")
-		index := 1
 		ClearScreen()
-		inner := strings.Split(string(dic[index]), "\n")
-		for j := 1; j < len(inner); j++ {
-			fmt.Println(GetNextColorString(j-1, inner[j]))
-		}
-
 		for {
 			select {
 			case <-done:
@@ -34,13 +23,9 @@ func StartBanner() {
 
 			case <-time.After(BANNER_REFRESH_SEC * time.Second):
 				ClearScreen()
-				inner := strings.Split(string(dic[index]), "\n")
+				inner := GetNextBannerContent()
 				for j := 1; j < len(inner); j++ {
 					fmt.Println(GetNextColorString(j-1, inner[j]))
-				}
-				index++
-				if index >= len(dic) {
-					index = 0
 				}
 			}
 		}
@@ -62,6 +47,7 @@ func StartSearchEngWord() {
 func main() {
 	// fmt.Println(SearchEngWord("love"))
 	// os.Exit(0)
+	ReadDicFile()
 	// StartBanner()
 	// StartSearchEngWord()
 	StartGocui()

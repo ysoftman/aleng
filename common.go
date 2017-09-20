@@ -2,21 +2,27 @@
 package main
 
 import (
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
 	"runtime"
 	"strconv"
+	"strings"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/fatih/color"
 )
 
-const SEARCH_WORD_TEXT = "dic.daum.net search (enter)"
-const QUIT_WORD_TEXT = "quit (ctrl + c)"
-const BANNER_REFRESH_SEC = 5
+const BANNER_CMD_TEXT = "pre-banner (up) / next-banner (down)"
+const SEARCH_CMD_TEXT = "dic.daum.net search (enter)"
+const QUIT_CMD_TEXT = "quit (ctrl + c)"
+const BANNER_REFRESH_SEC = 10
 
 var done = make(chan struct{})
+
+var engDic []string
+var curBannerIndex int
 
 func ClearScreen() {
 	cmdName := "clear"
@@ -57,6 +63,42 @@ func GetNextColorString(i int, str string) string {
 		white := color.New(color.FgWhite).SprintFunc()
 		return white(str)
 	}
+}
+
+func ReadDicFile() {
+	curBannerIndex = 0
+	eng, _ := ioutil.ReadFile("eng.dic")
+	engDic = strings.Split(string(eng), "--")
+}
+
+func GetNextBannerIndex() int {
+	curBannerIndex++
+	if curBannerIndex >= len(engDic) {
+		curBannerIndex = 0
+	}
+	return curBannerIndex
+}
+
+func GetPreBannerIndex() int {
+	curBannerIndex--
+	if curBannerIndex < 0 {
+		curBannerIndex = len(engDic) - 1
+	}
+	return curBannerIndex
+}
+
+func GetPreBannerContent() []string {
+	if len(engDic) > 0 {
+		return strings.Split(string(engDic[GetPreBannerIndex()]), "\n")
+	}
+	return nil
+}
+
+func GetNextBannerContent() []string {
+	if len(engDic) > 0 {
+		return strings.Split(string(engDic[GetNextBannerIndex()]), "\n")
+	}
+	return nil
 }
 
 func SearchEngWord(word string) (string, string) {

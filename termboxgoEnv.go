@@ -3,8 +3,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
-	"strings"
 	"sync"
 	"time"
 
@@ -39,10 +37,6 @@ func StartTermBoxGo() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-
-		eng, _ := ioutil.ReadFile("eng.dic")
-		dic := strings.Split(string(eng), "--")
-		index := 0
 		for {
 			select {
 			case <-done:
@@ -50,8 +44,8 @@ func StartTermBoxGo() {
 
 			case <-time.After(BANNER_REFRESH_SEC * time.Second):
 				termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
-				printString(0, 5, SEARCH_WORD_TEXT+", "+QUIT_WORD_TEXT, termbox.ColorWhite)
-				inner := strings.Split(string(dic[index]), "\n")
+				printString(0, 5, SEARCH_CMD_TEXT+", "+QUIT_CMD_TEXT, termbox.ColorWhite)
+				inner := GetNextBannerContent()
 				for j := 1; j < len(inner); j++ {
 					fgcolor := termbox.ColorYellow
 					if j%2 == 0 {
@@ -60,10 +54,6 @@ func StartTermBoxGo() {
 						fgcolor = termbox.ColorRed
 					}
 					printString(0, j-1, inner[j], fgcolor)
-				}
-				index++
-				if index >= len(dic) {
-					index = 0
 				}
 			}
 		}

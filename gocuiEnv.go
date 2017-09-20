@@ -4,7 +4,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"strings"
 	"sync"
@@ -20,7 +19,7 @@ func layout(g *gocui.Gui) error {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
-		v.Title = "English Banner"
+		v.Title = "English Banner, " + BANNER_CMD_TEXT
 		// fmt.Fprintln(v, GetNextColorString(0, "english banner"))
 	}
 	if v, err := g.SetView("search", 0, maxY/2+1, maxX-1, maxY/2+3); err != nil {
@@ -30,9 +29,9 @@ func layout(g *gocui.Gui) error {
 		v.Editable = true
 		v.Highlight = true
 		v.Frame = true
-		v.Title = SEARCH_WORD_TEXT + ", " + QUIT_WORD_TEXT
-		// fmt.Fprintln(v, GetNextColorString(2, QUIT_WORD_TEXT))
-		// fmt.Fprintln(v, GetNextColorString(1, SEARCH_WORD_TEXT))
+		v.Title = SEARCH_CMD_TEXT + ", " + QUIT_CMD_TEXT
+		// fmt.Fprintln(v, GetNextColorString(2, QUIT_CMD_TEXT))
+		// fmt.Fprintln(v, GetNextColorString(1, SEARC_CMD_TEXT))
 		v.SetCursor(0, 0)
 		g.SetCurrentView("search")
 	}
@@ -43,8 +42,8 @@ func layout(g *gocui.Gui) error {
 		}
 		v.Editable = true
 		v.Title = "Search Result"
-		// fmt.Fprintln(v, GetNextColorString(2, QUIT_WORD_TEXT))
-		// fmt.Fprintln(v, GetNextColorString(1, SEARCH_WORD_TEXT))
+		// fmt.Fprintln(v, GetNextColorString(2, QUIT_CMD_TEXT))
+		// fmt.Fprintln(v, GetNextColorString(1, SEARC_CMD_TEXT))
 		v.SetCursor(0, 0)
 	}
 
@@ -52,7 +51,6 @@ func layout(g *gocui.Gui) error {
 }
 
 func searchAction(g *gocui.Gui, v *gocui.View) error {
-
 	g.Update(func(g *gocui.Gui) error {
 		searchView, _ := g.View("search")
 		word := strings.TrimSpace(searchView.Buffer())
@@ -66,6 +64,32 @@ func searchAction(g *gocui.Gui, v *gocui.View) error {
 		pronounce = "  " + pronounce
 		fmt.Fprint(searchResultView, GetNextColorString(1, pronounce))
 		fmt.Fprint(searchResultView, GetNextColorString(4, meanings))
+		return nil
+	})
+	return nil
+}
+
+func bannerUp(g *gocui.Gui, v *gocui.View) error {
+	g.Update(func(g *gocui.Gui) error {
+		bannerView, _ := g.View("english_banner")
+		bannerView.Clear()
+		inner := GetPreBannerContent()
+		for j := 1; j < len(inner); j++ {
+			fmt.Fprintln(bannerView, GetNextColorString(j-1, inner[j]))
+		}
+		return nil
+	})
+	return nil
+}
+
+func bannerDown(g *gocui.Gui, v *gocui.View) error {
+	g.Update(func(g *gocui.Gui) error {
+		bannerView, _ := g.View("english_banner")
+		bannerView.Clear()
+		inner := GetNextBannerContent()
+		for j := 1; j < len(inner); j++ {
+			fmt.Fprintln(bannerView, GetNextColorString(j-1, inner[j]))
+		}
 		return nil
 	})
 	return nil
@@ -89,15 +113,17 @@ func StartGocui() {
 	if err := g.SetKeybinding("", gocui.KeyEnter, gocui.ModNone, searchAction); err != nil {
 		log.Panicln(err)
 	}
+	if err := g.SetKeybinding("", gocui.KeyArrowUp, gocui.ModNone, bannerUp); err != nil {
+		log.Panicln(err)
+	}
+	// if err := g.SetKeybinding("", gocui.KeyArrowDown, gocui.ModNone, bannerDown); err != nil {
+	// 	log.Panicln(err)
+	// }
 
 	var wg sync.WaitGroup
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-
-		eng, _ := ioutil.ReadFile("eng.dic")
-		dic := strings.Split(string(eng), "--")
-		index := 0
 		for {
 			select {
 			case <-done:
@@ -108,17 +134,13 @@ func StartGocui() {
 				g.Update(func(g *gocui.Gui) error {
 					bannerView, _ := g.View("english_banner")
 					bannerView.Clear()
-					inner := strings.Split(string(dic[index]), "\n")
+					inner := GetNextBannerContent()
 					for j := 1; j < len(inner); j++ {
 						// fmt.Println(GetNextColorString(j-1, inner[j]))
 						fmt.Fprintln(bannerView, GetNextColorString(j-1, inner[j]))
 					}
 					return nil
 				})
-				index++
-				if index >= len(dic) {
-					index = 0
-				}
 			}
 		}
 	}()
