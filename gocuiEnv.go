@@ -116,9 +116,9 @@ func StartGocui() {
 	if err := g.SetKeybinding("", gocui.KeyArrowUp, gocui.ModNone, bannerUp); err != nil {
 		log.Panicln(err)
 	}
-	// if err := g.SetKeybinding("", gocui.KeyArrowDown, gocui.ModNone, bannerDown); err != nil {
-	// 	log.Panicln(err)
-	// }
+	if err := g.SetKeybinding("", gocui.KeyArrowDown, gocui.ModNone, bannerDown); err != nil {
+		log.Panicln(err)
+	}
 
 	var wg sync.WaitGroup
 	wg.Add(1)
