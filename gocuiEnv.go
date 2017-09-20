@@ -74,8 +74,8 @@ func bannerUp(g *gocui.Gui, v *gocui.View) error {
 		bannerView, _ := g.View("english_banner")
 		bannerView.Clear()
 		inner := GetPreBannerContent()
-		for j := 1; j < len(inner); j++ {
-			fmt.Fprintln(bannerView, GetNextColorString(j-1, inner[j]))
+		for j := 0; j < len(inner); j++ {
+			fmt.Fprintln(bannerView, GetNextColorString(j, inner[j]))
 		}
 		return nil
 	})
@@ -87,8 +87,8 @@ func bannerDown(g *gocui.Gui, v *gocui.View) error {
 		bannerView, _ := g.View("english_banner")
 		bannerView.Clear()
 		inner := GetNextBannerContent()
-		for j := 1; j < len(inner); j++ {
-			fmt.Fprintln(bannerView, GetNextColorString(j-1, inner[j]))
+		for j := 0; j < len(inner); j++ {
+			fmt.Fprintln(bannerView, GetNextColorString(j, inner[j]))
 		}
 		return nil
 	})
@@ -135,9 +135,8 @@ func StartGocui() {
 					bannerView, _ := g.View("english_banner")
 					bannerView.Clear()
 					inner := GetNextBannerContent()
-					for j := 1; j < len(inner); j++ {
-						// fmt.Println(GetNextColorString(j-1, inner[j]))
-						fmt.Fprintln(bannerView, GetNextColorString(j-1, inner[j]))
+					for j := 0; j < len(inner); j++ {
+						fmt.Fprintln(bannerView, GetNextColorString(j, inner[j]))
 					}
 					return nil
 				})

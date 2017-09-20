@@ -46,7 +46,7 @@ func StartTermBoxGo() {
 				termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
 				printString(0, 5, SEARCH_CMD_TEXT+", "+QUIT_CMD_TEXT, termbox.ColorWhite)
 				inner := GetNextBannerContent()
-				for j := 1; j < len(inner); j++ {
+				for j := 0; j < len(inner); j++ {
 					fgcolor := termbox.ColorYellow
 					if j%2 == 0 {
 						fgcolor = termbox.ColorGreen

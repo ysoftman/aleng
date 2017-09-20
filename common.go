@@ -66,7 +66,7 @@ func GetNextColorString(i int, str string) string {
 }
 
 func ReadDicFile() {
-	curBannerIndex = 0
+	curBannerIndex = -1
 	eng, _ := ioutil.ReadFile("eng.dic")
 	engDic = strings.Split(string(eng), "--")
 }
@@ -89,14 +89,14 @@ func GetPreBannerIndex() int {
 
 func GetPreBannerContent() []string {
 	if len(engDic) > 0 {
-		return strings.Split(string(engDic[GetPreBannerIndex()]), "\n")
+		return strings.Split(strings.TrimPrefix(engDic[GetPreBannerIndex()], "\n"), "\n")
 	}
 	return nil
 }
 
 func GetNextBannerContent() []string {
 	if len(engDic) > 0 {
-		return strings.Split(string(engDic[GetNextBannerIndex()]), "\n")
+		return strings.Split(strings.TrimPrefix(engDic[GetNextBannerIndex()], "\n"), "\n")
 	}
 	return nil
 }

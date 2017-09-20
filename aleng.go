@@ -24,8 +24,8 @@ func StartBanner() {
 			case <-time.After(BANNER_REFRESH_SEC * time.Second):
 				ClearScreen()
 				inner := GetNextBannerContent()
-				for j := 1; j < len(inner); j++ {
-					fmt.Println(GetNextColorString(j-1, inner[j]))
+				for j := 0; j < len(inner); j++ {
+					fmt.Println(GetNextColorString(j, inner[j]))
 				}
 			}
 		}
