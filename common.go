@@ -101,7 +101,7 @@ func GetNextBannerContent() []string {
 	return nil
 }
 
-func SearchEngWord(word string) (string, string) {
+func SearchEngWord(word string) (string, string, string) {
 	// using http.Get() in NewDocument
 	query := "http://dic.daum.net/search.do?q=" + word
 	doc, err := goquery.NewDocument(query)
@@ -112,7 +112,12 @@ func SearchEngWord(word string) (string, string) {
 	meanings := ""
 	pronounce := ""
 
-	selector := "#mArticle div.search_cont div.card_word.\\23 word.\\23 eng div.search_box.\\23 box div  div.wrap_listen span:nth-child(1) .txt_pronounce"
+	selector := "#mArticle div.search_cont div.card_word.\\23 word.\\23 eng div.search_box.\\23 box div div.search_cleanword strong a span"
+	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
+		word = s.Text()
+	})
+
+	selector = "#mArticle div.search_cont div.card_word.\\23 word.\\23 eng div.search_box.\\23 box div  div.wrap_listen span:nth-child(1) .txt_pronounce"
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
 		pronounce += s.Text() + "  "
 	})
@@ -129,5 +134,5 @@ func SearchEngWord(word string) (string, string) {
 		cnt++
 	})
 
-	return meanings, pronounce
+	return word, meanings, pronounce
 }

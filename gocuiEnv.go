@@ -54,7 +54,7 @@ func searchAction(g *gocui.Gui, v *gocui.View) error {
 	g.Update(func(g *gocui.Gui) error {
 		searchView, _ := g.View("search")
 		word := strings.TrimSpace(searchView.Buffer())
-		meanings, pronounce := SearchEngWord(word)
+		word, meanings, pronounce := SearchEngWord(word)
 		searchView.Clear()
 		searchView.SetCursor(0, 0)
 

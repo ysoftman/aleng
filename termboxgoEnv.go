@@ -72,7 +72,8 @@ mainloop:
 				close(done)
 				break mainloop
 			case termbox.KeyEnter:
-				meaning, pronounce := SearchEngWord(inputString)
+				word, meaning, pronounce := SearchEngWord(inputString)
+				fmt.Println(word)
 				fmt.Println(pronounce)
 				fmt.Println(meaning)
 				inputString = ""
