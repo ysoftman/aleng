@@ -10,7 +10,13 @@ go get -u "github.com/nsf/termbox-go"
 go get -u "github.com/PuerkitoBio/goquery"
 go get -u "github.com/fatih/color"
 go get -u "github.com/ysoftman/gocui"
+# 또는 glide 사용시 (https://github.com/Masterminds/glide)
+glide install
+
+# 빌드
 go build
+
+# 실행
 ./aleng
 ```
 

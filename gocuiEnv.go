@@ -15,12 +15,18 @@ import (
 
 func layout(g *gocui.Gui) error {
 	maxX, maxY := g.Size()
-	if v, err := g.SetView("english_banner", 0, 0, maxX-1, maxY/2-1); err != nil {
+	if v, err := g.SetView("english_banner", 0, 0, maxX-1, maxY/4); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
 		v.Title = "English Banner, " + BANNER_CMD_TEXT
 		// fmt.Fprintln(v, GetNextColorString(0, "english banner"))
+	}
+	if v, err := g.SetView("word_history", 0, maxY/4+1, maxX-1, maxY/2); err != nil {
+		if err != gocui.ErrUnknownView {
+			return err
+		}
+		v.Title = "Word History, " + HISTORY_CMD_TEXT
 	}
 	if v, err := g.SetView("search", 0, maxY/2+1, maxX-1, maxY/2+3); err != nil {
 		if err != gocui.ErrUnknownView {
@@ -36,7 +42,7 @@ func layout(g *gocui.Gui) error {
 		g.SetCurrentView("search")
 	}
 
-	if v, err := g.SetView("searchResult", 0, maxY/2+5, maxX-1, maxY-1); err != nil {
+	if v, err := g.SetView("searchResult", 0, maxY/2+4, maxX-1, maxY-1); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
@@ -73,7 +79,7 @@ func bannerUp(g *gocui.Gui, v *gocui.View) error {
 	g.Update(func(g *gocui.Gui) error {
 		bannerView, _ := g.View("english_banner")
 		bannerView.Clear()
-		inner := GetPreBannerContent()
+		inner := GetPreBanner()
 		for j := 0; j < len(inner); j++ {
 			fmt.Fprintln(bannerView, GetNextColorString(j, inner[j]))
 		}
@@ -86,9 +92,39 @@ func bannerDown(g *gocui.Gui, v *gocui.View) error {
 	g.Update(func(g *gocui.Gui) error {
 		bannerView, _ := g.View("english_banner")
 		bannerView.Clear()
-		inner := GetNextBannerContent()
+		inner := GetNextBanner()
 		for j := 0; j < len(inner); j++ {
 			fmt.Fprintln(bannerView, GetNextColorString(j, inner[j]))
+		}
+		return nil
+	})
+	return nil
+}
+
+func historyPre(g *gocui.Gui, v *gocui.View) error {
+	g.Update(func(g *gocui.Gui) error {
+		historyView, _ := g.View("word_history")
+		historyView.Clear()
+		theWord := GetPreWord()
+		if theWord != nil {
+			fmt.Fprintln(historyView, GetNextColorString(0, theWord.word))
+			fmt.Fprintln(historyView, GetNextColorString(1, theWord.pronounce))
+			fmt.Fprintln(historyView, GetNextColorString(2, theWord.meanings))
+		}
+		return nil
+	})
+	return nil
+}
+
+func historyNext(g *gocui.Gui, v *gocui.View) error {
+	g.Update(func(g *gocui.Gui) error {
+		historyView, _ := g.View("word_history")
+		historyView.Clear()
+		theWord := GetNextWord()
+		if theWord != nil {
+			fmt.Fprintln(historyView, GetNextColorString(0, theWord.word))
+			fmt.Fprintln(historyView, GetNextColorString(1, theWord.pronounce))
+			fmt.Fprintln(historyView, GetNextColorString(2, theWord.meanings))
 		}
 		return nil
 	})
@@ -119,6 +155,12 @@ func StartGocui() {
 	if err := g.SetKeybinding("", gocui.KeyArrowDown, gocui.ModNone, bannerDown); err != nil {
 		log.Panicln(err)
 	}
+	if err := g.SetKeybinding("", gocui.KeyArrowLeft, gocui.ModNone, historyPre); err != nil {
+		log.Panicln(err)
+	}
+	if err := g.SetKeybinding("", gocui.KeyArrowRight, gocui.ModNone, historyNext); err != nil {
+		log.Panicln(err)
+	}
 
 	var wg sync.WaitGroup
 	wg.Add(1)
@@ -134,7 +176,7 @@ func StartGocui() {
 				g.Update(func(g *gocui.Gui) error {
 					bannerView, _ := g.View("english_banner")
 					bannerView.Clear()
-					inner := GetNextBannerContent()
+					inner := GetNextBanner()
 					for j := 0; j < len(inner); j++ {
 						fmt.Fprintln(bannerView, GetNextColorString(j, inner[j]))
 					}

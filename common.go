@@ -15,6 +15,7 @@ import (
 )
 
 const BANNER_CMD_TEXT = "pre-banner (up) / next-banner (down)"
+const HISTORY_CMD_TEXT = "pre-history (left) / next-history (right)"
 const SEARCH_CMD_TEXT = "dic.daum.net search (enter)"
 const QUIT_CMD_TEXT = "quit (ctrl + c)"
 const BANNER_REFRESH_SEC = 10
@@ -22,7 +23,16 @@ const BANNER_REFRESH_SEC = 10
 var done = make(chan struct{})
 
 var engDic []string
+
+type WordData struct {
+	word      string
+	pronounce string
+	meanings  string
+}
+
+var wordHistory []WordData
 var curBannerIndex int
+var curWordHistoryIndex int
 
 func ClearScreen() {
 	cmdName := "clear"
@@ -71,6 +81,33 @@ func ReadDicFile() {
 	engDic = strings.Split(string(eng), "--")
 }
 
+func ReadHistroyFile() {
+	wordHistory = nil
+	curBannerIndex = -1
+	history, err := ioutil.ReadFile("history.txt")
+	if err != nil {
+		return
+	}
+	spWord := strings.Split(string(history), "--\n")
+	for i := 0; i < len(spWord); i++ {
+		curWord := (strings.Split(spWord[i], "\n"))
+		addWord := WordData{curWord[0], curWord[1], curWord[2]}
+		wordHistory = append(wordHistory, addWord)
+	}
+}
+
+func WordData2String() string {
+	out := ""
+	wc := len(wordHistory)
+	for i := 0; i < wc; i++ {
+		out += wordHistory[i].word + "\n" + wordHistory[i].pronounce + "\n" + wordHistory[i].meanings + "\n"
+		if wc > 1 && i < wc-1 {
+			out += "--\n"
+		}
+	}
+	return out
+}
+
 func GetNextBannerIndex() int {
 	curBannerIndex++
 	if curBannerIndex >= len(engDic) {
@@ -87,16 +124,46 @@ func GetPreBannerIndex() int {
 	return curBannerIndex
 }
 
-func GetPreBannerContent() []string {
+func GetNextWordHistoryIndex() int {
+	curWordHistoryIndex++
+	if curWordHistoryIndex >= len(wordHistory) {
+		curWordHistoryIndex = 0
+	}
+	return curWordHistoryIndex
+}
+
+func GetPreWordHistoryIndex() int {
+	curWordHistoryIndex--
+	if curWordHistoryIndex < 0 {
+		curWordHistoryIndex = len(wordHistory) - 1
+	}
+	return curWordHistoryIndex
+}
+
+func GetPreBanner() []string {
 	if len(engDic) > 0 {
 		return strings.Split(strings.TrimPrefix(engDic[GetPreBannerIndex()], "\n"), "\n")
 	}
 	return nil
 }
 
-func GetNextBannerContent() []string {
+func GetNextBanner() []string {
 	if len(engDic) > 0 {
 		return strings.Split(strings.TrimPrefix(engDic[GetNextBannerIndex()], "\n"), "\n")
+	}
+	return nil
+}
+
+func GetPreWord() *WordData {
+	if len(wordHistory) > 0 {
+		return &wordHistory[GetPreWordHistoryIndex()]
+	}
+	return nil
+}
+
+func GetNextWord() *WordData {
+	if len(wordHistory) > 0 {
+		return &wordHistory[GetNextWordHistoryIndex()]
 	}
 	return nil
 }
@@ -121,18 +188,29 @@ func SearchEngWord(word string) (string, string, string) {
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
 		pronounce += s.Text() + "  "
 	})
-	pronounce += "\n"
 
 	// copy selector string using chrome dev tool
 	// #mArticle > div.search_cont > div.card_word.\23 word.\23 eng > div.search_box.\23 box > div > ul > li:nth-child(1) > span.txt_search
 	selector = "#mArticle div.search_cont div.card_word.\\23 word.\\23 eng .search_box.\\23 box div ul.list_search span.txt_search"
 
 	cnt := 1
+	meanings_one_line := ""
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
 		// meanings += s.Find("txt_search").Text()
 		meanings += strconv.Itoa(cnt) + ". " + s.Text() + "\n"
+		meanings_one_line += strconv.Itoa(cnt) + ". " + s.Text() + "   "
 		cnt++
 	})
 
+	// save the word to history.txt
+	if len(meanings) > 0 {
+		addWord := WordData{strings.TrimSpace(word), strings.TrimSpace(pronounce), strings.TrimSpace(meanings_one_line)}
+		wordHistory = append(wordHistory, addWord)
+		buffer := []byte(WordData2String())
+		ioutil.WriteFile("history.txt", buffer, 0644)
+		ReadHistroyFile()
+	}
+
+	pronounce += "\n"
 	return word, meanings, pronounce
 }

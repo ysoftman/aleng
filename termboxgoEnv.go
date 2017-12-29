@@ -45,7 +45,7 @@ func StartTermBoxGo() {
 			case <-time.After(BANNER_REFRESH_SEC * time.Second):
 				termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
 				printString(0, 5, SEARCH_CMD_TEXT+", "+QUIT_CMD_TEXT, termbox.ColorWhite)
-				inner := GetNextBannerContent()
+				inner := GetNextBanner()
 				for j := 0; j < len(inner); j++ {
 					fgcolor := termbox.ColorYellow
 					if j%2 == 0 {

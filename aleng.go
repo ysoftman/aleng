@@ -23,7 +23,7 @@ func StartBanner() {
 
 			case <-time.After(BANNER_REFRESH_SEC * time.Second):
 				ClearScreen()
-				inner := GetNextBannerContent()
+				inner := GetNextBanner()
 				for j := 0; j < len(inner); j++ {
 					fmt.Println(GetNextColorString(j, inner[j]))
 				}
@@ -49,6 +49,7 @@ func main() {
 	// fmt.Println(SearchEngWord("love"))
 	// os.Exit(0)
 	ReadDicFile()
+	ReadHistroyFile()
 	// StartBanner()
 	// StartSearchEngWord()
 	StartGocui()
