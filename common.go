@@ -94,6 +94,11 @@ func ReadHistroyFile() {
 		addWord := WordData{curWord[0], curWord[1], curWord[2]}
 		wordHistory = append(wordHistory, addWord)
 	}
+
+	// limit max history size
+	if len(wordHistory) > 10 {
+		wordHistory = wordHistory[:10]
+	}
 }
 
 func WordData2String() string {
@@ -205,10 +210,14 @@ func SearchEngWord(word string) (string, string, string) {
 	// save the word to history.txt
 	if len(meanings) > 0 {
 		addWord := WordData{strings.TrimSpace(word), strings.TrimSpace(pronounce), strings.TrimSpace(meanings_one_line)}
-		wordHistory = append(wordHistory, addWord)
+
+		// pop-back
+		_, wordHistory = wordHistory[len(wordHistory)-1], wordHistory[:len(wordHistory)-1]
+		// push-front
+		wordHistory = append([]WordData{addWord}, wordHistory...)
+
 		buffer := []byte(WordData2String())
 		ioutil.WriteFile("history.txt", buffer, 0644)
-		ReadHistroyFile()
 	}
 
 	pronounce += "\n"
