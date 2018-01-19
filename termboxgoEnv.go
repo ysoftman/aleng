@@ -25,6 +25,7 @@ func printString(x, y int, str string, fgcolor termbox.Attribute) {
 	termbox.Flush()
 }
 
+// StartTermBoxGo TermBox 구동
 func StartTermBoxGo() {
 	err := termbox.Init()
 	if err != nil {
@@ -42,9 +43,9 @@ func StartTermBoxGo() {
 			case <-done:
 				return
 
-			case <-time.After(BANNER_REFRESH_SEC * time.Second):
+			case <-time.After(BannerRefreshSec * time.Second):
 				termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
-				printString(0, 5, SEARCH_CMD_TEXT+", "+QUIT_CMD_TEXT, termbox.ColorWhite)
+				printString(0, 5, SearchCmdText+", "+QuitCmdText, termbox.ColorWhite)
 				inner := GetNextBanner()
 				for j := 0; j < len(inner); j++ {
 					fgcolor := termbox.ColorYellow

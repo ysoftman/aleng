@@ -14,16 +14,26 @@ import (
 	"github.com/fatih/color"
 )
 
-const BANNER_CMD_TEXT = "pre-banner (up) / next-banner (down)"
-const HISTORY_CMD_TEXT = "pre-history (left) / next-history (right)"
-const SEARCH_CMD_TEXT = "dic.daum.net search (enter)"
-const QUIT_CMD_TEXT = "quit (ctrl + c)"
-const BANNER_REFRESH_SEC = 10
+// BannerCmdText : banner command text
+const BannerCmdText = "pre-banner (up) / next-banner (down)"
+
+// HistoryCmdText : history command text
+const HistoryCmdText = "pre-history (left) / next-history (right)"
+
+// SearchCmdText : search command text
+const SearchCmdText = "dic.daum.net search (enter)"
+
+// QuitCmdText : quit command text
+const QuitCmdText = "quit (ctrl + c)"
+
+// BannerRefreshSec : banner refresh interval(seconds)
+const BannerRefreshSec = 10
 
 var done = make(chan struct{})
 
 var engDic []string
 
+// WordData : word data
 type WordData struct {
 	word      string
 	pronounce string
@@ -34,6 +44,7 @@ var wordHistory []WordData
 var curBannerIndex int
 var curWordHistoryIndex int
 
+// ClearScreen : clear the screen
 func ClearScreen() {
 	cmdName := "clear"
 	cmdArg1 := ""
@@ -48,6 +59,7 @@ func ClearScreen() {
 	cmd.Run()
 }
 
+// GetNextColorString : get next color value(string)
 func GetNextColorString(i int, str string) string {
 	n := i % 6
 	switch n {
@@ -75,13 +87,15 @@ func GetNextColorString(i int, str string) string {
 	}
 }
 
+// ReadDicFile : read the dictionary file(.dic)
 func ReadDicFile() {
 	curBannerIndex = -1
 	eng, _ := ioutil.ReadFile("eng.dic")
 	engDic = strings.Split(string(eng), "--")
 }
 
-func ReadHistroyFile() {
+// ReadHistoryFile : read the history file(.txt)
+func ReadHistoryFile() {
 	wordHistory = nil
 	curBannerIndex = -1
 	history, err := ioutil.ReadFile("history.txt")
@@ -101,6 +115,7 @@ func ReadHistroyFile() {
 	}
 }
 
+// WordData2String : make one line string message from word data.
 func WordData2String() string {
 	out := ""
 	wc := len(wordHistory)
@@ -113,6 +128,7 @@ func WordData2String() string {
 	return out
 }
 
+// GetNextBannerIndex : get next banner index
 func GetNextBannerIndex() int {
 	curBannerIndex++
 	if curBannerIndex >= len(engDic) {
@@ -121,6 +137,7 @@ func GetNextBannerIndex() int {
 	return curBannerIndex
 }
 
+// GetPreBannerIndex : get previous banner index
 func GetPreBannerIndex() int {
 	curBannerIndex--
 	if curBannerIndex < 0 {
@@ -129,6 +146,7 @@ func GetPreBannerIndex() int {
 	return curBannerIndex
 }
 
+// GetNextWordHistoryIndex : get next word history index
 func GetNextWordHistoryIndex() int {
 	curWordHistoryIndex++
 	if curWordHistoryIndex >= len(wordHistory) {
@@ -137,6 +155,7 @@ func GetNextWordHistoryIndex() int {
 	return curWordHistoryIndex
 }
 
+// GetPreWordHistoryIndex : get previous word history index
 func GetPreWordHistoryIndex() int {
 	curWordHistoryIndex--
 	if curWordHistoryIndex < 0 {
@@ -145,6 +164,7 @@ func GetPreWordHistoryIndex() int {
 	return curWordHistoryIndex
 }
 
+// GetPreBanner : get previous banner
 func GetPreBanner() []string {
 	if len(engDic) > 0 {
 		return strings.Split(strings.TrimPrefix(engDic[GetPreBannerIndex()], "\n"), "\n")
@@ -152,6 +172,7 @@ func GetPreBanner() []string {
 	return nil
 }
 
+// GetNextBanner : get next banner
 func GetNextBanner() []string {
 	if len(engDic) > 0 {
 		return strings.Split(strings.TrimPrefix(engDic[GetNextBannerIndex()], "\n"), "\n")
@@ -159,6 +180,7 @@ func GetNextBanner() []string {
 	return nil
 }
 
+// GetPreWord : get previous word
 func GetPreWord() *WordData {
 	if len(wordHistory) > 0 {
 		return &wordHistory[GetPreWordHistoryIndex()]
@@ -166,6 +188,7 @@ func GetPreWord() *WordData {
 	return nil
 }
 
+// GetNextWord : get next word
 func GetNextWord() *WordData {
 	if len(wordHistory) > 0 {
 		return &wordHistory[GetNextWordHistoryIndex()]
@@ -173,6 +196,7 @@ func GetNextWord() *WordData {
 	return nil
 }
 
+// SearchEngWord : search english word through dic.daum.net
 func SearchEngWord(word string) (string, string, string) {
 	// using http.Get() in NewDocument
 	query := "http://dic.daum.net/search.do?q=" + word
@@ -199,17 +223,17 @@ func SearchEngWord(word string) (string, string, string) {
 	selector = "#mArticle div.search_cont div.card_word.\\23 word.\\23 eng .search_box.\\23 box div ul.list_search span.txt_search"
 
 	cnt := 1
-	meanings_one_line := ""
+	meaningsOneLine := ""
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
 		// meanings += s.Find("txt_search").Text()
 		meanings += strconv.Itoa(cnt) + ". " + s.Text() + "\n"
-		meanings_one_line += strconv.Itoa(cnt) + ". " + s.Text() + "   "
+		meaningsOneLine += strconv.Itoa(cnt) + ". " + s.Text() + "   "
 		cnt++
 	})
 
 	// save the word to history.txt
 	if len(meanings) > 0 {
-		addWord := WordData{strings.TrimSpace(word), strings.TrimSpace(pronounce), strings.TrimSpace(meanings_one_line)}
+		addWord := WordData{strings.TrimSpace(word), strings.TrimSpace(pronounce), strings.TrimSpace(meaningsOneLine)}
 
 		// pop-back
 		_, wordHistory = wordHistory[len(wordHistory)-1], wordHistory[:len(wordHistory)-1]

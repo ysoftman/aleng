@@ -19,14 +19,14 @@ func layout(g *gocui.Gui) error {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
-		v.Title = "English Banner, " + BANNER_CMD_TEXT
+		v.Title = "English Banner, " + BannerCmdText
 		// fmt.Fprintln(v, GetNextColorString(0, "english banner"))
 	}
 	if v, err := g.SetView("word_history", 0, maxY/4+1, maxX-1, maxY/2); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
-		v.Title = "Word History, " + HISTORY_CMD_TEXT
+		v.Title = "Word History, " + HistoryCmdText
 	}
 	if v, err := g.SetView("search", 0, maxY/2+1, maxX-1, maxY/2+3); err != nil {
 		if err != gocui.ErrUnknownView {
@@ -35,8 +35,8 @@ func layout(g *gocui.Gui) error {
 		v.Editable = true
 		v.Highlight = true
 		v.Frame = true
-		v.Title = SEARCH_CMD_TEXT + ", " + QUIT_CMD_TEXT
-		// fmt.Fprintln(v, GetNextColorString(2, QUIT_CMD_TEXT))
+		v.Title = SearchCmdText + ", " + QuitCmdText
+		// fmt.Fprintln(v, GetNextColorString(2, QuitCmdText))
 		// fmt.Fprintln(v, GetNextColorString(1, SEARC_CMD_TEXT))
 		v.SetCursor(0, 0)
 		g.SetCurrentView("search")
@@ -48,7 +48,7 @@ func layout(g *gocui.Gui) error {
 		}
 		v.Editable = true
 		v.Title = "Search Result"
-		// fmt.Fprintln(v, GetNextColorString(2, QUIT_CMD_TEXT))
+		// fmt.Fprintln(v, GetNextColorString(2, QuitCmdText))
 		// fmt.Fprintln(v, GetNextColorString(1, SEARC_CMD_TEXT))
 		v.SetCursor(0, 0)
 	}
@@ -136,6 +136,7 @@ func quit(g *gocui.Gui, v *gocui.View) error {
 	return gocui.ErrQuit
 }
 
+// StartGocui Gocui 구동
 func StartGocui() {
 	g, err := gocui.NewGui(gocui.OutputNormal)
 	if err != nil {
@@ -171,7 +172,7 @@ func StartGocui() {
 			case <-done:
 				return
 
-			case <-time.After(BANNER_REFRESH_SEC * time.Second):
+			case <-time.After(BannerRefreshSec * time.Second):
 				// ClearScreen()
 				g.Update(func(g *gocui.Gui) error {
 					bannerView, _ := g.View("english_banner")

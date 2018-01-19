@@ -10,6 +10,7 @@ import (
 	"time"
 )
 
+// StartBanner 배너만 시작
 func StartBanner() {
 	var wg sync.WaitGroup
 	wg.Add(1)
@@ -21,7 +22,7 @@ func StartBanner() {
 			case <-done:
 				return
 
-			case <-time.After(BANNER_REFRESH_SEC * time.Second):
+			case <-time.After(BannerRefreshSec * time.Second):
 				ClearScreen()
 				inner := GetNextBanner()
 				for j := 0; j < len(inner); j++ {
@@ -34,6 +35,7 @@ func StartBanner() {
 	wg.Wait()
 }
 
+// StartSearchEngWord 단어 찾기만 시작
 func StartSearchEngWord() {
 	for {
 		var word string
@@ -49,7 +51,7 @@ func main() {
 	// fmt.Println(SearchEngWord("love"))
 	// os.Exit(0)
 	ReadDicFile()
-	ReadHistroyFile()
+	ReadHistoryFile()
 	// StartBanner()
 	// StartSearchEngWord()
 	StartGocui()
