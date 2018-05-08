@@ -235,8 +235,6 @@ func SearchEngWord(word string) (string, string, string) {
 	if len(meanings) > 0 {
 		addWord := WordData{strings.TrimSpace(word), strings.TrimSpace(pronounce), strings.TrimSpace(meaningsOneLine)}
 
-		// pop-back
-		_, wordHistory = wordHistory[len(wordHistory)-1], wordHistory[:len(wordHistory)-1]
 		// push-front
 		wordHistory = append([]WordData{addWord}, wordHistory...)
 
