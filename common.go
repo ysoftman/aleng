@@ -4,11 +4,13 @@ package main
 import (
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"os"
 	"os/exec"
 	"runtime"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/fatih/color"
@@ -89,15 +91,16 @@ func GetNextColorString(i int, str string) string {
 
 // ReadDicFile : read the dictionary file(.dic)
 func ReadDicFile() {
-	curBannerIndex = -1
+	rand.Seed(time.Now().UnixNano())
 	eng, _ := ioutil.ReadFile("eng.dic")
 	engDic = strings.Split(string(eng), "--")
+	curBannerIndex = rand.Intn(len(engDic))
 }
 
 // ReadHistoryFile : read the history file(.txt)
 func ReadHistoryFile() {
 	wordHistory = nil
-	curBannerIndex = -1
+	curWordHistoryIndex = -1
 	history, err := ioutil.ReadFile("history.txt")
 	if err != nil {
 		return

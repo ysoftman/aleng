@@ -163,6 +163,8 @@ func StartGocui() {
 		log.Panicln(err)
 	}
 
+	bannerDown(g, nil)
+	historyNext(g, nil)
 	var wg sync.WaitGroup
 	wg.Add(1)
 	go func() {
@@ -174,15 +176,7 @@ func StartGocui() {
 
 			case <-time.After(BannerRefreshSec * time.Second):
 				// ClearScreen()
-				g.Update(func(g *gocui.Gui) error {
-					bannerView, _ := g.View("english_banner")
-					bannerView.Clear()
-					inner := GetNextBanner()
-					for j := 0; j < len(inner); j++ {
-						fmt.Fprintln(bannerView, GetNextColorString(j, inner[j]))
-					}
-					return nil
-				})
+				bannerDown(g, nil)
 			}
 		}
 	}()
