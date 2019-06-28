@@ -202,7 +202,7 @@ func GetNextWord() *WordData {
 // SearchEngWord : search english word through dic.daum.net
 func SearchEngWord(word string) (string, string, string) {
 	// using http.Get() in NewDocument
-	query := "http://dic.daum.net/search.do?q=" + word
+	query := "https://dic.daum.net/search.do?q=" + word
 	doc, err := goquery.NewDocument(query)
 	if err != nil {
 		log.Fatal(err)
@@ -211,19 +211,19 @@ func SearchEngWord(word string) (string, string, string) {
 	meanings := ""
 	pronounce := ""
 
-	selector := "#mArticle div.search_cont div.card_word.\\23 word.\\23 eng div.search_box.\\23 box div div.search_cleanword strong a span"
+	// # : 23(hex)
+	// copy selector string using chrome dev tool
+	selector := "#mArticle div.search_cont div:nth-child(3) div:nth-child(2) div div.search_cleanword strong a span.txt_emph1"
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
 		word = s.Text()
 	})
 
-	selector = "#mArticle div.search_cont div.card_word.\\23 word.\\23 eng div.search_box.\\23 box div  div.wrap_listen span:nth-child(1) .txt_pronounce"
+	selector = "#mArticle div.search_cont div:nth-child(3) div:nth-child(2) div  div.wrap_listen span:nth-child(1) span.txt_pronounce"
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
 		pronounce += s.Text() + "  "
 	})
 
-	// copy selector string using chrome dev tool
-	// #mArticle > div.search_cont > div.card_word.\23 word.\23 eng > div.search_box.\23 box > div > ul > li:nth-child(1) > span.txt_search
-	selector = "#mArticle div.search_cont div.card_word.\\23 word.\\23 eng .search_box.\\23 box div ul.list_search span.txt_search"
+	selector = "#mArticle div.search_cont div:nth-child(3) div:nth-child(2) div ul li:nth-child(1) span.txt_search"
 
 	cnt := 1
 	meaningsOneLine := ""
