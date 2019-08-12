@@ -48,12 +48,15 @@ func StartSearchEngWord() {
 }
 
 func main() {
+	// for debuging.
 	// fmt.Println(SearchEngWord("love"))
 	// os.Exit(0)
-	ReadDicFile()
-	ReadHistoryFile()
+
 	// StartBanner()
 	// StartSearchEngWord()
+
+	ReadDicFile()
+	ReadHistoryFile()
 	StartGocui()
 	// StartTermBoxGo()
 }

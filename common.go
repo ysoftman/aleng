@@ -223,14 +223,13 @@ func SearchEngWord(word string) (string, string, string) {
 		pronounce += s.Text() + "  "
 	})
 
-	selector = "#mArticle div.search_cont div:nth-child(3) div:nth-child(2) div ul li:nth-child(1) span.txt_search"
-
+	// selector = "#mArticle div.search_cont div:nth-child(3) div:nth-child(2) div ul li:nth-child(1) span.txt_search"
+	selector = "#mArticle div.search_cont div:nth-child(3) div:nth-child(2) div ul li"
 	cnt := 1
 	meaningsOneLine := ""
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
-		// meanings += s.Find("txt_search").Text()
-		meanings += strconv.Itoa(cnt) + ". " + s.Text() + "\n"
-		meaningsOneLine += strconv.Itoa(cnt) + ". " + s.Text() + "   "
+		meanings += strconv.Itoa(cnt) + ". " + s.Find("span.txt_search").Text() + "\n"
+		meaningsOneLine += strconv.Itoa(cnt) + ". " + s.Find("span.txt_search").Text() + "   "
 		cnt++
 	})
 
