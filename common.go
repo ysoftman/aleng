@@ -17,10 +17,10 @@ import (
 )
 
 // BannerCmdText : banner command text
-const BannerCmdText = "pre-banner (up) / next-banner (down)"
+const BannerCmdText = "English Banner, pre-banner (up) / next-banner (down)"
 
 // HistoryCmdText : history command text
-const HistoryCmdText = "pre-history (left) / next-history (right)"
+const HistoryCmdText = "Word History, pre-history (left) / next-history (right)"
 
 // SearchCmdText : search command text
 const SearchCmdText = "dic.daum.net search (enter)"

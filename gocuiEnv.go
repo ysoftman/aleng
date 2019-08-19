@@ -5,6 +5,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -19,14 +20,14 @@ func layout(g *gocui.Gui) error {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
-		v.Title = "English Banner, " + BannerCmdText
+		v.Title = BannerCmdText
 		// fmt.Fprintln(v, GetNextColorString(0, "english banner"))
 	}
 	if v, err := g.SetView("word_history", 0, maxY/4+1, maxX-1, maxY/2); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
-		v.Title = "Word History, " + HistoryCmdText
+		v.Title = HistoryCmdText
 	}
 	if v, err := g.SetView("search", 0, maxY/2+1, maxX-1, maxY/2+3); err != nil {
 		if err != gocui.ErrUnknownView {
@@ -70,6 +71,15 @@ func searchAction(g *gocui.Gui, v *gocui.View) error {
 		pronounce = "  " + pronounce
 		fmt.Fprint(searchResultView, GetNextColorString(1, pronounce))
 		fmt.Fprint(searchResultView, GetNextColorString(4, meanings))
+		return nil
+	})
+	return nil
+}
+
+func bannerRefreshTitle(g *gocui.Gui, v *gocui.View, cnt int) error {
+	g.Update(func(g *gocui.Gui) error {
+		bannerView, _ := g.View("english_banner")
+		bannerView.Title = BannerCmdText + " / refresh in " + strconv.Itoa(cnt) + " sec"
 		return nil
 	})
 	return nil
@@ -167,16 +177,21 @@ func StartGocui() {
 	historyNext(g, nil)
 	var wg sync.WaitGroup
 	wg.Add(1)
+	cnt := BannerRefreshSec
 	go func() {
 		defer wg.Done()
 		for {
 			select {
 			case <-done:
 				return
-
-			case <-time.After(BannerRefreshSec * time.Second):
-				// ClearScreen()
-				bannerDown(g, nil)
+			case <-time.After(1 * time.Second):
+				cnt--
+				bannerRefreshTitle(g, nil, cnt)
+				if cnt == 0 {
+					// ClearScreen()
+					bannerDown(g, nil)
+					cnt = BannerRefreshSec
+				}
 			}
 		}
 	}()
