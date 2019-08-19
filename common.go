@@ -33,7 +33,7 @@ const BannerRefreshSec = 10
 
 var done = make(chan struct{})
 
-var engDic []string
+var banners []string
 
 // WordData : word data
 type WordData struct {
@@ -89,15 +89,15 @@ func GetNextColorString(i int, str string) string {
 	}
 }
 
-// ReadDicFile : read the dictionary file(.dic)
-func ReadDicFile() {
+// ReadBannerFile : read the banner file
+func ReadBannerFile() {
 	rand.Seed(time.Now().UnixNano())
-	eng, _ := ioutil.ReadFile("eng.dic")
-	engDic = strings.Split(string(eng), "--")
-	curBannerIndex = rand.Intn(len(engDic))
+	eng, _ := ioutil.ReadFile("banner.txt")
+	banners = strings.Split(string(eng), "--")
+	curBannerIndex = rand.Intn(len(banners))
 }
 
-// ReadHistoryFile : read the history file(.txt)
+// ReadHistoryFile : read the history file
 func ReadHistoryFile() {
 	wordHistory = nil
 	curWordHistoryIndex = -1
@@ -134,7 +134,7 @@ func WordData2String() string {
 // GetNextBannerIndex : get next banner index
 func GetNextBannerIndex() int {
 	curBannerIndex++
-	if curBannerIndex >= len(engDic) {
+	if curBannerIndex >= len(banners) {
 		curBannerIndex = 0
 	}
 	return curBannerIndex
@@ -144,7 +144,7 @@ func GetNextBannerIndex() int {
 func GetPreBannerIndex() int {
 	curBannerIndex--
 	if curBannerIndex < 0 {
-		curBannerIndex = len(engDic) - 1
+		curBannerIndex = len(banners) - 1
 	}
 	return curBannerIndex
 }
@@ -169,16 +169,16 @@ func GetPreWordHistoryIndex() int {
 
 // GetPreBanner : get previous banner
 func GetPreBanner() []string {
-	if len(engDic) > 0 {
-		return strings.Split(strings.TrimPrefix(engDic[GetPreBannerIndex()], "\n"), "\n")
+	if len(banners) > 0 {
+		return strings.Split(strings.TrimPrefix(banners[GetPreBannerIndex()], "\n"), "\n")
 	}
 	return nil
 }
 
 // GetNextBanner : get next banner
 func GetNextBanner() []string {
-	if len(engDic) > 0 {
-		return strings.Split(strings.TrimPrefix(engDic[GetNextBannerIndex()], "\n"), "\n")
+	if len(banners) > 0 {
+		return strings.Split(strings.TrimPrefix(banners[GetNextBannerIndex()], "\n"), "\n")
 	}
 	return nil
 }
