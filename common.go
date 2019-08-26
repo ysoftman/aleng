@@ -208,8 +208,8 @@ func SearchEngWord(word string) (string, string, string) {
 		log.Fatal(err)
 	}
 
-	meanings := ""
 	pronounce := ""
+	meanings := ""
 
 	// # : 23(hex)
 	// copy selector string using chrome dev tool
@@ -243,7 +243,5 @@ func SearchEngWord(word string) (string, string, string) {
 		buffer := []byte(WordData2String())
 		ioutil.WriteFile("history.txt", buffer, 0644)
 	}
-
-	pronounce += "\n"
-	return word, meanings, pronounce
+	return word, pronounce, meanings
 }

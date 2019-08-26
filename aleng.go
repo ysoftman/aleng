@@ -4,10 +4,19 @@
 
 package main
 
+import (
+	"fmt"
+	"os"
+)
+
 func main() {
-	// for debuging.
-	// fmt.Println(SearchEngWord("love"))
-	// os.Exit(0)
+	if len(os.Args) > 1 {
+		word, pronounce, meanings := SearchEngWord(os.Args[1])
+		fmt.Println(word)
+		fmt.Println(pronounce)
+		fmt.Println(meanings)
+		os.Exit(0)
+	}
 
 	ReadBannerFile()
 	ReadHistoryFile()

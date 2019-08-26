@@ -61,14 +61,14 @@ func searchAction(g *gocui.Gui, v *gocui.View) error {
 	g.Update(func(g *gocui.Gui) error {
 		searchView, _ := g.View("search")
 		word := strings.TrimSpace(searchView.Buffer())
-		word, meanings, pronounce := SearchEngWord(word)
+		word, pronounce, meanings := SearchEngWord(word)
 		searchView.Clear()
 		searchView.SetCursor(0, 0)
 
 		searchResultView, _ := g.View("searchResult")
 		searchResultView.Clear()
 		fmt.Fprint(searchResultView, GetNextColorString(0, word))
-		pronounce = "  " + pronounce
+		pronounce = "  " + pronounce + "\n"
 		fmt.Fprint(searchResultView, GetNextColorString(1, pronounce))
 		fmt.Fprint(searchResultView, GetNextColorString(4, meanings))
 		return nil

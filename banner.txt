@@ -376,5 +376,31 @@ I will check over tyou paper.
 당신의 논문을 잘 검토하겠습니다.
 pull over your car / pull up your car.
 차를 세우세요.
-pull over your car to the corners
+pull over your car to the corners.
 당신의 차를 코너 쪽으로 세우세요.
+--
+How many in your party?
+(식당등에서)몇명이세요?
+We have one more coming.
+한명 더 올거에요.
+--
+I took a trip to France.
+나는 프랑스 여행했어.(단순 과거)
+I take a trip to France.
+나는 프랑스 여행을 한다.(단순 현재)
+I will take a trip to France.
+나는 프랑스로 여행할 거야.(단순 미래 - 미래강도: 하)
+I am going to take a trip to France.
+나는 프랑스로 여행할 예정이야.(단순 미래 - 미래강도 : 중)
+I am taking a trip to France next week.
+나는 다음주에 프랑스로 여행하기로 되어 있어.(단순 미래 - 미래강도: 상)
+--
+I was taking a trip to France.
+나는 프랑스를 여행햐는 중이였어.(과거 진행)
+I am takging a trip to France.
+나는 프랑스를 여행하는 중이야.(현재 진행)
+I will be taking a trip to France.
+나는 프랑스를 여행하고 있을 거야.(미래 진행)
+---
+I have taken a trip to France.
+나는 프랑스를 여행해왔다.(현재완료)
