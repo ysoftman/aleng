@@ -211,20 +211,26 @@ func SearchEngWord(word string) (string, string, string) {
 	pronounce := ""
 	meanings := ""
 
+	childIndex := "2"
+	// 관련 단어 영역의 존재에 따라 영역 인덱스가 달라진다.
+	if doc.Find("#relatedQuery").Length() > 0 {
+		childIndex = "3"
+	}
+
 	// # : 23(hex)
 	// copy selector string using chrome dev tool
-	selector := "#mArticle div.search_cont div:nth-child(3) div:nth-child(2) div div.search_cleanword strong a span.txt_emph1"
+	selector := "#mArticle div.search_cont div:nth-child(" + childIndex + ") div:nth-child(2) div div.search_cleanword strong a span.txt_emph1"
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
 		word = s.Text()
 	})
 
-	selector = "#mArticle div.search_cont div:nth-child(3) div:nth-child(2) div  div.wrap_listen span:nth-child(1) span.txt_pronounce"
+	selector = "#mArticle div.search_cont div:nth-child(" + childIndex + ") div:nth-child(2) div  div.wrap_listen span:nth-child(1) span.txt_pronounce"
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
 		pronounce += s.Text() + "  "
 	})
 
 	// selector = "#mArticle div.search_cont div:nth-child(3) div:nth-child(2) div ul li:nth-child(1) span.txt_search"
-	selector = "#mArticle div.search_cont div:nth-child(3) div:nth-child(2) div ul li"
+	selector = "#mArticle div.search_cont div:nth-child(" + childIndex + ") div:nth-child(2) div ul li"
 	cnt := 1
 	meaningsOneLine := ""
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
