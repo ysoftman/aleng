@@ -402,5 +402,16 @@ I am takging a trip to France.
 I will be taking a trip to France.
 나는 프랑스를 여행하고 있을 거야.(미래 진행)
 ---
+I had taken a trip to France.
+나는 프랑스를 여행했었다.(관거완료)
 I have taken a trip to France.
 나는 프랑스를 여행해왔다.(현재완료)
+I will have taken a trip to France.
+나는 프랑스를 여행했을 거야.(미래완료)
+--
+I had been taking a trip to France.(과거완료 진행)
+나는 프랑스를 (과거의 어느시점까지 계속) 여행하고 있는 중이였어.
+I have been taking a trip to France.(현재완료 진행)
+나는 프랑스를 (계속) 여행하고 있는 중이야.
+I will have been taking a trip to France.(미래완료 진행)
+나는 프랑스를 (미래의 어느시점까지 계속) 여행하고 있는 중일거야.
