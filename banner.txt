@@ -387,7 +387,7 @@ We have one more coming.
 I took a trip to France.
 나는 프랑스 여행했어.(단순 과거)
 I take a trip to France.
-나는 프랑스 여행을 한다.(단순 현재)
+나는 프랑스 여행을 해.(단순 현재)
 I will take a trip to France.
 나는 프랑스로 여행할 거야.(단순 미래 - 미래강도: 하)
 I am going to take a trip to France.
@@ -396,22 +396,22 @@ I am taking a trip to France next week.
 나는 다음주에 프랑스로 여행하기로 되어 있어.(단순 미래 - 미래강도: 상)
 --
 I was taking a trip to France.
-나는 프랑스를 여행햐는 중이였어.(과거 진행)
+나는 프랑스를 여행하는 중이였어.(과거 진행)
 I am takging a trip to France.
 나는 프랑스를 여행하는 중이야.(현재 진행)
 I will be taking a trip to France.
 나는 프랑스를 여행하고 있을 거야.(미래 진행)
 ---
 I had taken a trip to France.
-나는 프랑스를 여행했었다.(관거완료)
+나는 프랑스를 (과거에) 여행했었어.(관거완료)
 I have taken a trip to France.
-나는 프랑스를 여행해왔다.(현재완료)
+나는 프랑스를 (지금까지) 여행해왔어.(현재완료)
 I will have taken a trip to France.
-나는 프랑스를 여행했을 거야.(미래완료)
+나는 프랑스를 (미래에 어느시점에) 여행을 끝냈을 거야.(미래완료)
 --
 I had been taking a trip to France.(과거완료 진행)
-나는 프랑스를 (과거의 어느시점까지 계속) 여행하고 있는 중이였어.
+나는 프랑스를 (대과거 부터 과거의 어느시점까지 계속) 여행하고 있는 중이였어.
 I have been taking a trip to France.(현재완료 진행)
-나는 프랑스를 (계속) 여행하고 있는 중이야.
+나는 프랑스를 (과거부터 지금까지) 여행하고 있는 중이야.
 I will have been taking a trip to France.(미래완료 진행)
-나는 프랑스를 (미래의 어느시점까지 계속) 여행하고 있는 중일거야.
+나는 프랑스를 (미래의 어느시점까지) 여행하고 있는 중일거야.
