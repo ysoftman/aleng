@@ -1,3 +1,8 @@
+noun, pronoun, verb, adverb
+명사, 대명사, 동사, 부사
+adjective, preposition, conjunciton, interjection
+형용사, 전치사, 접속사, 감탄사
+--
 rover [|roʊvə(r), |rəʊvə(r)] 방랑자
 An Atlas V launched the rover into space.
 무인선 Atlas V 로켓이 이 탐사선을 쏘아 올렸습니다.
@@ -124,7 +129,7 @@ On a lighter note, we ordered pizza.
 On the bright side, no one was hurts.
 긍정적으로 보면 아무도 다치지 않았어.
 --
-Adventure may hurt you but monotony will kill you 
+Adventure may hurt you but monotony will kill you
 모험이 널 다치게할수는 있지만 단조로움은 널 죽일거야.
 --
 Back in elementary school, I was really short.
@@ -294,18 +299,16 @@ Can we start over ?
 --
 It doesn't seem to be here.
 그건 여기 없는것 같아요.
---
 I will get in touch with other library branch.
 제가 다른 도서관에 연락해보겠습니다.
 --
 How many seconds should I give it?
 얼마나 걸리니?
+Just take your time.
+천천히 해.
 --
 You got to face facts.
 현실을 받아들어야죠.
---
-Just take your time.
-천천히 해.
 --
 I am a hundred percent positive.
 100% 확신해요.
@@ -321,7 +324,7 @@ Sorry, I made a mistake with the date, so I counln't prepare
 That's too corny.
 너무 촌스러워.
 Okay, I apologize.
-알았어,  사과할께
+알았어, 사과할께
 --
 I have attached an estimate.
 견적서를 첨부했습니다.
@@ -416,5 +419,17 @@ I have been taking a trip to France.(현재완료 진행)
 I will have been taking a trip to France.(미래완료 진행)
 나는 프랑스를 (미래의 어느시점까지) 여행하고 있는 중일거야.
 --
-count me out(count me in)
-난 빼줘(나 할래, 나 껴줘)
+count me out
+난 빼줘
+count me in
+나 할래, 나 껴줘
+--
+I have this under control.
+내가 알아서 할께.
+--
+You can count on me.
+나만 믿어.
+You can depend on me.
+나만 믿어.
+You can trust me.
+나만 믿어.
