@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"math/rand"
+	"net/url"
 	"os"
 	"os/exec"
 	"runtime"
@@ -202,7 +203,8 @@ func GetNextWord() *WordData {
 // SearchEngWord : search english word through dic.daum.net
 func SearchEngWord(word string) (string, string, string) {
 	// using http.Get() in NewDocument
-	query := "https://dic.daum.net/search.do?q=" + word
+	urlenc := &url.URL{Path: word}
+	query := "https://dic.daum.net/search.do?q=" + urlenc.String()
 	doc, err := goquery.NewDocument(query)
 	if err != nil {
 		log.Fatal(err)
@@ -221,7 +223,7 @@ func SearchEngWord(word string) (string, string, string) {
 
 	// # : 23(hex)
 	// copy selector string using chrome dev tool
-	selector := "#mArticle > div.search_cont > div:nth-child(" + childIndex + ") > div:nth-child(2) > div > div.search_cleanword > strong > a > span.txt_emph1"
+	selector := "#mArticle > div.search_cont > div:nth-child(" + childIndex + ") > div:nth-child(2) > div > div.search_cleanword > strong > a"
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
 		word = s.Text()
 	})
