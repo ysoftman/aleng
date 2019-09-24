@@ -294,7 +294,7 @@ We are on good terms.
 I have my hair down today.
 오늘은 머리를 풀었어요.
 --
-Can we start over ?
+Can we start over?
 우리 다시 시작하면 안될까?
 --
 It doesn't seem to be here.
@@ -433,3 +433,10 @@ You can depend on me.
 나만 믿어.
 You can trust me.
 나만 믿어.
+--
+I stop by her house.
+그녀의 집에 잠깐 들르다.
+I drop by her house.
+그녀의 집에 잠깐 들르다.
+I come by her house.
+그녀의 집에 잠깐 들르다.
