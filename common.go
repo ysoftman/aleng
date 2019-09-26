@@ -246,7 +246,7 @@ func SearchEngWord(word string) (string, string, string) {
 
 	// save the word to history.txt
 	if len(resultWord.meanings) > 0 {
-		addWord := WordData{strings.TrimSpace(word), strings.TrimSpace(resultWord.pronounce), strings.TrimSpace(resultWord.meanings)}
+		addWord := WordData{strings.TrimSpace(resultWord.word), strings.TrimSpace(resultWord.pronounce), strings.TrimSpace(resultWord.meanings)}
 
 		// push-front
 		wordHistory = append([]WordData{addWord}, wordHistory...)
