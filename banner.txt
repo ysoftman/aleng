@@ -440,3 +440,7 @@ I drop by her house.
 그녀의 집에 잠깐 들르다.
 I come by her house.
 그녀의 집에 잠깐 들르다.
+--
+Stop flattering me.
+비행기 태우지마.
+--

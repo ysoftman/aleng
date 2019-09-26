@@ -109,7 +109,7 @@ func ReadHistoryFile() {
 	spWord := strings.Split(string(history), "--\n")
 	for i := 0; i < len(spWord); i++ {
 		curWord := (strings.Split(spWord[i], "\n"))
-		addWord := WordData{curWord[0], curWord[1], curWord[2]}
+		addWord := WordData{curWord[0], curWord[1], strings.Join(curWord[2:], "\n")}
 		wordHistory = append(wordHistory, addWord)
 	}
 
@@ -210,8 +210,7 @@ func SearchEngWord(word string) (string, string, string) {
 		log.Fatal(err)
 	}
 
-	pronounce := ""
-	meanings := ""
+	var resultWord WordData
 
 	childIndex := "2"
 	// 관련 단어 영역의 존재에 따라 영역 인덱스가 달라진다.
@@ -225,26 +224,29 @@ func SearchEngWord(word string) (string, string, string) {
 	// copy selector string using chrome dev tool
 	selector := "#mArticle > div.search_cont > div:nth-child(" + childIndex + ") > div:nth-child(2) > div > div.search_cleanword > strong > a"
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
-		word = s.Text()
+		resultWord.word = s.Text()
+	})
+
+	selector = "#mArticle > div.search_cont > div:nth-child(2) > div.search_box > div:nth-child(1) > div.search_word > strong > a"
+	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
+		resultWord.word = s.Text()
 	})
 
 	selector = "#mArticle > div.search_cont > div:nth-child(" + childIndex + ") > div:nth-child(2) > div > div.wrap_listen > span:nth-child(1) > span.txt_pronounce"
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
-		pronounce += s.Text() + "  "
+		resultWord.pronounce += s.Text() + "  "
 	})
 
 	selector = "#mArticle > div.search_cont > div:nth-child(" + childIndex + ") > div:nth-child(2) > div > ul > li"
 	cnt := 1
-	meaningsOneLine := ""
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
-		meanings += strconv.Itoa(cnt) + ". " + s.Find("span.txt_search").Text() + "\n"
-		meaningsOneLine += strconv.Itoa(cnt) + ". " + s.Find("span.txt_search").Text() + "   "
+		resultWord.meanings += strconv.Itoa(cnt) + ". " + s.Find("span.txt_search").Text() + "\n"
 		cnt++
 	})
 
 	// save the word to history.txt
-	if len(meanings) > 0 {
-		addWord := WordData{strings.TrimSpace(word), strings.TrimSpace(pronounce), strings.TrimSpace(meaningsOneLine)}
+	if len(resultWord.meanings) > 0 {
+		addWord := WordData{strings.TrimSpace(word), strings.TrimSpace(resultWord.pronounce), strings.TrimSpace(resultWord.meanings)}
 
 		// push-front
 		wordHistory = append([]WordData{addWord}, wordHistory...)
@@ -252,5 +254,5 @@ func SearchEngWord(word string) (string, string, string) {
 		buffer := []byte(WordData2String())
 		ioutil.WriteFile("history.txt", buffer, 0644)
 	}
-	return word, pronounce, meanings
+	return resultWord.word, resultWord.pronounce, resultWord.meanings
 }

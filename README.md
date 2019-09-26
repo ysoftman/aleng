@@ -1,6 +1,6 @@
-# aleng (Always English) :smile:
+# aleng (Always English :smile:)
 
-콘솔에서 영어 단어, 문장 보기
+터미널에서 영어 단어, 문장 보기
 
 - 인터넷에서 단어 검색
 - 찾은 단어 기록
@@ -27,4 +27,4 @@ GO111MODULE=on go build
 
 screenshot
 
-![screenshot](screenshot.jpg)
+![aleng_screenshot](aleng_screenshot.png)
