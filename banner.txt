@@ -444,3 +444,13 @@ I come by her house.
 Stop flattering me.
 비행기 태우지마.
 --
+Though I studied english hard, I still didn't pass the test.
+열심히 영어 공부를 했지만 시험에 통과하지 못했다.
+Although I studied english hard, I still didn't pass the test.
+열심히 영어 공부를 했지만 시험에 통과하지 못했다.(격식있는 표현)
+Even though I studied english hard, I still didn't pass the test.
+열심히 영어 공부를 했지만 시험에 통과하지 못했다.(대조 의미를 좀더 강조한 표현)
+In spite of studying english very hard, I still didn't pass the test.
+열심히 영어 공부를 했지만 시험에 통과하지 못했다.(In spite of + 명사)
+Despite studying english very hard, I still didn't pass the test.
+열심히 영어 공부를 했지만 시험에 통과하지 못했다.(Despite + 명사)
