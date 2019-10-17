@@ -454,3 +454,55 @@ In spite of studying english very hard, I still didn't pass the test.
 열심히 영어 공부를 했지만 시험에 통과하지 못했다.(In spite of + 명사)
 Despite studying english very hard, I still didn't pass the test.
 열심히 영어 공부를 했지만 시험에 통과하지 못했다.(Despite + 명사)
+--
+Since I had no money, I couldn't take a trip.
+돈이 없어서 여행을 가지 못했어.
+Since I was busy, I couldn't visit my parents.
+바빠서 부모님을 뵙지 못했어.
+--
+I am off today.
+나 오늘 쉰다.
+I am taking a day off.
+나 오늘 휴가 냈어.
+--
+I am here on vacation.
+휴가로 여기 왔습니다.
+I am here on business.
+출장으로 여기 왔어요.
+I am here on travel.
+여행하러 왔어요.
+I am here on my own.
+혼자 왔어요.
+--
+See you in 5 minutes.
+5분 후에 보자.
+See you within 5 minutes.
+5분 이내에 보자.
+--
+I prefer orange.
+난 오렌지를 선호한다.
+I prefer orange to apple.
+난 사과보다 오렌지를 선호한다.
+--
+The book was so interesting that I read it at one sitting.
+그책은 너무 재밌어서 한번에 다 읽었어.(so..that 너무 ..해서 ..하다)
+--
+I want to eat out today.
+나 오늘 외식하고 싶어.
+Let's go out to eat dinner.
+저녁 밖에서 먹자.
+He will go out with her.
+그는 그녀와 데이트할거야.
+--
+Would you like some to drink?
+마실것 좀 드릴까요?
+Would you like to be placed on waiting list?
+대기 명단에 올려드릴까요?
+Would you like some help with that box?
+상자 옯기는것좀 도와드릴까요?
+--
+Do you want me to give you a ride?
+내가 차로 데려다 줄까?
+Can you give me a ride home?
+집까지 태워 줄래?
+
