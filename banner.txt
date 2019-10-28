@@ -505,4 +505,33 @@ Do you want me to give you a ride?
 내가 차로 데려다 줄까?
 Can you give me a ride home?
 집까지 태워 줄래?
+--
+What is the best way to (go to) your office by bus.
+너의 사무실에 버스로 가는 가장 좋은 방법은 뭐니?
+--
+What do you say we eat out?
+외식하는거 어때?
+What do you say to eating out?
+외식하는거 어때?
+What do you say to going for a walk?
+산책가는거 어때?
+What do yoy say we go for a walk?
+산책가는거 어때?
+--
+What makes you so happy?
+왜 그렇게 행복해?
+What brought you here?
+여긴 무슨 일로 왔어?
+What happened to you in the class yesterday?
+어제 수업에서 무슨일 있었니?
+--
+What kind of music do you like?
+어떤 종류의 음악을 좋아하나요?
+What type of music do you like?
+어떤 종류의 음악을 좋아하나요?
+What sort of music do you like?
+어떤 종류의 음악을 좋아하나요?
+--
+What time is the next flight to seoul?
+다음 서울행 비행기 시간은 언제 인가요?
 
