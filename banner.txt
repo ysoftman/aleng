@@ -419,6 +419,13 @@ I have been taking a trip to France.(현재완료 진행)
 I will have been taking a trip to France.(미래완료 진행)
 나는 프랑스를 (미래의 어느시점까지) 여행하고 있는 중일거야.
 --
+It rains.
+비가 온다.
+It's raining.
+비가 오고 있는 중이야.
+It has been raining.
+계속 비가 오고 있어.
+--
 count me out
 난 빼줘
 count me in
@@ -534,4 +541,13 @@ What sort of music do you like?
 --
 What time is the next flight to seoul?
 다음 서울행 비행기 시간은 언제 인가요?
+--
+How old is this building?
+이 건물은 얼마나 오래됐나요?
+How many years have you been live in Korea?
+한국에 산지는 몇년 됐나요?
+How long have you been working here?
+여기서 일한지는 얼마나 됐나요?
+How many hours can you work a week?
+일주일에 몇시간이나 일할 수 있나요?
 
