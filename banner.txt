@@ -550,4 +550,33 @@ How long have you been working here?
 여기서 일한지는 얼마나 됐나요?
 How many hours can you work a week?
 일주일에 몇시간이나 일할 수 있나요?
+How soon can you come to my home?
+언제까지 내 집에 올 수 있니?
+How often does she go shopping?
+그녀는 얼마나 자주 쇼핑하니?
+--
+How come you visited her place?
+어떻게(왜) 그녀 집을 방문했니?
+--
+My whole body aches.
+온몸이 쑤신다.
+--
+When was last time you saw her?
+그녀를 마지막으로본 날이 언제인가요?
+--
+I will walk you home.
+집에 바래다 줄께.
+--
+We are even now.
+우리 지에 비긴거다.
+--
+It would be nice to see you there.
+거기서 너를 보면 좋겠어요.(아직 일어나지 않는일은 to V)
+It was nice seeing you there.
+거기서 너를 봐서 좋았어요.(벌어진일은 V+ing)
+--
+Tardy agin.
+또 지각이구나.
+I'm hangry.
+나 배고파서 화나.
 
