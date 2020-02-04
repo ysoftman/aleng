@@ -579,4 +579,29 @@ Tardy agin.
 또 지각이구나.
 I'm hangry.
 나 배고파서 화나.
-
+--
+Please bear with me.
+좀 참고 견뎌줘(기다려줘)
+--
+I am just trying to teach you how to do these things.
+난 그저 이거 어떻게 하는지 좀 알려주려고 하는거야.
+I don't want to be the one who always complains and whines.
+난 불평하고 징징대는 사람이 되고 싶지 않아.
+I don't even know how I made it here.
+내가 어떻게 여기에 왔는지 모르겠어.
+--
+Loosen up and light up.
+긴장풀고 기운내.
+--
+He is a man who can run fast.(He is a man. He can run fast.)
+그는 빨리 달릴 수 있는 사람이다.
+He is a man whose legs are very long.(He is a man. His legs are very long.)
+그는 다리가 매우 긴 사람이다.
+He is a man whom people like.(He is a man. People like him.)
+그는 사람이들이 매우 좋아하는 사람이다.
+She likes the piano which made by Bill.(She likes the piano. The piano made by Bill.)
+그녀는 빌이 만든 피아노를 좋아한다.
+She likes the piano the color of which is brown.(She likes the piano. The color of piano is brown.)
+그녀는 갈색 피아노를 좋아하다.
+She likes the piano which people like.(She likes the piano. People like the piano.)
+그녀는 사람들이 좋아하는 피아노를 좋아한다.
