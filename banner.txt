@@ -605,3 +605,10 @@ She likes the piano the color of which is brown.(She likes the piano. The color 
 그녀는 갈색 피아노를 좋아하다.
 She likes the piano which people like.(She likes the piano. People like the piano.)
 그녀는 사람들이 좋아하는 피아노를 좋아한다.
+--
+I had to rush a decision.
+난 결정을 서둘러야만 했다.
+--
+I didn't think through.
+난 충분히 생각하지 못했다.
+
