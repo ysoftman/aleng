@@ -611,4 +611,11 @@ I had to rush a decision.
 --
 I didn't think through.
 난 충분히 생각하지 못했다.
+--
+Do you have a moment to spare?
+시간 있습니까?
+Can I have a monet?
+시간 있나요?
+Got a second(or minute)?
+시간 있니?
 
