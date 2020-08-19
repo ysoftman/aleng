@@ -618,4 +618,24 @@ Can I have a monet?
 시간 있나요?
 Got a second(or minute)?
 시간 있니?
+--
+I should be there by 10.
+10시까지 도착할거 같아.
+You should have heard by now that I am gone.
+넌 지금쯤 내가 없어졌다는걸 들었을 거야.
+It shouldn't be allowed to continue.
+그건 계속 되면 안돼.
+We should do something on this.
+우린 이렇게 해야돼.
+--
+You will get used to it as time goes by.
+시간이 지나면 익숙해 질거야.
+--
+When you open the refrigerator door, the lights comes on.
+냉장고 문을 열면 불이켜진다.(두사건이 연관이 있을때 when)
+I like to listen to music while I drive.
+난 운전할때 음악 듣는걸 좋아한다.(두사건이 관련 없을때 while)
+The overhead bin opened up as the plane took off.
+비행기가 이륙했을때 윗 짐칸 문이 열렸다.(예상치 못한 사건이 발생시 as)
+
 
