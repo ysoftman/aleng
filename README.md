@@ -16,10 +16,10 @@ build
 # go get -u "github.com/ysoftman/gocui"
 # gocui 한글출력 이슈 수정 커밋을 go.mod 에 추가
 go get github.com/ysoftman/gocui@65dddcdf2d5d134e083e0fd9481b3179ec87e6d5
-GO111MODULE=on go get -u ./...
+go get -u ./...
 
 # 빌드
-GO111MODULE=on go build
+go build
 
 # 실행
 ./aleng

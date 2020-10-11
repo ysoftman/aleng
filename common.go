@@ -20,14 +20,14 @@ import (
 // BannerCmdText : banner command text
 const BannerCmdText = "English Banner, pre-banner (up) / next-banner (down)"
 
-// HistoryCmdText : history command text
-const HistoryCmdText = "Word History, pre-history (left) / next-history (right)"
-
 // SearchCmdText : search command text
 const SearchCmdText = "dic.daum.net search (enter)"
 
+// SearchResultCmdText : search word / history command text
+const SearchResultCmdText = "Search Result, pre-history (left) / next-history (right)"
+
 // QuitCmdText : quit command text
-const QuitCmdText = "quit (ctrl + c)"
+const QuitCmdText = "quit (ctrl+c)"
 
 // BannerRefreshSec : banner refresh interval(seconds)
 const BannerRefreshSec = 10
@@ -185,19 +185,21 @@ func GetNextBanner() []string {
 }
 
 // GetPreWord : get previous word
-func GetPreWord() *WordData {
+func GetPreWord() (int, *WordData) {
 	if len(wordHistory) > 0 {
-		return &wordHistory[GetPreWordHistoryIndex()]
+		idx := GetPreWordHistoryIndex()
+		return idx, &wordHistory[idx]
 	}
-	return nil
+	return 0, nil
 }
 
 // GetNextWord : get next word
-func GetNextWord() *WordData {
+func GetNextWord() (int, *WordData) {
 	if len(wordHistory) > 0 {
-		return &wordHistory[GetNextWordHistoryIndex()]
+		idx := GetNextWordHistoryIndex()
+		return idx, &wordHistory[idx]
 	}
-	return nil
+	return 0, nil
 }
 
 // SearchEngWord : search english word through dic.daum.net

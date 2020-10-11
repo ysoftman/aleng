@@ -16,20 +16,14 @@ import (
 
 func layout(g *gocui.Gui) error {
 	maxX, maxY := g.Size()
-	if v, err := g.SetView("english_banner", 0, 0, maxX-1, maxY/4); err != nil {
+	if v, err := g.SetView("english_banner", 0, 0, maxX-1, maxY/3); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
 		v.Title = BannerCmdText
 		// fmt.Fprintln(v, GetNextColorString(0, "english banner"))
 	}
-	if v, err := g.SetView("word_history", 0, maxY/4+1, maxX-1, maxY/2); err != nil {
-		if err != gocui.ErrUnknownView {
-			return err
-		}
-		v.Title = HistoryCmdText
-	}
-	if v, err := g.SetView("search", 0, maxY/2+1, maxX-1, maxY/2+3); err != nil {
+	if v, err := g.SetView("search", 0, (maxY/3)+1, maxX-1, (maxY/3)+3); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
@@ -43,36 +37,17 @@ func layout(g *gocui.Gui) error {
 		g.SetCurrentView("search")
 	}
 
-	if v, err := g.SetView("searchResult", 0, maxY/2+4, maxX-1, maxY-1); err != nil {
+	if v, err := g.SetView("searchResult", 0, (maxY/3)+4, maxX-1, maxY-1); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
 		v.Editable = true
-		v.Title = "Search Result"
+		v.Title = SearchResultCmdText
 		// fmt.Fprintln(v, GetNextColorString(2, QuitCmdText))
 		// fmt.Fprintln(v, GetNextColorString(1, SEARC_CMD_TEXT))
 		v.SetCursor(0, 0)
 	}
 
-	return nil
-}
-
-func searchAction(g *gocui.Gui, v *gocui.View) error {
-	g.Update(func(g *gocui.Gui) error {
-		searchView, _ := g.View("search")
-		word := strings.TrimSpace(searchView.Buffer())
-		word, pronounce, meanings := SearchEngWord(word)
-		searchView.Clear()
-		searchView.SetCursor(0, 0)
-
-		searchResultView, _ := g.View("searchResult")
-		searchResultView.Clear()
-		fmt.Fprint(searchResultView, GetNextColorString(0, word))
-		pronounce = "  " + pronounce + "\n"
-		fmt.Fprint(searchResultView, GetNextColorString(1, pronounce))
-		fmt.Fprint(searchResultView, GetNextColorString(4, meanings))
-		return nil
-	})
 	return nil
 }
 
@@ -111,15 +86,24 @@ func bannerDown(g *gocui.Gui, v *gocui.View) error {
 	return nil
 }
 
+func printSearchWordResult(v *gocui.View, word, pronounce, meanings string, idx int) {
+	if idx >= 0 {
+		str := fmt.Sprintf("history - %d\n", idx)
+		fmt.Fprint(v, GetNextColorString(3, str))
+	}
+	fmt.Fprint(v, GetNextColorString(0, word))
+	pronounce = "  " + pronounce + "\n"
+	fmt.Fprint(v, GetNextColorString(1, pronounce))
+	fmt.Fprint(v, GetNextColorString(2, meanings))
+}
+
 func historyPre(g *gocui.Gui, v *gocui.View) error {
 	g.Update(func(g *gocui.Gui) error {
-		historyView, _ := g.View("word_history")
-		historyView.Clear()
-		theWord := GetPreWord()
+		searchResultView, _ := g.View("searchResult")
+		searchResultView.Clear()
+		idx, theWord := GetPreWord()
 		if theWord != nil {
-			fmt.Fprintln(historyView, GetNextColorString(0, theWord.word))
-			fmt.Fprintln(historyView, GetNextColorString(1, theWord.pronounce))
-			fmt.Fprintln(historyView, GetNextColorString(2, theWord.meanings))
+			printSearchWordResult(searchResultView, theWord.word, theWord.pronounce, theWord.meanings, idx)
 		}
 		return nil
 	})
@@ -128,14 +112,28 @@ func historyPre(g *gocui.Gui, v *gocui.View) error {
 
 func historyNext(g *gocui.Gui, v *gocui.View) error {
 	g.Update(func(g *gocui.Gui) error {
-		historyView, _ := g.View("word_history")
-		historyView.Clear()
-		theWord := GetNextWord()
+		searchResultView, _ := g.View("searchResult")
+		searchResultView.Clear()
+		idx, theWord := GetNextWord()
 		if theWord != nil {
-			fmt.Fprintln(historyView, GetNextColorString(0, theWord.word))
-			fmt.Fprintln(historyView, GetNextColorString(1, theWord.pronounce))
-			fmt.Fprintln(historyView, GetNextColorString(2, theWord.meanings))
+			printSearchWordResult(searchResultView, theWord.word, theWord.pronounce, theWord.meanings, idx)
 		}
+		return nil
+	})
+	return nil
+}
+
+func searchAction(g *gocui.Gui, v *gocui.View) error {
+	g.Update(func(g *gocui.Gui) error {
+		searchView, _ := g.View("search")
+		word := strings.TrimSpace(searchView.Buffer())
+		word, pronounce, meanings := SearchEngWord(word)
+		searchView.Clear()
+		searchView.SetCursor(0, 0)
+
+		searchResultView, _ := g.View("searchResult")
+		searchResultView.Clear()
+		printSearchWordResult(searchResultView, word, pronounce, meanings, -1)
 		return nil
 	})
 	return nil
