@@ -32,6 +32,9 @@ const QuitCmdText = "quit (ctrl+c)"
 // BannerRefreshSec : banner refresh interval(seconds)
 const BannerRefreshSec = 10
 
+// MaxHistoryLimit : Max word history size
+const MaxHistoryLimit = 10
+
 var done = make(chan struct{})
 
 var banners []string
@@ -123,17 +126,17 @@ func ReadHistoryFile() {
 	}
 
 	// limit max history size
-	if len(wordHistory) > 10 {
-		wordHistory = wordHistory[:10]
+	if len(wordHistory) > MaxHistoryLimit {
+		wordHistory = wordHistory[:MaxHistoryLimit]
 	}
 }
 
 // WordData2String : make one line string message from word data.
-func WordData2String() string {
+func WordData2String(wd []WordData) string {
 	out := ""
-	wc := len(wordHistory)
+	wc := len(wd)
 	for i := 0; i < wc; i++ {
-		out += wordHistory[i].word + "\n" + wordHistory[i].pronounce + "\n" + wordHistory[i].meanings + "\n"
+		out += wd[i].word + "\n" + wd[i].pronounce + "\n" + wd[i].meanings + "\n"
 		if wc > 1 && i < wc-1 {
 			out += "--\n"
 		}
@@ -262,7 +265,8 @@ func SearchEngWord(word string) (string, string, string) {
 		// push-front
 		wordHistory = append([]WordData{addWord}, wordHistory...)
 
-		buffer := []byte(WordData2String())
+		// save only MaxHistoryLimit
+		buffer := []byte(WordData2String(wordHistory[:MaxHistoryLimit]))
 		ioutil.WriteFile("history.txt", buffer, 0644)
 	}
 	return resultWord.word, resultWord.pronounce, resultWord.meanings
