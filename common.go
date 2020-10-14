@@ -109,8 +109,17 @@ func ReadHistoryFile() {
 	spWord := strings.Split(string(history), "--\n")
 	for i := 0; i < len(spWord); i++ {
 		curWord := (strings.Split(spWord[i], "\n"))
-		addWord := WordData{curWord[0], curWord[1], strings.Join(curWord[2:], "\n")}
-		wordHistory = append(wordHistory, addWord)
+		wd := WordData{}
+		if len(curWord) > 0 {
+			wd.word = curWord[0]
+		}
+		if len(curWord) > 1 {
+			wd.pronounce = curWord[1]
+		}
+		if len(curWord) > 2 {
+			wd.meanings = strings.Join(curWord[2:], "\n")
+		}
+		wordHistory = append(wordHistory, wd)
 	}
 
 	// limit max history size
