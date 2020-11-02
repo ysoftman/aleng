@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"os"
 	"os/exec"
+	"regexp"
 	"runtime"
 	"strconv"
 	"strings"
@@ -21,7 +22,7 @@ import (
 const BannerCmdText = "English Banner, pre-banner (up) / next-banner (down)"
 
 // SearchCmdText : search command text
-const SearchCmdText = "dic.daum.net search (enter)"
+const SearchCmdText = "search word in dic.daum.net and banners (enter)"
 
 // SearchResultCmdText : search word / history command text
 const SearchResultCmdText = "Search Result, pre-history (left) / next-history (right)"
@@ -31,6 +32,8 @@ const QuitCmdText = "quit (ctrl+c)"
 
 // BannerRefreshSec : banner refresh interval(seconds)
 const BannerRefreshSec = 10
+
+var remainRefreshSec int
 
 // MaxHistoryLimit : Max word history size
 const MaxHistoryLimit = 10
@@ -184,6 +187,24 @@ func GetPreWordHistoryIndex() int {
 func GetPreBanner() []string {
 	if len(banners) > 0 {
 		return strings.Split(strings.TrimPrefix(banners[GetPreBannerIndex()], "\n"), "\n")
+	}
+	return nil
+}
+
+// FindBanner : find banner including keyword
+func FindBanner(keyword string) []string {
+	keyword = strings.ToLower(keyword)
+	for i := range banners {
+		// https://github.com/google/re2/wiki/Syntax
+		// \b at ascii word boundary
+		if matched, _ := regexp.MatchString("\\b"+keyword+"\\b", strings.ToLower(banners[i])); matched {
+			// reset remainRefreshSec
+			remainRefreshSec = BannerRefreshSec
+			return strings.Split(strings.TrimPrefix(banners[i], "\n"), "\n")
+		}
+		// if strings.Contains(banners[i], keyword) {
+		// 	return strings.Split(strings.TrimPrefix(banners[i], "\n"), "\n")
+		// }
 	}
 	return nil
 }
