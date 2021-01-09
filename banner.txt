@@ -637,5 +637,47 @@ I like to listen to music while I drive.
 난 운전할때 음악 듣는걸 좋아한다.(두사건이 관련 없을때 while)
 The overhead bin opened up as the plane took off.
 비행기가 이륙했을때 윗 짐칸 문이 열렸다.(예상치 못한 사건이 발생시 as)
-
+--
+Something came up.
+일이 생겼어.
+--
+Wanna hang out?
+같이 놀래?
+--
+I dig it.
+맘에 들어.
+--
+You just wait.
+두고봐
+--
+Don't sweat it.
+걱정하지마.
+--
+I have a blocked nose.
+코가 막혔어요.
+--
+Random.
+뜬금 없네.
+--
+We nailed it.
+우리가 했냈어.
+--
+It's a little bland
+조금 싱거워요.
+--
+What gives?
+무슨 일이지?
+--
+Don't go easy on me.
+나를 만만하게 보지마.
+--
+I bet.
+장담해.
+I bet a lot of you are wondering.
+많은 분들이 궁금해 하실것 같아요.
+--
+I am coming down with the cold.
+감기 기운이 있는것 같다.
+I think my sister gave me her cold.
+누나한테 감기 옳은것 같아.
 

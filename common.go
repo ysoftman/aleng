@@ -194,19 +194,23 @@ func GetPreBanner() []string {
 // FindBanner : find banner including keyword
 func FindBanner(keyword string) []string {
 	keyword = strings.ToLower(keyword)
+	var foundBanners []string
 	for i := range banners {
+		// if strings.Contains(banners[i], keyword) {
+		// 	return strings.Split(strings.TrimPrefix(banners[i], "\n"), "\n")
+		// }
 		// https://github.com/google/re2/wiki/Syntax
 		// \b at ascii word boundary
 		if matched, _ := regexp.MatchString("\\b"+keyword+"\\b", strings.ToLower(banners[i])); matched {
 			// reset remainRefreshSec
 			remainRefreshSec = BannerRefreshSec
-			return strings.Split(strings.TrimPrefix(banners[i], "\n"), "\n")
+			fb := strings.Split(strings.TrimPrefix(banners[i], "\n"), "\n")
+			for i := range fb {
+				foundBanners = append(foundBanners, fb[i])
+			}
 		}
-		// if strings.Contains(banners[i], keyword) {
-		// 	return strings.Split(strings.TrimPrefix(banners[i], "\n"), "\n")
-		// }
 	}
-	return nil
+	return foundBanners
 }
 
 // GetNextBanner : get next banner
