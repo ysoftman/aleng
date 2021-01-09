@@ -680,4 +680,32 @@ I am coming down with the cold.
 감기 기운이 있는것 같다.
 I think my sister gave me her cold.
 누나한테 감기 옳은것 같아.
-
+--
+How is it going?
+어떻게 지내?
+Great, How about you?
+좋아, 넌 어때?
+---
+How did it go?
+어땠어?
+--
+Can I tag along?
+내가 따라가도 돼?
+--
+Are you with me?
+내말 이해했니?
+--
+What have you been up to?
+뭐 하면서 지냈어?
+--
+Who is speaking?
+전화 받으신 분이 누구시죠?
+--
+Can you put that on vibrate, please?
+핸드폰 진동으로 해줄래?
+--
+Come again? I counld't hear what you said.
+다시 말해줄래? 뭐라고 했는지 듣지 못했어.
+--
+Do you have the time?
+몇시인가요?

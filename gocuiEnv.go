@@ -15,14 +15,7 @@ import (
 
 func layout(g *gocui.Gui) error {
 	maxX, maxY := g.Size()
-	if v, err := g.SetView("english_banner", 0, 0, maxX-1, maxY/3); err != nil {
-		if err != gocui.ErrUnknownView {
-			return err
-		}
-		v.Title = BannerCmdText
-		// fmt.Fprintln(v, GetNextColorString(0, "english banner"))
-	}
-	if v, err := g.SetView("search", 0, (maxY/3)+1, maxX-1, (maxY/3)+3); err != nil {
+	if v, err := g.SetView("search", 0, 0, maxX-1, 2); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
@@ -36,7 +29,7 @@ func layout(g *gocui.Gui) error {
 		g.SetCurrentView("search")
 	}
 
-	if v, err := g.SetView("searchResult", 0, (maxY/3)+4, maxX-1, maxY-1); err != nil {
+	if v, err := g.SetView("searchResult", 0, 3, maxX-1, (maxY/2)+3); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
@@ -46,7 +39,13 @@ func layout(g *gocui.Gui) error {
 		// fmt.Fprintln(v, GetNextColorString(1, SEARC_CMD_TEXT))
 		v.SetCursor(0, 0)
 	}
-
+	if v, err := g.SetView("english_banner", 0, ((maxY/2)+3)+1, maxX-1, maxY-1); err != nil {
+		if err != gocui.ErrUnknownView {
+			return err
+		}
+		v.Title = BannerCmdText
+		// fmt.Fprintln(v, GetNextColorString(0, "english banner"))
+	}
 	return nil
 }
 
