@@ -709,3 +709,10 @@ Come again? I counld't hear what you said.
 --
 Do you have the time?
 몇시인가요?
+--
+What floor?
+몇층 가세요?
+--
+My heart skips a beat.
+심장이 멎을 것 같아(두근 거려)
+
