@@ -727,4 +727,29 @@ Rise and shine.
 --
 It's very disheartening.
 굉장히 섭섭해요.
+--
+It's hard to me.
+내게 어렵다. (내 느낌에, 내가 보기에)
+It's hard for me.
+내게 어렵다. (실제 영향 미치는 경우)
+This food is good to me.
+이 음식 맛있다.
+This food is good for me.
+이 음식 내 건강에 좋다.
+Why did you do that to me?
+저한왜 그런 짓을 하셨어요?
+Why did you do that for me?
+저를 위해 왜 그렇게까지 하셨어요?
+--
+I might have studied english.
+나는 영어 공부를 했을지도 몰라.
+I must have studied english.
+나는 영어 공부를 했을 거야.
+I should have studied english.
+나는 영어 공부를 했어야 했어.
+I would have studied english.
+(if .. 했더라면) 나는 영어 공부를 했을 텐데.
+I could have studied english.
+나는 영어 공부를 할수도 있었어.
+
 
