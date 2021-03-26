@@ -2,12 +2,14 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/url"
 	"os"
 	"os/exec"
+	"os/user"
 	"regexp"
 	"runtime"
 	"strconv"
@@ -34,6 +36,10 @@ const QuitCmdText = "quit (ctrl+c)"
 const BannerRefreshSec = 10
 
 var remainRefreshSec int
+
+var historyFile string = "aleng_history.txt"
+
+var usr *user.User
 
 // MaxHistoryLimit : Max word history size
 const MaxHistoryLimit = 10
@@ -96,8 +102,8 @@ func GetNextColorString(i int, str string) string {
 	}
 }
 
-// ReadBannerFile : read the banner file
-func ReadBannerFile() {
+// ReadBannerRawData : read the banner file
+func ReadBannerRawData() {
 	rand.Seed(time.Now().UnixNano())
 	banners = strings.Split(string(bannerRawData), "--")
 	curBannerIndex = rand.Intn(len(banners))
@@ -107,10 +113,26 @@ func ReadBannerFile() {
 func ReadHistoryFile() {
 	wordHistory = nil
 	curWordHistoryIndex = -1
-	history, err := ioutil.ReadFile("history.txt")
+	var err error
+	usr, err = user.Current()
 	if err != nil {
+		log.Fatal("Can't find user current() err=>", err.Error())
+	}
+	historyFile = usr.HomeDir + "/" + historyFile
+
+	if _, err = os.Stat(historyFile); os.IsNotExist(err) {
+		_, err = os.Create(historyFile)
+		if err != nil {
+			log.Fatalf("Can't create file:(%v)  err=> %v", historyFile, err.Error())
+		}
+		fmt.Printf("%v file created.\n", historyFile)
+	}
+	history, err := ioutil.ReadFile(historyFile)
+	if err != nil {
+		log.Fatalf("Can't read file:(%v)  err=> %v", historyFile, err.Error())
 		return
 	}
+
 	spWord := strings.Split(string(history), "--\n")
 	for i := 0; i < len(spWord); i++ {
 		curWord := (strings.Split(spWord[i], "\n"))
@@ -291,7 +313,7 @@ func SearchEngWord(word string) (string, string, string) {
 
 		// save only MaxHistoryLimit
 		buffer := []byte(WordData2String(wordHistory[:MaxHistoryLimit]))
-		ioutil.WriteFile("history.txt", buffer, 0644)
+		ioutil.WriteFile(historyFile, buffer, 0644)
 	}
 	return resultWord.word, resultWord.pronounce, resultWord.meanings
 }
