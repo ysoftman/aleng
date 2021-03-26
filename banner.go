@@ -1,4 +1,6 @@
-noun, pronoun, verb, adverb
+package main
+
+const bannerRawData = `noun, pronoun, verb, adverb
 명사, 대명사, 동사, 부사
 adjective, preposition, conjunciton, interjection
 형용사, 전치사, 접속사, 감탄사
@@ -524,6 +526,11 @@ What do you say to going for a walk?
 산책가는거 어때?
 What do yoy say we go for a walk?
 산책가는거 어때?
+---
+Let's go for a walk.
+산책하러  가자.
+Let's take a walk.
+산책 하자.
 --
 What makes you so happy?
 왜 그렇게 행복해?
@@ -628,8 +635,14 @@ It shouldn't be allowed to continue.
 We should do something on this.
 우린 이렇게 해야돼.
 --
+I used to drink cola a lot but not anymore.
+예전에 콜라는 많이 마셨는데 이제는 안마셔. (used to 과거의 습관)
+I am used to this kind of food.
+이런 종류의 음식이 익숙해. (be used to 현재 익순한 상태)
+This tool is used to fix a car.
+이 도구는 자동차를 고치는데 사용해. (be used to ~ 하는데 사용 된다.)
 You will get used to it as time goes by.
-시간이 지나면 익숙해 질거야.
+시간이 지나면 익숙해 질거야. (get used to 점점 ~ 되는 상황)
 --
 When you open the refrigerator door, the lights comes on.
 냉장고 문을 열면 불이켜진다.(두사건이 연관이 있을때 when)
@@ -751,5 +764,4 @@ I would have studied english.
 (if .. 했더라면) 나는 영어 공부를 했을 텐데.
 I could have studied english.
 나는 영어 공부를 할수도 있었어.
-
-
+`

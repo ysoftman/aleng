@@ -1,4 +1,4 @@
-module github.com/ysoftman/aleng
+module aleng
 
 go 1.12
 

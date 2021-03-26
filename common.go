@@ -99,8 +99,7 @@ func GetNextColorString(i int, str string) string {
 // ReadBannerFile : read the banner file
 func ReadBannerFile() {
 	rand.Seed(time.Now().UnixNano())
-	eng, _ := ioutil.ReadFile("banner.txt")
-	banners = strings.Split(string(eng), "--")
+	banners = strings.Split(string(bannerRawData), "--")
 	curBannerIndex = rand.Intn(len(banners))
 }
 

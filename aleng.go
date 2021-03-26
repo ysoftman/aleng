@@ -10,6 +10,8 @@ import (
 )
 
 func main() {
+	ReadBannerFile()
+	ReadHistoryFile()
 	if len(os.Args) > 1 {
 		word, pronounce, meanings := SearchEngWord(os.Args[1])
 		fmt.Println(word)
@@ -18,8 +20,6 @@ func main() {
 		os.Exit(0)
 	}
 
-	ReadBannerFile()
-	ReadHistoryFile()
 	StartGocui()
-	// StartTermBoxGo()
+	// StartTermBoxGo()	// 아직 사용하는데 문제 있음
 }
