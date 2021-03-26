@@ -312,7 +312,10 @@ func SearchEngWord(word string) (string, string, string) {
 		wordHistory = append([]WordData{addWord}, wordHistory...)
 
 		// save only MaxHistoryLimit
-		buffer := []byte(WordData2String(wordHistory[:MaxHistoryLimit]))
+		if len(wordHistory) > MaxHistoryLimit {
+			wordHistory = wordHistory[:MaxHistoryLimit]
+		}
+		buffer := []byte(WordData2String(wordHistory))
 		ioutil.WriteFile(historyFile, buffer, 0644)
 	}
 	return resultWord.word, resultWord.pronounce, resultWord.meanings
