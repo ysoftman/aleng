@@ -14,9 +14,9 @@ func main() {
 	ReadHistoryFile()
 	if len(os.Args) > 1 {
 		word, pronounce, meanings := SearchEngWord(os.Args[1])
-		fmt.Println(word)
-		fmt.Println(pronounce)
-		fmt.Println(meanings)
+		fmt.Println(GetNextColorString(0, word))
+		fmt.Println(GetNextColorString(1, pronounce))
+		fmt.Println(GetNextColorString(2, meanings))
 		os.Exit(0)
 	}
 
