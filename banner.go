@@ -526,7 +526,7 @@ What do you say to going for a walk?
 산책가는거 어때?
 What do yoy say we go for a walk?
 산책가는거 어때?
----
+--
 Let's go for a walk.
 산책하러  가자.
 Let's take a walk.

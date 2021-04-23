@@ -58,14 +58,20 @@ func refreshBannerTitle(g *gocui.Gui, v *gocui.View, cnt int) error {
 	return nil
 }
 
+func printBannerResult(g *gocui.Gui, inner []string) {
+	bannerView, _ := g.View("english_banner")
+	bannerView.Clear()
+	str := fmt.Sprintf("banner: %v / %v (idx / total)", GetCurBannerIndex()+1, GetBannerLen())
+	fmt.Fprintln(bannerView, GetNextColorString(3, str))
+	for j := 0; j < len(inner); j++ {
+		fmt.Fprintln(bannerView, GetNextColorString(j, inner[j]))
+	}
+}
+
 func upBanner(g *gocui.Gui, v *gocui.View) error {
 	g.Update(func(g *gocui.Gui) error {
-		bannerView, _ := g.View("english_banner")
-		bannerView.Clear()
 		inner := GetPreBanner()
-		for j := 0; j < len(inner); j++ {
-			fmt.Fprintln(bannerView, GetNextColorString(j, inner[j]))
-		}
+		printBannerResult(g, inner)
 		return nil
 	})
 	return nil
@@ -73,12 +79,8 @@ func upBanner(g *gocui.Gui, v *gocui.View) error {
 
 func downBanner(g *gocui.Gui, v *gocui.View) error {
 	g.Update(func(g *gocui.Gui) error {
-		bannerView, _ := g.View("english_banner")
-		bannerView.Clear()
 		inner := GetNextBanner()
-		for j := 0; j < len(inner); j++ {
-			fmt.Fprintln(bannerView, GetNextColorString(j, inner[j]))
-		}
+		printBannerResult(g, inner)
 		return nil
 	})
 	return nil
@@ -86,12 +88,8 @@ func downBanner(g *gocui.Gui, v *gocui.View) error {
 
 func findBanner(g *gocui.Gui, v *gocui.View, keyword string) error {
 	g.Update(func(g *gocui.Gui) error {
-		bannerView, _ := g.View("english_banner")
-		bannerView.Clear()
 		inner := FindBanner(keyword)
-		for j := 0; j < len(inner); j++ {
-			fmt.Fprintln(bannerView, GetNextColorString(j, inner[j]))
-		}
+		printBannerResult(g, inner)
 		return nil
 	})
 	return nil
@@ -99,8 +97,8 @@ func findBanner(g *gocui.Gui, v *gocui.View, keyword string) error {
 
 func printSearchWordResult(v *gocui.View, word, pronounce, meanings string, idx int) {
 	if idx >= 0 {
-		str := fmt.Sprintf("history - %d\n", idx)
-		fmt.Fprint(v, GetNextColorString(3, str))
+		str := fmt.Sprintf("history: %v / %v (idx / MaxHistoryLimit)", idx+1, MaxHistoryLimit)
+		fmt.Fprintln(v, GetNextColorString(3, str))
 	}
 	fmt.Fprint(v, GetNextColorString(0, word))
 	pronounce = "  " + pronounce + "\n"
@@ -176,10 +174,22 @@ func StartGocui() {
 	if err := g.SetKeybinding("", gocui.KeyArrowDown, gocui.ModNone, downBanner); err != nil {
 		log.Panicln(err)
 	}
+	if err := g.SetKeybinding("", gocui.KeyCtrlK, gocui.ModNone, upBanner); err != nil {
+		log.Panicln(err)
+	}
+	if err := g.SetKeybinding("", gocui.KeyCtrlJ, gocui.ModNone, downBanner); err != nil {
+		log.Panicln(err)
+	}
 	if err := g.SetKeybinding("", gocui.KeyArrowLeft, gocui.ModNone, previousHistory); err != nil {
 		log.Panicln(err)
 	}
 	if err := g.SetKeybinding("", gocui.KeyArrowRight, gocui.ModNone, nextHistory); err != nil {
+		log.Panicln(err)
+	}
+	if err := g.SetKeybinding("", gocui.KeyCtrlH, gocui.ModNone, previousHistory); err != nil {
+		log.Panicln(err)
+	}
+	if err := g.SetKeybinding("", gocui.KeyCtrlL, gocui.ModNone, nextHistory); err != nil {
 		log.Panicln(err)
 	}
 

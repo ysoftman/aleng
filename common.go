@@ -21,13 +21,13 @@ import (
 )
 
 // BannerCmdText : banner command text
-const BannerCmdText = "English Banner, pre-banner (up) / next-banner (down)"
+const BannerCmdText = "English Banner, pre-banner (up or ctrl+k) / next-banner (down or ctrl+j)"
 
 // SearchCmdText : search command text
 const SearchCmdText = "search word in dic.daum.net and banners (enter)"
 
 // SearchResultCmdText : search word / history command text
-const SearchResultCmdText = "Search Result, pre-history (left) / next-history (right)"
+const SearchResultCmdText = "Search Result, pre-history (left or ctrl+h) / next-history (right or ctrl+l)"
 
 // QuitCmdText : quit command text
 const QuitCmdText = "quit (ctrl+c)"
@@ -166,6 +166,16 @@ func WordData2String(wd []WordData) string {
 		}
 	}
 	return out
+}
+
+// GeBannerLen : get number of banners
+func GetBannerLen() int {
+	return len(banners)
+}
+
+// GetCurBannerIndex : get current banner index
+func GetCurBannerIndex() int {
+	return curBannerIndex
 }
 
 // GetNextBannerIndex : get next banner index
