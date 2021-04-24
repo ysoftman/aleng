@@ -21,13 +21,13 @@ import (
 )
 
 // BannerCmdText : banner command text
-const BannerCmdText = "English Banner, pre-banner (up or ctrl+k) / next-banner (down or ctrl+j)"
+const BannerCmdText = "English Banner, pre (up or ctrl+k) / next (down or ctrl+j)"
 
 // SearchCmdText : search command text
 const SearchCmdText = "search word in dic.daum.net and banners (enter)"
 
 // SearchResultCmdText : search word / history command text
-const SearchResultCmdText = "Search Result, pre-history (left or ctrl+h) / next-history (right or ctrl+l)"
+const SearchResultCmdText = "Search Result, pre (left or ctrl+h) / next (right or ctrl+l)"
 
 // QuitCmdText : quit command text
 const QuitCmdText = "quit (ctrl+c)"
@@ -168,7 +168,7 @@ func WordData2String(wd []WordData) string {
 	return out
 }
 
-// GeBannerLen : get number of banners
+// GetBannerLen : get number of banners
 func GetBannerLen() int {
 	return len(banners)
 }
@@ -236,8 +236,9 @@ func FindBanner(keyword string) []string {
 			// reset remainRefreshSec
 			remainRefreshSec = BannerRefreshSec
 			fb := strings.Split(strings.TrimPrefix(banners[i], "\n"), "\n")
-			for i := range fb {
-				foundBanners = append(foundBanners, fb[i])
+			for j := range fb {
+				foundBanners = append(foundBanners, fb[j])
+				curBannerIndex = i
 			}
 		}
 	}

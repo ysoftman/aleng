@@ -61,7 +61,7 @@ func refreshBannerTitle(g *gocui.Gui, v *gocui.View, cnt int) error {
 func printBannerResult(g *gocui.Gui, inner []string) {
 	bannerView, _ := g.View("english_banner")
 	bannerView.Clear()
-	str := fmt.Sprintf("banner: %v / %v (idx / total)", GetCurBannerIndex()+1, GetBannerLen())
+	str := fmt.Sprintf("banner: %v / %v", GetCurBannerIndex()+1, GetBannerLen())
 	fmt.Fprintln(bannerView, GetNextColorString(3, str))
 	for j := 0; j < len(inner); j++ {
 		fmt.Fprintln(bannerView, GetNextColorString(j, inner[j]))
@@ -97,7 +97,7 @@ func findBanner(g *gocui.Gui, v *gocui.View, keyword string) error {
 
 func printSearchWordResult(v *gocui.View, word, pronounce, meanings string, idx int) {
 	if idx >= 0 {
-		str := fmt.Sprintf("history: %v / %v (idx / MaxHistoryLimit)", idx+1, MaxHistoryLimit)
+		str := fmt.Sprintf("history: %v / %v", idx+1, MaxHistoryLimit)
 		fmt.Fprintln(v, GetNextColorString(3, str))
 	}
 	fmt.Fprint(v, GetNextColorString(0, word))
