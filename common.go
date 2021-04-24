@@ -32,6 +32,9 @@ const SearchResultCmdText = "Search Result, pre (left or ctrl+h) / next (right o
 // QuitCmdText : quit command text
 const QuitCmdText = "quit (ctrl+c)"
 
+// NoResult : no result text
+const NoResult = "-- NO RESULT --"
+
 // BannerRefreshSec : banner refresh interval(seconds)
 const BannerRefreshSec = 10
 
