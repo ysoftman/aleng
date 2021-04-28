@@ -372,7 +372,7 @@ I will come over to your house today.
 --
 I can't think of your name.
 너의 이름을 떠오르지 않아.
-I thought about your stroy.
+I thought about your story.
 너의 이야기를 곰곰히 생각해봤어.
 --
 I will think over yout offer.

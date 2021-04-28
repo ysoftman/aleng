@@ -45,7 +45,7 @@ var historyFile string = "aleng_history.txt"
 var usr *user.User
 
 // MaxHistoryLimit : Max word history size
-const MaxHistoryLimit = 10
+const MaxHistoryLimit = 30
 
 var done = make(chan struct{})
 
