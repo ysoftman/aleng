@@ -213,7 +213,7 @@ func GetNextWordHistoryIndex() int {
 func GetPreWordHistoryIndex() int {
 	curWordHistoryIndex = curWordHistoryIndex - historyPerPage
 	if curWordHistoryIndex < 0 {
-		curWordHistoryIndex = (len(wordHistory) / historyPerPage) * historyPerPage
+		curWordHistoryIndex = ((len(wordHistory) - 1) / historyPerPage) * historyPerPage
 	}
 	return curWordHistoryIndex
 }
