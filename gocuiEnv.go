@@ -114,30 +114,51 @@ func printSearchWordResult(v *gocui.View, word, pronounce, meanings string, idx 
 	fmt.Fprint(v, GetNextColorString(2, meanings))
 }
 
-func previousHistory(g *gocui.Gui, v *gocui.View) error {
+func printHistoryWord(v *gocui.View, word, pronounce, meanings string, idx int) {
+	if len(word) == 0 {
+		fmt.Fprintln(v, GetNextColorString(0, NoResult))
+		return
+	}
+	fmt.Fprint(v, GetNextColorString(0, word))
+	pronounce = "  " + pronounce + " "
+	fmt.Fprint(v, GetNextColorString(1, pronounce))
+	mlist := strings.Split(meanings, "\n")
+	mstr := ""
+	for i, v := range mlist {
+		if i >= 2 {
+			break
+		}
+		mstr += v + " "
+	}
+	fmt.Fprint(v, GetNextColorString(2, mstr+"\n"))
+}
+
+func printHistoryWords(g *gocui.Gui, idx int, wl []WordData) error {
 	g.Update(func(g *gocui.Gui) error {
 		searchResultView, _ := g.View("searchResult")
 		searchResultView.Clear()
-		idx, theWord := GetPreWord()
-		if theWord != nil {
-			printSearchWordResult(searchResultView, theWord.word, theWord.pronounce, theWord.meanings, idx)
+		str := fmt.Sprintf("history: (%v~%v) / %v", idx, idx+len(wl)-1, MaxHistoryLimit)
+		fmt.Fprintln(searchResultView, GetNextColorString(3, str))
+		for i := 0; i < len(wl); i++ {
+			printHistoryWord(searchResultView,
+				wl[i].word,
+				wl[i].pronounce,
+				wl[i].meanings,
+				idx+i)
 		}
 		return nil
 	})
 	return nil
 }
 
+func previousHistory(g *gocui.Gui, v *gocui.View) error {
+	idx, wl := GetPreWordsInPage()
+	return printHistoryWords(g, idx, wl)
+}
+
 func nextHistory(g *gocui.Gui, v *gocui.View) error {
-	g.Update(func(g *gocui.Gui) error {
-		searchResultView, _ := g.View("searchResult")
-		searchResultView.Clear()
-		idx, theWord := GetNextWord()
-		if theWord != nil {
-			printSearchWordResult(searchResultView, theWord.word, theWord.pronounce, theWord.meanings, idx)
-		}
-		return nil
-	})
-	return nil
+	idx, wl := GetNextWordsInPage()
+	return printHistoryWords(g, idx, wl)
 }
 
 func searchWord(g *gocui.Gui, v *gocui.View) error {

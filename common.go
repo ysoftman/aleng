@@ -45,7 +45,8 @@ var historyFile string = "aleng_history.txt"
 var usr *user.User
 
 // MaxHistoryLimit : Max word history size
-const MaxHistoryLimit = 30
+const MaxHistoryLimit = 100
+const historyPerPage = 10
 
 var done = make(chan struct{})
 
@@ -201,7 +202,7 @@ func GetPreBannerIndex() int {
 
 // GetNextWordHistoryIndex : get next word history index
 func GetNextWordHistoryIndex() int {
-	curWordHistoryIndex++
+	curWordHistoryIndex = curWordHistoryIndex + historyPerPage
 	if curWordHistoryIndex >= len(wordHistory) {
 		curWordHistoryIndex = 0
 	}
@@ -210,9 +211,9 @@ func GetNextWordHistoryIndex() int {
 
 // GetPreWordHistoryIndex : get previous word history index
 func GetPreWordHistoryIndex() int {
-	curWordHistoryIndex--
+	curWordHistoryIndex = curWordHistoryIndex - historyPerPage
 	if curWordHistoryIndex < 0 {
-		curWordHistoryIndex = len(wordHistory) - 1
+		curWordHistoryIndex = (len(wordHistory) / historyPerPage) * historyPerPage
 	}
 	return curWordHistoryIndex
 }
@@ -256,22 +257,31 @@ func GetNextBanner() []string {
 	return nil
 }
 
-// GetPreWord : get previous word
-func GetPreWord() (int, *WordData) {
-	if len(wordHistory) > 0 {
-		idx := GetPreWordHistoryIndex()
-		return idx, &wordHistory[idx]
+func getWordsInPage(startIdx int) (int, []WordData) {
+	wl := []WordData{}
+	if startIdx < 0 {
+		return 0, wl
 	}
-	return 0, nil
+	whLen := len(wordHistory)
+	if len(wordHistory) > 0 {
+		for i := startIdx; i < startIdx+historyPerPage; i++ {
+			if i >= whLen {
+				break
+			}
+			wl = append(wl, wordHistory[i])
+		}
+	}
+	return startIdx, wl
 }
 
-// GetNextWord : get next word
-func GetNextWord() (int, *WordData) {
-	if len(wordHistory) > 0 {
-		idx := GetNextWordHistoryIndex()
-		return idx, &wordHistory[idx]
-	}
-	return 0, nil
+// GetPreWordsInPage : get previous words in a page
+func GetPreWordsInPage() (int, []WordData) {
+	return getWordsInPage(GetPreWordHistoryIndex())
+}
+
+// GetNextWordsInPage : get next words in a page
+func GetNextWordsInPage() (int, []WordData) {
+	return getWordsInPage(GetNextWordHistoryIndex())
 }
 
 // SearchEngWord : search english word through dic.daum.net
