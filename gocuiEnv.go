@@ -151,6 +151,11 @@ func printHistoryWords(g *gocui.Gui, idx int, wl []WordData) error {
 	return nil
 }
 
+func specificHistory(g *gocui.Gui, v *gocui.View, startIdx int) error {
+	idx, wl := GetWordsInPage(startIdx)
+	return printHistoryWords(g, idx, wl)
+}
+
 func previousHistory(g *gocui.Gui, v *gocui.View) error {
 	idx, wl := GetPreWordsInPage()
 	return printHistoryWords(g, idx, wl)
@@ -223,7 +228,7 @@ func StartGocui() {
 	}
 
 	downBanner(g, nil)
-	nextHistory(g, nil)
+	specificHistory(g, nil, 0)
 	var wg sync.WaitGroup
 	wg.Add(1)
 	remainRefreshSec = BannerRefreshSec

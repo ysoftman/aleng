@@ -116,7 +116,7 @@ func ReadBannerRawData() {
 // ReadHistoryFile : read the history file
 func ReadHistoryFile() {
 	wordHistory = nil
-	curWordHistoryIndex = -1
+	curWordHistoryIndex = 0
 	var err error
 	usr, err = user.Current()
 	if err != nil {
@@ -272,6 +272,11 @@ func getWordsInPage(startIdx int) (int, []WordData) {
 		}
 	}
 	return startIdx, wl
+}
+
+// GetWordsInPage : get words in a specific page
+func GetWordsInPage(startIdx int) (int, []WordData) {
+	return getWordsInPage(startIdx)
 }
 
 // GetPreWordsInPage : get previous words in a page
