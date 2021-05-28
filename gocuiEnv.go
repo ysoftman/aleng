@@ -100,7 +100,7 @@ func findBanner(g *gocui.Gui, v *gocui.View, keyword string) error {
 }
 
 func printSearchWordResult(v *gocui.View, word, pronounce, meanings string, idx int) {
-	if len(word) == 0 {
+	if len(meanings) == 0 {
 		fmt.Fprintln(v, GetNextColorString(0, NoResult))
 		return
 	}
@@ -115,7 +115,7 @@ func printSearchWordResult(v *gocui.View, word, pronounce, meanings string, idx 
 }
 
 func printHistoryWord(v *gocui.View, word, pronounce, meanings string, idx int) {
-	if len(word) == 0 {
+	if len(meanings) == 0 {
 		fmt.Fprintln(v, GetNextColorString(0, NoResult))
 		return
 	}
@@ -137,7 +137,7 @@ func printHistoryWords(g *gocui.Gui, idx int, wl []WordData) error {
 	g.Update(func(g *gocui.Gui) error {
 		searchResultView, _ := g.View("searchResult")
 		searchResultView.Clear()
-		str := fmt.Sprintf("history: (%v~%v) / %v", idx, idx+len(wl)-1, MaxHistoryLimit)
+		str := fmt.Sprintf("history: (%v~%v) / %v", idx+1, idx+len(wl), MaxHistoryLimit)
 		fmt.Fprintln(searchResultView, GetNextColorString(3, str))
 		for i := 0; i < len(wl); i++ {
 			printHistoryWord(searchResultView,
