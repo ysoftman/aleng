@@ -764,4 +764,15 @@ I would have studied english.
 (if .. 했더라면) 나는 영어 공부를 했을 텐데.
 I could have studied english.
 나는 영어 공부를 할수도 있었어.
+--
+I met up with my friend on weekend.
+나 주말에 친구 만났어.
+I met up with my friend this weekend.
+나 이번 주말에 친구 만났어.
+I met up with my friend last weekend.
+나 지난 주말에 친구 만났어.
+I met up with my friend over(or during) the weekend.
+나 주말내내(동안) 친구 만났어.
+I have to work over the weekend.
+나 주말내내(동안) 일해야 해.
 `
