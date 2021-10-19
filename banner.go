@@ -5,109 +5,107 @@ const bannerRawData = `noun, pronoun, verb, adverb
 adjective, preposition, conjunciton, interjection
 형용사, 전치사, 접속사, 감탄사
 --
-rover [|roʊvə(r), |rəʊvə(r)] 방랑자
-An Atlas V launched the rover into space.
-무인선 Atlas V 로켓이 이 탐사선을 쏘아 올렸습니다.
+We pulled the plug on the project.
+그 프로젝트를 중단했어요.
+Actually, we can't afford to keep it going.
+사실 우리는 그걸 계속할 여유가 없어요.
 --
-adolescent [|ӕdə|lesnt] 청소년
-Later, as an adolescent, I began to withdraw from my father.
-후일 사춘기 소년이 된 나는 아버지를 멀리하기 시작했다.
+You should mind your own business.
+당신일이나 신경쓰세요.
 --
-rid [rid] (…으로부터) 자유롭게 하다.
-I'm glad to be rid of this boring job.
-나는 이런 따분한 일을 면해서 기쁘다.
+No way, He is a straight arrow.
+아니에요, 그는 정직한 사람이에요.
 --
-giraffe [dƷə|rӕf, dƷə|rɑ:f] 기린
-The giraffe has a long neck.
-기린은 목이 길어요.
+Only time will tell.
+시간이 지나면 알겠죠.
 --
-frustratingly [|frʌstreɪtɪŋ] 좌절감을 느낄 정도로
 He has the most frustratingly carefree attitude about everything.
 그는 무슨 일이든 천하태평이라 답답하기 짝이 없다.
 --
-quotient [|kwoʊʃnt] (나눗셈에서) 몫
 They also tested their intelligence quotient, or I.Q.
 그들은 사람들의 지능지수도 검사했다.
 --
-love [lʌv] 사랑
-He was the love of my life.
-그는 내 인생의 사랑[내 평생 가장 사랑한 사람]이었다.
+I will go there by 7 PM.
+오후 7시까지 갈거야. (by: ~까지 1번만 하는것)
+I Will study until 10 PM.
+오후 7시까지 공부할거야. (until: ~까지 지속하는것)
 --
-protest [prə|test ; 美 또한 |proʊtest] (특히 공개적으로) 항의[반대]하다, 이의를 제기하다
+I will go on vacation for two days.
+이틀간 휴가 갑니다.(for + 숫자)
+I will go on vacation during the event.
+행사 기간에 휴가 갑니다.(during + 특정 기간)
+--
+He is by me.
+그는 내 옆에 있다.
+He is next to me.
+그는 내 옆에 있다.
+He is beside me.
+그는 내 옆에 있다.
+--
+He was the love of my life.
+그는 내 평생 가장 사랑한 사람이였다.
+--
+I would like to drink orange juice.
+난 오렌지 주스 마시고 싶어요.(would like: ~하고 싶다.)
+What people thought the future would be like?
+사람들이 생각하는 미래는 어떨까요?(would be like: ~같을 거다.)
+--
 Students took to the streets to protest against the decision.
 학생들이 그 결정에 항의하여 거리로 나왔다.
 --
-referrer [rifə́ːrər] 언급하는 사람, 조회인.
 Please select a Referrer Checking option.
 참조자 확인 옵션을 선택하십시오.
 --
-quiver [|kwɪvə(r)] 떨다(떨리다)
 Her lip quivered and then she started to cry.
 그녀의 입술이 떨리더니 그녀가 울기 시작했다.
 --
-groceries [|groʊsəri] 식료품류
 shop for groceries
 장을 보다
 --
-aggregation [æ̀ɡriɡéiʃən] 집합, 집성
 All life is the result of the aggregation of cells.
 모든 생명체는 세포들의 집합체의 결과물이다.
 --
-corridor [|kɔ:rɪdɔ:(r);|kɑ:r-, |kɒrɪdɔ:(r)] 복도, 회랑
 His room is along the corridor.
 그의 방은 복도를 따라가다 보면 있다.
 --
-concierge [kɔ:n|sjerz, |kɒnsieəƷ] 수위, 관리인
 You’re a little young to be the concierge.
 수위가 되기엔 넌 좀 어려.
 --
-coincidence [koʊ|ɪnsɪdəns, kəʊ|ɪnsɪdəns] 우연의 일치
 I often met her by a curious coincidence.
 나는 그녀를 이상한 우연의 일치로 자주 만난다.
 --
-consensus [kən|sensəs] 의견일치
 The consensus is against the bill.
 여론은 그 법안에 반대다.
 --
-consecutive [kən|sekjətɪv] 연이은
 It has been 9.6 percent for three consecutive months.
 3개월 간 연속해서 9.6퍼센트를 유지하고 있다.
 --
-symptom [|sɪmptəm] 증상
 It is a symptom of cold.
 그것은 감기의 징후이다
 --
-spiral [|spaɪrəl] 나선, 나선형
 The birds circled in a slow spiral above the house.
 그 새들이 그 집 위에서 천천히 나선형으로 돌았다.
 --
-arbiter [|ɑ:rbɪtə(r), |ɑ:bɪtə(r)] 결정권자
 She is an arbiter of taste.
 그녀는 맛에서의 일인자이다.
 --
-arbitrary [|ɑ:rbətreri, |ɑ:bɪtrəri ; |ɑ:bɪtri] 제멋대로인
 He makes unpredictable, arbitrary decisions.
 그는 예측할 수 없는, 임의적인 결정을 한다.
 --
-bachelor [|bӕtʃələ(r)] 미혼남, 독신남, 학사 학위 소지자
 He lived and died a bachelor.
 일생을 독신으로 지냈다.
 --
-mandatory [|mӕndətɔ:ri, |mӕndətəri ; 英 또한 mӕn|deɪtəri] 의무적인
 Remember, this is a mandatory meeting.
 명심하십시오.이 회의는 모두가 참석해야 합니다.
 --
-neat [ni:t] 정돈된, 단정한
 It was a really neat party.
 정말 멋진 파티였어.
 --
-either [íːðər] 또한
 She didn't buy either book.
 그녀는 어느 책도 사지 않았다.
 A: I don't like lemon. B: I don't either
 A: 나는 레몬을 좋아하지 않아. B: 나도 좋아하지않아.
 --
-neither [níːðər, nái-] 어느 …도 …아니다
 Neither Father nor Mother is at home
 아버지도 집에 안 계시고 어머니도 안 계십니다
 A: He can't swim. B: Neither can I.
