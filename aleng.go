@@ -21,5 +21,4 @@ func main() {
 	}
 
 	StartGocui()
-	// StartTermBoxGo()	// 아직 사용하는데 문제 있음
 }
