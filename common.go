@@ -141,15 +141,12 @@ func ReadHistoryFile() {
 	for i := 0; i < len(spWord); i++ {
 		curWord := (strings.Split(spWord[i], "\n"))
 		wd := WordData{}
-		if len(curWord) > 0 {
-			wd.word = curWord[0]
+		if len(curWord) < 2 {
+			continue
 		}
-		if len(curWord) > 1 {
-			wd.pronounce = curWord[1]
-		}
-		if len(curWord) > 2 {
-			wd.meanings = strings.Join(curWord[2:], "\n")
-		}
+		wd.word = curWord[0]
+		wd.pronounce = curWord[1]
+		wd.meanings = strings.Join(curWord[2:], "\n")
 		wordHistory = append(wordHistory, wd)
 	}
 
@@ -164,7 +161,7 @@ func WordData2String(wd []WordData) string {
 	out := ""
 	wc := len(wd)
 	for i := 0; i < wc; i++ {
-		out += wd[i].word + "\n" + wd[i].pronounce + "\n" + wd[i].meanings + "\n"
+		out += strings.TrimSpace(wd[i].word+"\n"+wd[i].pronounce+"\n"+wd[i].meanings) + "\n"
 		if wc > 1 && i < wc-1 {
 			out += "--\n"
 		}

@@ -5,6 +5,17 @@ const bannerRawData = `noun, pronoun, verb, adverb
 adjective, preposition, conjunciton, interjection
 형용사, 전치사, 접속사, 감탄사
 --
+I feel out of place here.
+여긴 나랑 안어울려.
+--
+She was sitting with a long face.
+그녀는 우울한 얼굴하고 앉아 있었다.
+--
+I so mad about you.
+난 너에게 정말 미쳐있어.(빠져있어.)
+Are you mad at me?
+너 나한테 화났니?
+--
 We pulled the plug on the project.
 그 프로젝트를 중단했어요.
 Actually, we can't afford to keep it going.
