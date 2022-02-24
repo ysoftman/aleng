@@ -5,6 +5,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -105,7 +106,7 @@ func printSearchWordResult(v *gocui.View, word, pronounce, meanings string, idx 
 		return
 	}
 	if idx >= 0 {
-		str := fmt.Sprintf("history: %v / %v", idx+1, MaxHistoryLimit)
+		str := fmt.Sprintf("history: %v / %v", idx+1, MaxWordHistoryLimit)
 		fmt.Fprintln(v, GetNextColorString(3, str))
 	}
 	fmt.Fprint(v, GetNextColorString(0, word))
@@ -114,14 +115,16 @@ func printSearchWordResult(v *gocui.View, word, pronounce, meanings string, idx 
 	fmt.Fprint(v, GetNextColorString(2, meanings))
 }
 
-func printHistoryWord(v *gocui.View, word, pronounce, meanings string, idx int) {
+func printHistoryWord(v *gocui.View, ts, sf, word, pronounce, meanings string, idx int) {
 	if len(meanings) == 0 {
 		fmt.Fprintln(v, GetNextColorString(0, NoResult))
 		return
 	}
-	fmt.Fprint(v, GetNextColorString(0, word))
+	fmt.Fprint(v, GetNextColorString(1, ts)+" ")
+	fmt.Fprint(v, GetNextColorString(2, sf)+" ")
+	fmt.Fprint(v, GetNextColorString(3, word))
 	pronounce = "  " + pronounce + " "
-	fmt.Fprint(v, GetNextColorString(1, pronounce))
+	fmt.Fprint(v, GetNextColorString(4, pronounce))
 	mlist := strings.Split(meanings, "\n")
 	mstr := ""
 	for i, v := range mlist {
@@ -133,17 +136,19 @@ func printHistoryWord(v *gocui.View, word, pronounce, meanings string, idx int) 
 	fmt.Fprint(v, GetNextColorString(2, mstr+"\n"))
 }
 
-func printHistoryWords(g *gocui.Gui, idx int, wl []WordData) error {
+func printHistoryWords(g *gocui.Gui, idx int, whd []WordHistoryData) error {
 	g.Update(func(g *gocui.Gui) error {
 		searchResultView, _ := g.View("searchResult")
 		searchResultView.Clear()
-		str := fmt.Sprintf("history: (%v~%v) / %v", idx+1, idx+len(wl), MaxHistoryLimit)
+		str := fmt.Sprintf("history: (%v~%v) / %v", idx+1, idx+len(whd), MaxWordHistoryLimit)
 		fmt.Fprintln(searchResultView, GetNextColorString(3, str))
-		for i := 0; i < len(wl); i++ {
+		for i := 0; i < len(whd); i++ {
 			printHistoryWord(searchResultView,
-				wl[i].word,
-				wl[i].pronounce,
-				wl[i].meanings,
+				whd[i].date.Format(time.RFC3339),
+				strconv.Itoa(whd[i].searchFrequency),
+				whd[i].wd.word,
+				whd[i].wd.pronounce,
+				whd[i].wd.meanings,
 				idx+i)
 		}
 		return nil
@@ -152,12 +157,12 @@ func printHistoryWords(g *gocui.Gui, idx int, wl []WordData) error {
 }
 
 func specificHistory(g *gocui.Gui, v *gocui.View, startIdx int) error {
-	idx, wl := GetWordsInPage(startIdx)
+	idx, wl := GetWordHistoryInPage(startIdx)
 	return printHistoryWords(g, idx, wl)
 }
 
 func previousHistory(g *gocui.Gui, v *gocui.View) error {
-	idx, wl := GetPreWordsInPage()
+	idx, wl := GetPreWordHistoryInPage()
 	return printHistoryWords(g, idx, wl)
 }
 

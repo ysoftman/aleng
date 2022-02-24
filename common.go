@@ -44,8 +44,8 @@ var historyFile string = "aleng_history.txt"
 
 var usr *user.User
 
-// MaxHistoryLimit : Max word history size
-const MaxHistoryLimit = 100
+// MaxWordHistoryLimit : Max word history size
+const MaxWordHistoryLimit = 1000
 const historyPerPage = 10
 
 var done = make(chan struct{})
@@ -59,7 +59,14 @@ type WordData struct {
 	meanings  string
 }
 
-var wordHistory []WordData
+// WordHistoryData : word history data
+type WordHistoryData struct {
+	wd              WordData
+	date            time.Time
+	searchFrequency int
+}
+
+var wordHistory []WordHistoryData
 var curBannerIndex int
 var curWordHistoryIndex int
 
@@ -140,28 +147,30 @@ func ReadHistoryFile() {
 	spWord := strings.Split(string(history), "--\n")
 	for i := 0; i < len(spWord); i++ {
 		curWord := (strings.Split(spWord[i], "\n"))
-		wd := WordData{}
-		if len(curWord) < 2 {
+		whd := WordHistoryData{}
+		if len(curWord) < 5 {
 			continue
 		}
-		wd.word = curWord[0]
-		wd.pronounce = curWord[1]
-		wd.meanings = strings.Join(curWord[2:], "\n")
-		wordHistory = append(wordHistory, wd)
+		whd.date, _ = time.Parse(time.RFC3339, curWord[0])
+		whd.searchFrequency, _ = strconv.Atoi(curWord[1])
+		whd.wd.word = curWord[2]
+		whd.wd.pronounce = curWord[3]
+		whd.wd.meanings = strings.Join(curWord[5:], "\n")
+		wordHistory = append(wordHistory, whd)
 	}
 
 	// limit max history size
-	if len(wordHistory) > MaxHistoryLimit {
-		wordHistory = wordHistory[:MaxHistoryLimit]
+	if len(wordHistory) > MaxWordHistoryLimit {
+		wordHistory = wordHistory[:MaxWordHistoryLimit]
 	}
 }
 
-// WordData2String : make one line string message from word data.
-func WordData2String(wd []WordData) string {
+// WordHistoryData2String : make one line string message from word data.
+func WordHistoryData2String(whd []WordHistoryData) string {
 	out := ""
-	wc := len(wd)
+	wc := len(whd)
 	for i := 0; i < wc; i++ {
-		out += strings.TrimSpace(wd[i].word+"\n"+wd[i].pronounce+"\n"+wd[i].meanings) + "\n"
+		out += strings.TrimSpace(whd[i].date.Format(time.RFC3339)+"\n"+strconv.Itoa(whd[i].searchFrequency)+"\n"+whd[i].wd.word+"\n"+whd[i].wd.pronounce+"\n"+whd[i].wd.meanings) + "\n"
 		if wc > 1 && i < wc-1 {
 			out += "--\n"
 		}
@@ -254,10 +263,10 @@ func GetNextBanner() []string {
 	return nil
 }
 
-func getWordsInPage(startIdx int) (int, []WordData) {
-	wl := []WordData{}
+func getWordHistoryInPage(startIdx int) (int, []WordHistoryData) {
+	whd := []WordHistoryData{}
 	if startIdx < 0 {
-		return 0, wl
+		return 0, whd
 	}
 	whLen := len(wordHistory)
 	if len(wordHistory) > 0 {
@@ -265,25 +274,25 @@ func getWordsInPage(startIdx int) (int, []WordData) {
 			if i >= whLen {
 				break
 			}
-			wl = append(wl, wordHistory[i])
+			whd = append(whd, wordHistory[i])
 		}
 	}
-	return startIdx, wl
+	return startIdx, whd
 }
 
-// GetWordsInPage : get words in a specific page
-func GetWordsInPage(startIdx int) (int, []WordData) {
-	return getWordsInPage(startIdx)
+// GetWordHistoryInPage : get words in a specific page
+func GetWordHistoryInPage(startIdx int) (int, []WordHistoryData) {
+	return getWordHistoryInPage(startIdx)
 }
 
-// GetPreWordsInPage : get previous words in a page
-func GetPreWordsInPage() (int, []WordData) {
-	return getWordsInPage(GetPreWordHistoryIndex())
+// GetPreWordHistoryInPage : get previous words in a page
+func GetPreWordHistoryInPage() (int, []WordHistoryData) {
+	return getWordHistoryInPage(GetPreWordHistoryIndex())
 }
 
 // GetNextWordsInPage : get next words in a page
-func GetNextWordsInPage() (int, []WordData) {
-	return getWordsInPage(GetNextWordHistoryIndex())
+func GetNextWordsInPage() (int, []WordHistoryData) {
+	return getWordHistoryInPage(GetNextWordHistoryIndex())
 }
 
 // SearchEngWord : search english word through dic.daum.net
@@ -332,17 +341,32 @@ func SearchEngWord(word string) (string, string, string) {
 
 	// save the word to history.txt
 	if len(resultWord.meanings) > 0 {
-		addWord := WordData{strings.TrimSpace(resultWord.word), strings.TrimSpace(resultWord.pronounce), strings.TrimSpace(resultWord.meanings)}
+		addWordHistory := WordHistoryData{WordData{strings.TrimSpace(resultWord.word), strings.TrimSpace(resultWord.pronounce), strings.TrimSpace(resultWord.meanings)}, time.Now(), 1}
 
+		// if found, increase search-frequency
+		if idx := findWordInHistory(addWordHistory.wd.word); idx >= 0 {
+			addWordHistory.searchFrequency = wordHistory[idx].searchFrequency + 1
+			// delete found word from word history
+			wordHistory = append(wordHistory[:idx], wordHistory[idx+1:]...)
+		}
 		// push-front
-		wordHistory = append([]WordData{addWord}, wordHistory...)
+		wordHistory = append([]WordHistoryData{addWordHistory}, wordHistory...)
 
 		// save only MaxHistoryLimit
-		if len(wordHistory) > MaxHistoryLimit {
-			wordHistory = wordHistory[:MaxHistoryLimit]
+		if len(wordHistory) > MaxWordHistoryLimit {
+			wordHistory = wordHistory[:MaxWordHistoryLimit]
 		}
-		buffer := []byte(WordData2String(wordHistory))
+		buffer := []byte(WordHistoryData2String(wordHistory))
 		ioutil.WriteFile(historyFile, buffer, 0644)
 	}
 	return resultWord.word, resultWord.pronounce, resultWord.meanings
+}
+
+func findWordInHistory(word string) int {
+	for idx, v := range wordHistory {
+		if v.wd.word == word {
+			return idx
+		}
+	}
+	return -1
 }
