@@ -322,11 +322,6 @@ func SearchEngWord(word string) (string, string, string) {
 		resultWord.word = s.Text()
 	})
 
-	selector = "#mArticle > div.search_cont > div:nth-child(2) > div.search_box > div:nth-child(1) > div.search_word > strong > a"
-	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
-		resultWord.word = s.Text()
-	})
-
 	selector = "#mArticle > div.search_cont > div:nth-child(" + childIndex + ") > div:nth-child(2) > div > div.wrap_listen > span:nth-child(1) > span.txt_pronounce"
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
 		resultWord.pronounce += s.Text() + "  "
