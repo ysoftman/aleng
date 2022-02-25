@@ -116,10 +116,6 @@ func printSearchWordResult(v *gocui.View, word, pronounce, meanings string, idx 
 }
 
 func printHistoryWord(v *gocui.View, ts, sf, word, pronounce, meanings string, idx int) {
-	if len(meanings) == 0 {
-		fmt.Fprintln(v, GetNextColorString(0, NoResult))
-		return
-	}
 	fmt.Fprint(v, GetNextColorString(1, ts)+" ")
 	fmt.Fprint(v, GetNextColorString(2, sf)+" ")
 	fmt.Fprint(v, GetNextColorString(3, word))

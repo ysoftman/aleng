@@ -155,7 +155,7 @@ func ReadHistoryFile() {
 		whd.searchFrequency, _ = strconv.Atoi(curWord[1])
 		whd.wd.word = curWord[2]
 		whd.wd.pronounce = curWord[3]
-		whd.wd.meanings = strings.Join(curWord[5:], "\n")
+		whd.wd.meanings = strings.Join(curWord[4:], "\n")
 		wordHistory = append(wordHistory, whd)
 	}
 
