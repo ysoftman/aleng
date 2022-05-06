@@ -12,6 +12,7 @@ import (
 	"os/user"
 	"regexp"
 	"runtime"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -29,6 +30,9 @@ const SearchCmdText = "search word in dic.daum.net and banners (enter)"
 // SearchResultCmdText : search word / history command text
 const SearchResultCmdText = "Search Result, pre (left or ctrl+h) / next (right or ctrl+l)"
 
+// SortCmdText : sort by time or frequency
+const SortCmdText = "Sort by time(ctrl+t) / frequency(ctrl+f)"
+
 // QuitCmdText : quit command text
 const QuitCmdText = "quit (ctrl+c)"
 
@@ -45,8 +49,17 @@ var historyFile string = "aleng_history.txt"
 var usr *user.User
 
 // MaxWordHistoryLimit : Max word history size
-const MaxWordHistoryLimit = 1000
+const MaxWordHistoryLimit = 5000
 const historyPerPage = 10
+
+// SortType : sort type
+type SortType int
+
+// enum sortType
+const (
+	SortByTime SortType = 1 + iota
+	SortBySearchFrequency
+)
 
 var done = make(chan struct{})
 
@@ -162,6 +175,22 @@ func ReadHistoryFile() {
 	// limit max history size
 	if len(wordHistory) > MaxWordHistoryLimit {
 		wordHistory = wordHistory[:MaxWordHistoryLimit]
+	}
+}
+
+// SortWordHistoryData : sort word history data by date or frequency...
+func SortWordHistoryData(whd []WordHistoryData, sortType SortType) {
+	if sortType == SortByTime {
+		sort.Slice(whd, func(a, b int) bool {
+			return whd[a].date.Unix() > whd[b].date.Unix()
+		})
+		return
+	}
+	if sortType == SortBySearchFrequency {
+		sort.Slice(whd, func(a, b int) bool {
+			return whd[a].searchFrequency > whd[b].searchFrequency
+		})
+		return
 	}
 }
 
