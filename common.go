@@ -22,10 +22,10 @@ import (
 )
 
 // BannerCmdText : banner command text
-const BannerCmdText = "English Banner, pre (up or ctrl+k) / next (down or ctrl+j)"
+const BannerCmdText = "English Banner, pre (ctrl+u) / next (ctrl+d)"
 
 // SearchCmdText : search command text
-const SearchCmdText = "search word in dic.daum.net and banners (enter)"
+const SearchCmdText = "search word (enter) / pre (up) / next (down)"
 
 // SearchResultCmdText : search word / history command text
 const SearchResultCmdText = "Search Result, pre (left or ctrl+h) / next (right or ctrl+l)"
@@ -80,8 +80,9 @@ type WordHistoryData struct {
 }
 
 var wordHistory []WordHistoryData
+var curHistoryIndex int
+var curHistoryPageIndex int
 var curBannerIndex int
-var curWordHistoryIndex int
 
 // ClearScreen : clear the screen
 func ClearScreen() {
@@ -136,7 +137,7 @@ func ReadBannerRawData() {
 // ReadHistoryFile : read the history file
 func ReadHistoryFile() {
 	wordHistory = nil
-	curWordHistoryIndex = 0
+	curHistoryPageIndex = 0
 	var err error
 	usr, err = user.Current()
 	if err != nil {
@@ -235,22 +236,22 @@ func GetPreBannerIndex() int {
 	return curBannerIndex
 }
 
-// GetNextWordHistoryIndex : get next word history index
-func GetNextWordHistoryIndex() int {
-	curWordHistoryIndex = curWordHistoryIndex + historyPerPage
-	if curWordHistoryIndex >= len(wordHistory) {
-		curWordHistoryIndex = 0
+// GetNextHistoryPageIndex : get next word history index
+func GetNextHistoryPageIndex() int {
+	curHistoryPageIndex = curHistoryPageIndex + historyPerPage
+	if curHistoryPageIndex >= len(wordHistory) {
+		curHistoryPageIndex = 0
 	}
-	return curWordHistoryIndex
+	return curHistoryPageIndex
 }
 
-// GetPreWordHistoryIndex : get previous word history index
-func GetPreWordHistoryIndex() int {
-	curWordHistoryIndex = curWordHistoryIndex - historyPerPage
-	if curWordHistoryIndex < 0 {
-		curWordHistoryIndex = ((len(wordHistory) - 1) / historyPerPage) * historyPerPage
+// GetPreHistoryPagaeIndex : get previous word history index
+func GetPreHistoryPagaeIndex() int {
+	curHistoryPageIndex = curHistoryPageIndex - historyPerPage
+	if curHistoryPageIndex < 0 {
+		curHistoryPageIndex = ((len(wordHistory) - 1) / historyPerPage) * historyPerPage
 	}
-	return curWordHistoryIndex
+	return curHistoryPageIndex
 }
 
 // GetPreBanner : get previous banner
@@ -316,12 +317,12 @@ func GetWordHistoryInPage(startIdx int) (int, []WordHistoryData) {
 
 // GetPreWordHistoryInPage : get previous words in a page
 func GetPreWordHistoryInPage() (int, []WordHistoryData) {
-	return getWordHistoryInPage(GetPreWordHistoryIndex())
+	return getWordHistoryInPage(GetPreHistoryPagaeIndex())
 }
 
 // GetNextWordsInPage : get next words in a page
 func GetNextWordsInPage() (int, []WordHistoryData) {
-	return getWordHistoryInPage(GetNextWordHistoryIndex())
+	return getWordHistoryInPage(GetNextHistoryPageIndex())
 }
 
 // SearchEngWord : search english word through dic.daum.net
@@ -381,7 +382,9 @@ func SearchEngWord(word string) (string, string, string) {
 			wordHistory = wordHistory[:MaxWordHistoryLimit]
 		}
 		buffer := []byte(WordHistoryData2String(wordHistory))
-		ioutil.WriteFile(historyFile, buffer, 0644)
+		if err := ioutil.WriteFile(historyFile, buffer, 0644); err != nil {
+			log.Fatal("error, failed to write history file.")
+		}
 	}
 	return resultWord.word, resultWord.pronounce, resultWord.meanings
 }

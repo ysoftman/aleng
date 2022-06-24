@@ -784,4 +784,15 @@ I met up with my friend over(or during) the weekend.
 나 주말내내(동안) 친구 만났어.
 I have to work over the weekend.
 나 주말내내(동안) 일해야 해.
+--
+The pursuit of happiness is a basic instinct for humans.
+행복 추구는 인간의 기본 본능이다.
+The championship in a competiion is common pursuit for all players
+챔피언은 모든 플레이어가 공통적으로 추구하는 것이다.
+--
+Some people wield kindness to get their profit.
+어떤 사람들은 이익을 얻기 위해 친절을 베풉니다.
+Politicians are wielding power for their own gain.
+정치인은 이익을 위해 권력을 휘두른다.
+
 `

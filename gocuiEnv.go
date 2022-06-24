@@ -91,13 +91,12 @@ func downBanner(g *gocui.Gui, v *gocui.View) error {
 	return nil
 }
 
-func findBanner(g *gocui.Gui, v *gocui.View, keyword string) error {
+func findBanner(g *gocui.Gui, v *gocui.View, keyword string) {
 	g.Update(func(g *gocui.Gui) error {
 		inner := FindBanner(keyword)
 		printBannerResult(g, inner)
 		return nil
 	})
-	return nil
 }
 
 func printSearchWordResult(v *gocui.View, word, pronounce, meanings string, idx int) {
@@ -177,6 +176,32 @@ func sortbywordHistoryBySearchFrequency(g *gocui.Gui, v *gocui.View) error {
 	return printHistoryWords(g, 0, wordHistory[:historyPerPage])
 }
 
+func setSearchWordByHitory(g *gocui.Gui, v *gocui.View) error {
+	searchView, _ := g.View("search")
+	searchView.Clear()
+	if curHistoryIndex < 0 {
+		curHistoryIndex = 0
+	}
+	if curHistoryIndex >= len(historyFile) {
+		curHistoryIndex = len(historyFile) - 1
+	}
+	word := wordHistory[curHistoryIndex].wd.word
+	if _, err := searchView.Write([]byte(word)); err != nil {
+		return err
+	}
+	searchView.SetCursor(len(word), 0)
+	return nil
+}
+func preSearchWord(g *gocui.Gui, v *gocui.View) error {
+	curHistoryIndex--
+	return setSearchWordByHitory(g, v)
+}
+
+func nextSearchWord(g *gocui.Gui, v *gocui.View) error {
+	curHistoryIndex++
+	return setSearchWordByHitory(g, v)
+}
+
 func searchWord(g *gocui.Gui, v *gocui.View) error {
 	g.Update(func(g *gocui.Gui) error {
 		searchView, _ := g.View("search")
@@ -189,6 +214,7 @@ func searchWord(g *gocui.Gui, v *gocui.View) error {
 		searchResultView, _ := g.View("searchResult")
 		searchResultView.Clear()
 		printSearchWordResult(searchResultView, word, pronounce, meanings, -1)
+		curHistoryIndex = 0
 		return nil
 	})
 	return nil
@@ -213,16 +239,16 @@ func StartGocui() {
 	if err := g.SetKeybinding("", gocui.KeyEnter, gocui.ModNone, searchWord); err != nil {
 		log.Panicln(err)
 	}
-	if err := g.SetKeybinding("", gocui.KeyArrowUp, gocui.ModNone, upBanner); err != nil {
+	if err := g.SetKeybinding("", gocui.KeyArrowUp, gocui.ModNone, preSearchWord); err != nil {
 		log.Panicln(err)
 	}
-	if err := g.SetKeybinding("", gocui.KeyArrowDown, gocui.ModNone, downBanner); err != nil {
+	if err := g.SetKeybinding("", gocui.KeyArrowDown, gocui.ModNone, nextSearchWord); err != nil {
 		log.Panicln(err)
 	}
-	if err := g.SetKeybinding("", gocui.KeyCtrlK, gocui.ModNone, upBanner); err != nil {
+	if err := g.SetKeybinding("", gocui.KeyCtrlU, gocui.ModNone, upBanner); err != nil {
 		log.Panicln(err)
 	}
-	if err := g.SetKeybinding("", gocui.KeyCtrlJ, gocui.ModNone, downBanner); err != nil {
+	if err := g.SetKeybinding("", gocui.KeyCtrlD, gocui.ModNone, downBanner); err != nil {
 		log.Panicln(err)
 	}
 	if err := g.SetKeybinding("", gocui.KeyArrowLeft, gocui.ModNone, previousHistory); err != nil {
