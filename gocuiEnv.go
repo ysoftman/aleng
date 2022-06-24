@@ -182,8 +182,8 @@ func setSearchWordByHitory(g *gocui.Gui, v *gocui.View) error {
 	if curHistoryIndex < 0 {
 		curHistoryIndex = 0
 	}
-	if curHistoryIndex >= len(historyFile) {
-		curHistoryIndex = len(historyFile) - 1
+	if curHistoryIndex >= len(wordHistory) {
+		curHistoryIndex = len(wordHistory) - 1
 	}
 	word := wordHistory[curHistoryIndex].wd.word
 	if _, err := searchView.Write([]byte(word)); err != nil {
