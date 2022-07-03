@@ -40,61 +40,61 @@ func layout(g *gocui.Gui) error {
 		// fmt.Fprintln(v, GetNextColorString(1, SEARC_CMD_TEXT))
 		v.SetCursor(0, 0)
 	}
-	if v, err := g.SetView("english_banner", 0, ((maxY/2)+3)+1, maxX-1, maxY-1); err != nil {
+	if v, err := g.SetView("example", 0, ((maxY/2)+3)+1, maxX-1, maxY-1); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
-		v.Title = BannerCmdText
-		// fmt.Fprintln(v, GetNextColorString(0, "english banner"))
+		v.Title = ExampleCmdText
+		// fmt.Fprintln(v, GetNextColorString(0, "example"))
 	}
 	return nil
 }
 
-func refreshBannerTitle(g *gocui.Gui, v *gocui.View, cnt int) error {
+func refreshExampleTitle(g *gocui.Gui, v *gocui.View, cnt int) error {
 	g.Update(func(g *gocui.Gui) error {
-		bannerView, _ := g.View("english_banner")
-		bannerView.Title = fmt.Sprintf("%s / refresh in %2d sec", BannerCmdText, cnt)
+		exampleView, _ := g.View("example")
+		exampleView.Title = fmt.Sprintf("%s / refresh in %2d sec", ExampleCmdText, cnt)
 		return nil
 	})
 	return nil
 }
 
-func printBannerResult(g *gocui.Gui, inner []string) {
-	bannerView, _ := g.View("english_banner")
-	bannerView.Clear()
+func printExampleResult(g *gocui.Gui, inner []string) {
+	exampleView, _ := g.View("example")
+	exampleView.Clear()
 	if len(inner) == 0 {
-		fmt.Fprintln(bannerView, GetNextColorString(0, NoResult))
+		fmt.Fprintln(exampleView, GetNextColorString(0, NoResult))
 		return
 	}
-	str := fmt.Sprintf("banner: %v / %v", GetCurBannerIndex()+1, GetBannerLen())
-	fmt.Fprintln(bannerView, GetNextColorString(3, str))
+	str := fmt.Sprintf("example: %v / %v", GetCurExampleIndex()+1, GetExamplesLen())
+	fmt.Fprintln(exampleView, GetNextColorString(3, str))
 	for j := 0; j < len(inner); j++ {
-		fmt.Fprintln(bannerView, GetNextColorString(j, inner[j]))
+		fmt.Fprintln(exampleView, GetNextColorString(j, inner[j]))
 	}
 }
 
-func upBanner(g *gocui.Gui, v *gocui.View) error {
+func upExample(g *gocui.Gui, v *gocui.View) error {
 	g.Update(func(g *gocui.Gui) error {
-		inner := GetPreBanner()
-		printBannerResult(g, inner)
+		inner := GetPreExample()
+		printExampleResult(g, inner)
 		return nil
 	})
 	return nil
 }
 
-func downBanner(g *gocui.Gui, v *gocui.View) error {
+func downExample(g *gocui.Gui, v *gocui.View) error {
 	g.Update(func(g *gocui.Gui) error {
-		inner := GetNextBanner()
-		printBannerResult(g, inner)
+		inner := GetNextExample()
+		printExampleResult(g, inner)
 		return nil
 	})
 	return nil
 }
 
-func findBanner(g *gocui.Gui, v *gocui.View, keyword string) {
+func findExample(g *gocui.Gui, v *gocui.View, keyword string) {
 	g.Update(func(g *gocui.Gui) error {
-		inner := FindBanner(keyword)
-		printBannerResult(g, inner)
+		inner := FindExample(keyword)
+		printExampleResult(g, inner)
 		return nil
 	})
 }
@@ -206,7 +206,7 @@ func searchWord(g *gocui.Gui, v *gocui.View) error {
 	g.Update(func(g *gocui.Gui) error {
 		searchView, _ := g.View("search")
 		word := strings.TrimSpace(searchView.Buffer())
-		findBanner(g, v, word)
+		findExample(g, v, word)
 		word, pronounce, meanings := SearchEngWord(word)
 		searchView.Clear()
 		searchView.SetCursor(0, 0)
@@ -245,10 +245,10 @@ func StartGocui() {
 	if err := g.SetKeybinding("", gocui.KeyArrowDown, gocui.ModNone, nextSearchWord); err != nil {
 		log.Panicln(err)
 	}
-	if err := g.SetKeybinding("", gocui.KeyCtrlU, gocui.ModNone, upBanner); err != nil {
+	if err := g.SetKeybinding("", gocui.KeyCtrlU, gocui.ModNone, upExample); err != nil {
 		log.Panicln(err)
 	}
-	if err := g.SetKeybinding("", gocui.KeyCtrlD, gocui.ModNone, downBanner); err != nil {
+	if err := g.SetKeybinding("", gocui.KeyCtrlD, gocui.ModNone, downExample); err != nil {
 		log.Panicln(err)
 	}
 	if err := g.SetKeybinding("", gocui.KeyArrowLeft, gocui.ModNone, previousHistory); err != nil {
@@ -270,11 +270,11 @@ func StartGocui() {
 		log.Panicln(err)
 	}
 
-	downBanner(g, nil)
+	downExample(g, nil)
 	specificHistory(g, nil, 0)
 	var wg sync.WaitGroup
 	wg.Add(1)
-	remainRefreshSec = BannerRefreshSec
+	remainRefreshSec = ExampleRefreshSec
 	go func() {
 		defer wg.Done()
 		for {
@@ -284,10 +284,10 @@ func StartGocui() {
 			case <-time.After(1 * time.Second):
 				if remainRefreshSec == 0 {
 					// ClearScreen()
-					downBanner(g, nil)
-					remainRefreshSec = BannerRefreshSec
+					downExample(g, nil)
+					remainRefreshSec = ExampleRefreshSec
 				}
-				refreshBannerTitle(g, nil, remainRefreshSec)
+				refreshExampleTitle(g, nil, remainRefreshSec)
 				remainRefreshSec--
 			}
 		}

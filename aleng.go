@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	ReadBannerRawData()
+	ReadExampleRawData()
 	ReadHistoryFile()
 	if len(os.Args) > 1 {
 		word, pronounce, meanings := SearchEngWord(os.Args[1])

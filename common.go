@@ -21,8 +21,8 @@ import (
 	"github.com/fatih/color"
 )
 
-// BannerCmdText : banner command text
-const BannerCmdText = "English Banner, pre (ctrl+u) / next (ctrl+d)"
+// ExampleCmdText : example command text
+const ExampleCmdText = "Examples, pre (ctrl+u) / next (ctrl+d)"
 
 // SearchCmdText : search command text
 const SearchCmdText = "search word (enter) / pre (up) / next (down)"
@@ -39,8 +39,8 @@ const QuitCmdText = "quit (ctrl+c)"
 // NoResult : no result text
 const NoResult = "-- NO RESULT --"
 
-// BannerRefreshSec : banner refresh interval(seconds)
-const BannerRefreshSec = 10
+// ExampleRefreshSec : example refresh interval(seconds)
+const ExampleRefreshSec = 10
 
 var remainRefreshSec int
 
@@ -63,7 +63,7 @@ const (
 
 var done = make(chan struct{})
 
-var banners []string
+var examples []string
 
 // WordData : word data
 type WordData struct {
@@ -82,7 +82,7 @@ type WordHistoryData struct {
 var wordHistory []WordHistoryData
 var curHistoryIndex int
 var curHistoryPageIndex int
-var curBannerIndex int
+var curExampleIndex int
 
 // ClearScreen : clear the screen
 func ClearScreen() {
@@ -127,11 +127,11 @@ func GetNextColorString(i int, str string) string {
 	}
 }
 
-// ReadBannerRawData : read the banner file
-func ReadBannerRawData() {
+// ReadExampleRawData : read the examples file
+func ReadExampleRawData() {
 	rand.Seed(time.Now().UnixNano())
-	banners = strings.Split(string(bannerRawData), "--")
-	curBannerIndex = rand.Intn(len(banners))
+	examples = strings.Split(string(exampleRawData), "--")
+	curExampleIndex = rand.Intn(len(examples))
 }
 
 // ReadHistoryFile : read the history file
@@ -208,32 +208,32 @@ func WordHistoryData2String(whd []WordHistoryData) string {
 	return out
 }
 
-// GetBannerLen : get number of banners
-func GetBannerLen() int {
-	return len(banners)
+// GetExamplesLen : get number of examples
+func GetExamplesLen() int {
+	return len(examples)
 }
 
-// GetCurBannerIndex : get current banner index
-func GetCurBannerIndex() int {
-	return curBannerIndex
+// GetCurExampleIndex : get current example index
+func GetCurExampleIndex() int {
+	return curExampleIndex
 }
 
-// GetNextBannerIndex : get next banner index
-func GetNextBannerIndex() int {
-	curBannerIndex++
-	if curBannerIndex >= len(banners) {
-		curBannerIndex = 0
+// GetNextExampleIndex : get next example index
+func GetNextExampleIndex() int {
+	curExampleIndex++
+	if curExampleIndex >= len(examples) {
+		curExampleIndex = 0
 	}
-	return curBannerIndex
+	return curExampleIndex
 }
 
-// GetPreBannerIndex : get previous banner index
-func GetPreBannerIndex() int {
-	curBannerIndex--
-	if curBannerIndex < 0 {
-		curBannerIndex = len(banners) - 1
+// GetPreExampleIndex : get previous example index
+func GetPreExampleIndex() int {
+	curExampleIndex--
+	if curExampleIndex < 0 {
+		curExampleIndex = len(examples) - 1
 	}
-	return curBannerIndex
+	return curExampleIndex
 }
 
 // GetNextHistoryPageIndex : get next word history index
@@ -254,41 +254,41 @@ func GetPreHistoryPagaeIndex() int {
 	return curHistoryPageIndex
 }
 
-// GetPreBanner : get previous banner
-func GetPreBanner() []string {
-	if len(banners) > 0 {
-		return strings.Split(strings.TrimPrefix(banners[GetPreBannerIndex()], "\n"), "\n")
+// GetPreExample : get previous example
+func GetPreExample() []string {
+	if len(examples) > 0 {
+		return strings.Split(strings.TrimPrefix(examples[GetPreExampleIndex()], "\n"), "\n")
 	}
 	return nil
 }
 
-// FindBanner : find banner including keyword
-func FindBanner(keyword string) []string {
+// FindExample : find example including keyword
+func FindExample(keyword string) []string {
 	keyword = strings.ToLower(keyword)
-	var foundBanners []string
-	for i := range banners {
-		// if strings.Contains(banners[i], keyword) {
-		// 	return strings.Split(strings.TrimPrefix(banners[i], "\n"), "\n")
+	var foundExamples []string
+	for i := range examples {
+		// if strings.Contains(examples[i], keyword) {
+		// 	return strings.Split(strings.TrimPrefix(examples[i], "\n"), "\n")
 		// }
 		// https://github.com/google/re2/wiki/Syntax
 		// \b at ascii word boundary
-		if matched, _ := regexp.MatchString("\\b"+keyword+"\\b", strings.ToLower(banners[i])); matched {
+		if matched, _ := regexp.MatchString("\\b"+keyword+"\\b", strings.ToLower(examples[i])); matched {
 			// reset remainRefreshSec
-			remainRefreshSec = BannerRefreshSec
-			fb := strings.Split(strings.TrimPrefix(banners[i], "\n"), "\n")
+			remainRefreshSec = ExampleRefreshSec
+			fb := strings.Split(strings.TrimPrefix(examples[i], "\n"), "\n")
 			for j := range fb {
-				foundBanners = append(foundBanners, fb[j])
-				curBannerIndex = i
+				foundExamples = append(foundExamples, fb[j])
+				curExampleIndex = i
 			}
 		}
 	}
-	return foundBanners
+	return foundExamples
 }
 
-// GetNextBanner : get next banner
-func GetNextBanner() []string {
-	if len(banners) > 0 {
-		return strings.Split(strings.TrimPrefix(banners[GetNextBannerIndex()], "\n"), "\n")
+// GetNextExample : get next example
+func GetNextExample() []string {
+	if len(examples) > 0 {
+		return strings.Split(strings.TrimPrefix(examples[GetNextExampleIndex()], "\n"), "\n")
 	}
 	return nil
 }

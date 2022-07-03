@@ -1,6 +1,6 @@
 package main
 
-const bannerRawData = `noun, pronoun, verb, adverb
+const exampleRawData = `noun, pronoun, verb, adverb
 명사, 대명사, 동사, 부사
 adjective, preposition, conjunciton, interjection
 형용사, 전치사, 접속사, 감탄사
@@ -802,4 +802,5 @@ She is so rich that she can buy anything that she wants.
 --
 His wealth is such that everyone envies him.
 그의 재산은 모두가 그를 부러워할 정도이다.
+--
 `
