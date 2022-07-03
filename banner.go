@@ -794,5 +794,12 @@ Some people wield kindness to get their profit.
 어떤 사람들은 이익을 얻기 위해 친절을 베풉니다.
 Politicians are wielding power for their own gain.
 정치인은 이익을 위해 권력을 휘두른다.
-
+--
+She is so smart that she can pass the exam.
+그녀는 아주 똑똑해서 시험에 통과할 수 있다.
+She is so rich that she can buy anything that she wants.
+그녀는 아주 부자라서 그녀가 원하는 것은 무엇이든 살 수 있다.
+--
+His wealth is such that everyone envies him.
+그의 재산은 모두가 그를 부러워할 정도이다.
 `
