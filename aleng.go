@@ -6,12 +6,16 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
+	"time"
 )
 
 func main() {
+	rand.Seed(time.Now().UnixNano())
 	ReadExampleRawData()
 	ReadHistoryFile()
+	ReadFortuneData()
 	if len(os.Args) > 1 {
 		word, pronounce, meanings := SearchEngWord(os.Args[1])
 		fmt.Println(GetNextColorString(0, word))

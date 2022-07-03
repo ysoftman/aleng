@@ -5,6 +5,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"strconv"
 	"strings"
 	"sync"
@@ -30,7 +31,7 @@ func layout(g *gocui.Gui) error {
 		g.SetCurrentView("search")
 	}
 
-	if v, err := g.SetView("searchResult", 0, 3, maxX-1, (maxY/2)+3); err != nil {
+	if v, err := g.SetView("searchResult", 0, 3, maxX-1, int(float32(maxY)*0.3)+3); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
@@ -40,22 +41,20 @@ func layout(g *gocui.Gui) error {
 		// fmt.Fprintln(v, GetNextColorString(1, SEARC_CMD_TEXT))
 		v.SetCursor(0, 0)
 	}
-	if v, err := g.SetView("example", 0, ((maxY/2)+3)+1, maxX-1, maxY-1); err != nil {
+	if v, err := g.SetView("example", 0, int(float32(maxY)*0.3)+3+1, maxX-1, int(float32(maxY)*0.6)+3); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
 		v.Title = ExampleCmdText
 		// fmt.Fprintln(v, GetNextColorString(0, "example"))
 	}
-	return nil
-}
+	if v, err := g.SetView("fortune", 0, int(float32(maxY)*0.6)+3+1, maxX-1, maxY-1); err != nil {
+		if err != gocui.ErrUnknownView {
+			return err
+		}
+		v.Title = FortuneCmdText
+	}
 
-func refreshExampleTitle(g *gocui.Gui, v *gocui.View, cnt int) error {
-	g.Update(func(g *gocui.Gui) error {
-		exampleView, _ := g.View("example")
-		exampleView.Title = fmt.Sprintf("%s / refresh in %2d sec", ExampleCmdText, cnt)
-		return nil
-	})
 	return nil
 }
 
@@ -99,6 +98,44 @@ func findExample(g *gocui.Gui, v *gocui.View, keyword string) {
 	})
 }
 
+func refreshFortuneTitle(g *gocui.Gui, v *gocui.View, cnt int) error {
+	g.Update(func(g *gocui.Gui) error {
+		fortuneView, _ := g.View("fortune")
+		fortuneView.Title = fmt.Sprintf("%s / refresh randomly in %2d sec", FortuneCmdText, cnt)
+		return nil
+	})
+	return nil
+}
+
+func printFortuneResult(g *gocui.Gui, inner []string) {
+	fortuneView, _ := g.View("fortune")
+	fortuneView.Clear()
+	if len(inner) == 0 {
+		fmt.Fprintln(fortuneView, GetNextColorString(0, NoResult))
+		return
+	}
+	str := fmt.Sprintf("fortune: %v / %v", GetCurFortuneIndex()+1, GetFortuneLen())
+	fmt.Fprintln(fortuneView, GetNextColorString(3, str))
+	for j := 0; j < len(inner); j++ {
+		fmt.Fprintln(fortuneView, GetNextColorString(j, inner[j]))
+	}
+}
+func upFortune(g *gocui.Gui, v *gocui.View) error {
+	g.Update(func(g *gocui.Gui) error {
+		inner := GetPreFortune()
+		printFortuneResult(g, inner)
+		return nil
+	})
+	return nil
+}
+func downFortune(g *gocui.Gui, v *gocui.View) error {
+	g.Update(func(g *gocui.Gui) error {
+		inner := GetNextFortune()
+		printFortuneResult(g, inner)
+		return nil
+	})
+	return nil
+}
 func printSearchWordResult(v *gocui.View, word, pronounce, meanings string, idx int) {
 	if len(meanings) == 0 {
 		fmt.Fprintln(v, GetNextColorString(0, NoResult))
@@ -245,6 +282,12 @@ func StartGocui() {
 	if err := g.SetKeybinding("", gocui.KeyArrowDown, gocui.ModNone, nextSearchWord); err != nil {
 		log.Panicln(err)
 	}
+	if err := g.SetKeybinding("", gocui.KeyCtrlI, gocui.ModNone, upFortune); err != nil {
+		log.Panicln(err)
+	}
+	if err := g.SetKeybinding("", gocui.KeyCtrlO, gocui.ModNone, downFortune); err != nil {
+		log.Panicln(err)
+	}
 	if err := g.SetKeybinding("", gocui.KeyCtrlU, gocui.ModNone, upExample); err != nil {
 		log.Panicln(err)
 	}
@@ -271,10 +314,11 @@ func StartGocui() {
 	}
 
 	downExample(g, nil)
+	downFortune(g, nil)
 	specificHistory(g, nil, 0)
 	var wg sync.WaitGroup
 	wg.Add(1)
-	remainRefreshSec = ExampleRefreshSec
+	remainRefreshSec = FortuneRefreshSec
 	go func() {
 		defer wg.Done()
 		for {
@@ -284,10 +328,11 @@ func StartGocui() {
 			case <-time.After(1 * time.Second):
 				if remainRefreshSec == 0 {
 					// ClearScreen()
-					downExample(g, nil)
-					remainRefreshSec = ExampleRefreshSec
+					remainRefreshSec = FortuneRefreshSec
+					curFortuneIndex = rand.Intn(len(fortuneData))
+					downFortune(g, nil)
 				}
-				refreshExampleTitle(g, nil, remainRefreshSec)
+				refreshFortuneTitle(g, nil, remainRefreshSec)
 				remainRefreshSec--
 			}
 		}
