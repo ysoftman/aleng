@@ -142,7 +142,7 @@ func printSearchWordResult(v *gocui.View, word, pronounce, meanings string, idx 
 		return
 	}
 	if idx >= 0 {
-		str := fmt.Sprintf("history: %v / %v "+SortCmdText, idx+1, MaxWordHistoryLimit)
+		str := fmt.Sprintf("history: %v / %v "+SortHistoryCmdText, idx+1, MaxWordHistoryLimit)
 		fmt.Fprintln(v, GetNextColorString(3, str))
 	}
 	fmt.Fprint(v, GetNextColorString(0, word))
@@ -172,7 +172,7 @@ func printHistoryWords(g *gocui.Gui, idx int, whd []WordHistoryData) error {
 	g.Update(func(g *gocui.Gui) error {
 		searchResultView, _ := g.View("searchResult")
 		searchResultView.Clear()
-		str := fmt.Sprintf("history: (%v~%v) / %v "+SortCmdText, idx+1, idx+len(whd), MaxWordHistoryLimit)
+		str := fmt.Sprintf("history: (%v~%v) / %v "+SortHistoryCmdText, idx+1, idx+len(whd), MaxWordHistoryLimit)
 		fmt.Fprintln(searchResultView, GetNextColorString(3, str))
 		for i := 0; i < len(whd); i++ {
 			printHistoryWord(searchResultView,
@@ -199,7 +199,7 @@ func previousHistory(g *gocui.Gui, v *gocui.View) error {
 }
 
 func nextHistory(g *gocui.Gui, v *gocui.View) error {
-	idx, wl := GetNextWordsInPage()
+	idx, wl := GetNextWordHistoryInPage()
 	return printHistoryWords(g, idx, wl)
 }
 

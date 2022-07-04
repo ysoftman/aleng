@@ -802,5 +802,11 @@ She is so rich that she can buy anything that she wants.
 --
 His wealth is such that everyone envies him.
 그의 재산은 모두가 그를 부러워할 정도이다.
-
+--
+Everything is good.
+모든게 좋아. (every... 단수 취급 )
+Everyone is happy.
+모두들 행복해. (every... 단수 취급 )
+Everybody is ready to run.
+모두들 뛸 준비가 되어 있어. (every... 단수 취급 )
 `

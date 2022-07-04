@@ -23,6 +23,5 @@ func main() {
 		fmt.Println(GetNextColorString(2, meanings))
 		os.Exit(0)
 	}
-
 	StartGocui()
 }
