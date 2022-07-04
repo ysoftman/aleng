@@ -13,6 +13,12 @@ build
 go get github.com/ysoftman/gocui@65dddcdf2d5d134e083e0fd9481b3179ec87e6d5
 go get -u ./...
 
+# fortune command 설치
+# mac
+brew install fortune
+# ubuntu
+apt-get install fortune
+
 # 빌드
 go build
 
