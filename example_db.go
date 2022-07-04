@@ -809,4 +809,9 @@ Everyone is happy.
 모두들 행복해. (every... 단수 취급 )
 Everybody is ready to run.
 모두들 뛸 준비가 되어 있어. (every... 단수 취급 )
+--
+Given a number array nums, in which exactly elements appear only once.
+요소들이 정확히 한번만 나타나는 숫자 배열 nums 가 주어졌다.(in which 그중에서)
+The situation in which we found ourselves was dire.
+우리가 처한 상황이 끔찍한것을 알게 됐다. (in which 그중에서)
 `
