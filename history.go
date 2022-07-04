@@ -88,6 +88,9 @@ func SortWordHistoryData(whd []WordHistoryData, sortType SortType) {
 	}
 	if sortType == SortBySearchFrequency {
 		sort.Slice(whd, func(a, b int) bool {
+			if whd[a].searchFrequency == whd[b].searchFrequency {
+				return whd[a].wd.word < whd[b].wd.word
+			}
 			return whd[a].searchFrequency > whd[b].searchFrequency
 		})
 		return
