@@ -112,6 +112,8 @@ Remember, this is a mandatory meeting.
 It was a really neat party.
 정말 멋진 파티였어.
 --
+You can either go one or two steps.
+당신은 하나 또는 두 단계를 갈 수 있습니다.
 She didn't buy either book.
 그녀는 어느 책도 사지 않았다.
 A: I don't like lemon. B: I don't either
