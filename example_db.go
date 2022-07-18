@@ -816,4 +816,15 @@ Given a number array nums, in which exactly elements appear only once.
 요소들이 정확히 한번만 나타나는 숫자 배열 nums 가 주어졌다.(in which 그중에서)
 The situation in which we found ourselves was dire.
 우리가 처한 상황이 끔찍한것을 알게 됐다. (in which 그중에서)
+--
+The policeman couldn't control this congested traffic flow.
+경찰관은 이 혼잡한 교통을 통제할 수 없었다.
+Rush hour doesn't mean a specific time for a crowded traffic anymore.
+러시아워는 더 이상 특정 시간을 의미하지 않는다.
+Bill was a commuter but now he work at home, so he seldom commutes.
+Bill은 통근자였지만 지금은 집에서 일하고 가끔 출근 한다.
+There are many alternatives transportaion vehicles instead of cars.
+자동차 대신 많은 대안이 있습니다.
+These days, internal combustion engines are only used in old model of cars.
+오늘날 내연기관은 오래된 자동차에만 사용됩니다.
 `
