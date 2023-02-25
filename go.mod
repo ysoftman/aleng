@@ -10,6 +10,5 @@ require (
 	github.com/nsf/termbox-go v1.1.0 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/ysoftman/gocui v0.4.1-0.20190812030132-65dddcdf2d5d
-	golang.org/x/net v0.0.0-20210326220855-61e056675ecf // indirect
-	golang.org/x/sys v0.0.0-20210326220804-49726bf1d181 // indirect
+	golang.org/x/net v0.7.0 // indirect
 )
