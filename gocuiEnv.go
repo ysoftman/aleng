@@ -282,6 +282,12 @@ func StartGocui() {
 	if err := g.SetKeybinding("", gocui.KeyArrowDown, gocui.ModNone, nextSearchWord); err != nil {
 		log.Panicln(err)
 	}
+	if err := g.SetKeybinding("", gocui.KeyCtrlK, gocui.ModNone, preSearchWord); err != nil {
+		log.Panicln(err)
+	}
+	if err := g.SetKeybinding("", gocui.KeyCtrlJ, gocui.ModNone, nextSearchWord); err != nil {
+		log.Panicln(err)
+	}
 	if err := g.SetKeybinding("", gocui.KeyCtrlI, gocui.ModNone, upFortune); err != nil {
 		log.Panicln(err)
 	}

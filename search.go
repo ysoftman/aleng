@@ -13,7 +13,7 @@ import (
 )
 
 // SearchCmdText : search command text
-const SearchCmdText = "search word (enter) / pre (up) / next (down)"
+const SearchCmdText = "search word (enter) / pre (up or ctrl+k) / next (down or ctrl+j)"
 
 // SearchResultCmdText : search word command text
 const SearchResultCmdText = "Search Result, pre (left or ctrl+h) / next (right or ctrl+l)"
