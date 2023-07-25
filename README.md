@@ -29,6 +29,4 @@ go build
 ./aleng
 ```
 
-screenshot
-
 ![aleng_screenshot](aleng_screenshot.png)
