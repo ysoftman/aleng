@@ -1,8 +1,6 @@
 module aleng
 
-go 1.24.0
-
-toolchain go1.24.3
+go 1.25.0
 
 require (
 	github.com/PuerkitoBio/goquery v1.11.0
@@ -18,7 +16,6 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.19 // indirect
 	github.com/nsf/termbox-go v1.1.1 // indirect
-	github.com/rivo/uniseg v0.4.7 // indirect
-	golang.org/x/net v0.47.0 // indirect
-	golang.org/x/sys v0.38.0 // indirect
+	golang.org/x/net v0.55.0 // indirect
+	golang.org/x/sys v0.45.0 // indirect
 )
