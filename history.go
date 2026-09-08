@@ -3,7 +3,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/user"
@@ -51,7 +50,7 @@ func ReadHistoryFile() {
 		}
 		fmt.Printf("%v file created.\n", historyFile)
 	}
-	history, err := ioutil.ReadFile(historyFile)
+	history, err := os.ReadFile(historyFile)
 	if err != nil {
 		log.Fatalf("Can't read file:(%v)  err=> %v", historyFile, err.Error())
 		return

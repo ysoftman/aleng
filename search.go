@@ -2,9 +2,10 @@
 package main
 
 import (
-	"io/ioutil"
 	"log"
+	"net/http"
 	"net/url"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -20,10 +21,17 @@ const SearchResultCmdText = "Search Result, pre (left or ctrl+h) / next (right o
 
 // SearchEngWord : search english word through dic.daum.net
 func SearchEngWord(word string) (string, string, string) {
-	// using http.Get() in NewDocument
 	urlenc := &url.URL{Path: word}
 	query := "https://dic.daum.net/search.do?q=" + urlenc.String()
-	doc, err := goquery.NewDocument(query)
+	res, err := http.Get(query)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if res.StatusCode != http.StatusOK {
+		log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
+	}
+	doc, err := goquery.NewDocumentFromReader(res.Body)
+	_ = res.Body.Close()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -75,7 +83,7 @@ func SearchEngWord(word string) (string, string, string) {
 			wordHistory = wordHistory[:MaxWordHistoryLimit]
 		}
 		buffer := []byte(WordHistoryData2String(wordHistory))
-		if err := ioutil.WriteFile(historyFile, buffer, 0644); err != nil {
+		if err := os.WriteFile(historyFile, buffer, 0644); err != nil {
 			log.Fatal("error, failed to write history file.")
 		}
 	}

@@ -6,14 +6,11 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
 	"os"
 	"path/filepath"
-	"time"
 )
 
 func main() {
-	rand.Seed(time.Now().UnixNano())
 	ReadExampleRawData()
 	ReadHistoryFile()
 	ReadFortuneData()

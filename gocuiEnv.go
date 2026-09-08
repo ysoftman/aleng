@@ -27,8 +27,9 @@ func layout(g *gocui.Gui) error {
 		v.Title = SearchCmdText + ", " + QuitCmdText
 		// fmt.Fprintln(v, GetNextColorString(2, QuitCmdText))
 		// fmt.Fprintln(v, GetNextColorString(1, SEARC_CMD_TEXT))
-		v.SetCursor(0, 0)
-		g.SetCurrentView("search")
+		if _, err := g.SetCurrentView("search"); err != nil {
+			return err
+		}
 	}
 
 	if v, err := g.SetView("searchResult", 0, 3, maxX-1, int(float32(maxY)*0.3)+3); err != nil {
@@ -37,9 +38,6 @@ func layout(g *gocui.Gui) error {
 		}
 		v.Editable = true
 		v.Title = SearchResultCmdText
-		// fmt.Fprintln(v, GetNextColorString(2, QuitCmdText))
-		// fmt.Fprintln(v, GetNextColorString(1, SEARC_CMD_TEXT))
-		v.SetCursor(0, 0)
 	}
 	if v, err := g.SetView("example", 0, int(float32(maxY)*0.3)+3+1, maxX-1, int(float32(maxY)*0.6)+3); err != nil {
 		if err != gocui.ErrUnknownView {
@@ -62,13 +60,13 @@ func printExampleResult(g *gocui.Gui, inner []string) {
 	exampleView, _ := g.View("example")
 	exampleView.Clear()
 	if len(inner) == 0 {
-		fmt.Fprintln(exampleView, GetNextColorString(0, NoResult))
+		_, _ = fmt.Fprintln(exampleView, GetNextColorString(0, NoResult))
 		return
 	}
 	str := fmt.Sprintf("example: %v / %v", GetCurExampleIndex()+1, GetExamplesLen())
-	fmt.Fprintln(exampleView, GetNextColorString(3, str))
+	_, _ = fmt.Fprintln(exampleView, GetNextColorString(3, str))
 	for j := 0; j < len(inner); j++ {
-		fmt.Fprintln(exampleView, GetNextColorString(j, inner[j]))
+		_, _ = fmt.Fprintln(exampleView, GetNextColorString(j, inner[j]))
 	}
 }
 
@@ -111,13 +109,13 @@ func printFortuneResult(g *gocui.Gui, inner []string) {
 	fortuneView, _ := g.View("fortune")
 	fortuneView.Clear()
 	if len(inner) == 0 {
-		fmt.Fprintln(fortuneView, GetNextColorString(0, NoResult))
+		_, _ = fmt.Fprintln(fortuneView, GetNextColorString(0, NoResult))
 		return
 	}
 	str := fmt.Sprintf("fortune: %v / %v", GetCurFortuneIndex()+1, GetFortuneLen())
-	fmt.Fprintln(fortuneView, GetNextColorString(3, str))
+	_, _ = fmt.Fprintln(fortuneView, GetNextColorString(3, str))
 	for j := 0; j < len(inner); j++ {
-		fmt.Fprintln(fortuneView, GetNextColorString(j, inner[j]))
+		_, _ = fmt.Fprintln(fortuneView, GetNextColorString(j, inner[j]))
 	}
 }
 func upFortune(g *gocui.Gui, v *gocui.View) error {
@@ -138,25 +136,25 @@ func downFortune(g *gocui.Gui, v *gocui.View) error {
 }
 func printSearchWordResult(v *gocui.View, word, pronounce, meanings string, idx int) {
 	if len(meanings) == 0 {
-		fmt.Fprintln(v, GetNextColorString(0, NoResult))
+		_, _ = fmt.Fprintln(v, GetNextColorString(0, NoResult))
 		return
 	}
 	if idx >= 0 {
 		str := fmt.Sprintf("history: %v / %v "+SortHistoryCmdText, idx+1, MaxWordHistoryLimit)
-		fmt.Fprintln(v, GetNextColorString(3, str))
+		_, _ = fmt.Fprintln(v, GetNextColorString(3, str))
 	}
-	fmt.Fprint(v, GetNextColorString(0, word))
+	_, _ = fmt.Fprint(v, GetNextColorString(0, word))
 	pronounce = "  " + pronounce + "\n"
-	fmt.Fprint(v, GetNextColorString(1, pronounce))
-	fmt.Fprint(v, GetNextColorString(2, meanings))
+	_, _ = fmt.Fprint(v, GetNextColorString(1, pronounce))
+	_, _ = fmt.Fprint(v, GetNextColorString(2, meanings))
 }
 
 func printHistoryWord(v *gocui.View, ts, sf, word, pronounce, meanings string, idx int) {
-	fmt.Fprint(v, GetNextColorString(1, ts)+" ")
-	fmt.Fprint(v, GetNextColorString(2, sf)+" ")
-	fmt.Fprint(v, GetNextColorString(3, word))
+	_, _ = fmt.Fprint(v, GetNextColorString(1, ts)+" ")
+	_, _ = fmt.Fprint(v, GetNextColorString(2, sf)+" ")
+	_, _ = fmt.Fprint(v, GetNextColorString(3, word))
 	pronounce = "  " + pronounce + " "
-	fmt.Fprint(v, GetNextColorString(4, pronounce))
+	_, _ = fmt.Fprint(v, GetNextColorString(4, pronounce))
 	mlist := strings.Split(meanings, "\n")
 	mstr := ""
 	for i, v := range mlist {
@@ -165,7 +163,7 @@ func printHistoryWord(v *gocui.View, ts, sf, word, pronounce, meanings string, i
 		}
 		mstr += v + " "
 	}
-	fmt.Fprint(v, GetNextColorString(2, mstr+"\n"))
+	_, _ = fmt.Fprint(v, GetNextColorString(2, mstr+"\n"))
 }
 
 func printHistoryWords(g *gocui.Gui, idx int, whd []WordHistoryData) error {
@@ -173,7 +171,7 @@ func printHistoryWords(g *gocui.Gui, idx int, whd []WordHistoryData) error {
 		searchResultView, _ := g.View("searchResult")
 		searchResultView.Clear()
 		str := fmt.Sprintf("history: (%v~%v) / %v "+SortHistoryCmdText, idx+1, idx+len(whd), MaxWordHistoryLimit)
-		fmt.Fprintln(searchResultView, GetNextColorString(3, str))
+		_, _ = fmt.Fprintln(searchResultView, GetNextColorString(3, str))
 		for i := 0; i < len(whd); i++ {
 			printHistoryWord(searchResultView,
 				whd[i].date.Format(time.RFC3339),
@@ -226,7 +224,7 @@ func setSearchWordByHitory(g *gocui.Gui, v *gocui.View) error {
 	if _, err := searchView.Write([]byte(word)); err != nil {
 		return err
 	}
-	searchView.SetCursor(len(word), 0)
+	_ = searchView.SetCursor(len(word), 0)
 	return nil
 }
 func preSearchWord(g *gocui.Gui, v *gocui.View) error {
@@ -246,7 +244,7 @@ func searchWord(g *gocui.Gui, v *gocui.View) error {
 		findExample(g, v, word)
 		word, pronounce, meanings := SearchEngWord(word)
 		searchView.Clear()
-		searchView.SetCursor(0, 0)
+		_ = searchView.SetCursor(0, 0)
 
 		searchResultView, _ := g.View("searchResult")
 		searchResultView.Clear()
@@ -319,9 +317,9 @@ func StartGocui() {
 		log.Panicln(err)
 	}
 
-	downExample(g, nil)
-	downFortune(g, nil)
-	specificHistory(g, nil, 0)
+	_ = downExample(g, nil)
+	_ = downFortune(g, nil)
+	_ = specificHistory(g, nil, 0)
 	var wg sync.WaitGroup
 	wg.Add(1)
 	remainRefreshSec = FortuneRefreshSec
@@ -336,15 +334,16 @@ func StartGocui() {
 					// ClearScreen()
 					remainRefreshSec = FortuneRefreshSec
 					curFortuneIndex = rand.Intn(len(fortuneData))
-					downFortune(g, nil)
+					_ = downFortune(g, nil)
 				}
-				refreshFortuneTitle(g, nil, remainRefreshSec)
+				_ = refreshFortuneTitle(g, nil, remainRefreshSec)
 				remainRefreshSec--
 			}
 		}
 	}()
 
-	if err := g.MainLoop(); err != nil && err != gocui.ErrQuit {
+	// MainLoop 은 항상 non-nil 에러로 끝난다
+	if err := g.MainLoop(); err != gocui.ErrQuit {
 		log.Panicln(err)
 	}
 

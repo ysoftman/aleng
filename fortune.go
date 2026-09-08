@@ -3,9 +3,9 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"math/rand"
+	"os"
 	"os/exec"
 	"strings"
 )
@@ -79,7 +79,7 @@ func ReadFortuneData() {
 		} else {
 			db := path + "/" + w[1]
 			// fmt.Println(db)
-			dbBytes, err := ioutil.ReadFile(db)
+			dbBytes, err := os.ReadFile(db)
 			if err != nil {
 				log.Fatalf("Can't read file:(%v)  err=> %v", db, err.Error())
 				return
