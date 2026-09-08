@@ -16,13 +16,17 @@ import (
 const SortHistoryCmdText = "Sort by time(ctrl+t) / frequency(ctrl+f)"
 
 // MaxWordHistoryLimit : Max word history size
-const MaxWordHistoryLimit = 5000
-const historyPerPage = 10
+const (
+	MaxWordHistoryLimit = 5000
+	historyPerPage      = 10
+)
 
-var historyFile string = "aleng_history.txt"
-var wordHistory []WordHistoryData
-var curHistoryIndex int
-var curHistoryPageIndex int
+var (
+	historyFile         string = "aleng_history.txt"
+	wordHistory         []WordHistoryData
+	curHistoryIndex     int
+	curHistoryPageIndex int
+)
 
 // SortType : sort type
 type SortType int
@@ -57,8 +61,8 @@ func ReadHistoryFile() {
 	}
 
 	spWord := strings.Split(string(history), "--\n")
-	for i := 0; i < len(spWord); i++ {
-		curWord := (strings.Split(spWord[i], "\n"))
+	for i := range spWord {
+		curWord := strings.Split(spWord[i], "\n")
 		whd := WordHistoryData{}
 		if len(curWord) < 5 {
 			continue
@@ -98,15 +102,17 @@ func SortWordHistoryData(whd []WordHistoryData, sortType SortType) {
 
 // WordHistoryData2String : make one line string message from word data.
 func WordHistoryData2String(whd []WordHistoryData) string {
-	out := ""
+	var out strings.Builder
 	wc := len(whd)
-	for i := 0; i < wc; i++ {
-		out += strings.TrimSpace(whd[i].date.Format(time.RFC3339)+"\n"+strconv.Itoa(whd[i].searchFrequency)+"\n"+whd[i].wd.word+"\n"+whd[i].wd.pronounce+"\n"+whd[i].wd.meanings) + "\n"
+	for i := range wc {
+		line := strings.TrimSpace(whd[i].date.Format(time.RFC3339) + "\n" + strconv.Itoa(whd[i].searchFrequency) + "\n" + whd[i].wd.word + "\n" + whd[i].wd.pronounce + "\n" + whd[i].wd.meanings)
+		out.WriteString(line)
+		out.WriteByte('\n')
 		if wc > 1 && i < wc-1 {
-			out += "--\n"
+			out.WriteString("--\n")
 		}
 	}
-	return out
+	return out.String()
 }
 
 // GetNextHistoryPageIndex : get next word history index

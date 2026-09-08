@@ -68,8 +68,8 @@ func ReadFortuneData() {
 
 	temp := strings.Split(string(execOutput), "\n")
 	path := ""
-	fortuneFiles := ""
-	for i := 0; i < len(temp); i++ {
+	var fortuneFiles strings.Builder
+	for i := range temp {
 		w := strings.Split(strings.TrimLeft(temp[i], " "), " ")
 		if len(w) != 2 {
 			continue
@@ -84,11 +84,11 @@ func ReadFortuneData() {
 				log.Fatalf("Can't read file:(%v)  err=> %v", db, err.Error())
 				return
 			}
-			fortuneFiles += string(dbBytes)
+			fortuneFiles.Write(dbBytes)
 		}
 	}
 	// fmt.Println(fortuneFiles)
-	fortuneData = strings.Split(fortuneFiles, "%")
+	fortuneData = strings.Split(fortuneFiles.String(), "%")
 	// for i := 0; i < len(fortuneData); i++ {
 	// 	fmt.Printf("[%v]\n%v\n", i, fortuneData[i])
 	// }
