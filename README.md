@@ -6,7 +6,7 @@
 - 찾은 단어 기록 및 표시
 - 영어 단어/문장 배너 표시
 
-build
+## build
 
 ```bash
 # gocui 한글출력 이슈 수정 커밋을 go.mod 에 추가
@@ -27,6 +27,12 @@ go build
 
 # 실행
 ./aleng
+```
+
+## installation
+
+```bash
+go install github.com/ysoftman/aleng@latest
 ```
 
 ![aleng_screenshot](aleng_screenshot.png)
